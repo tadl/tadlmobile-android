@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        
+  	<link rel="stylesheet" type="text/css" href="css/holo-base-elements.css" />
+		<link rel="stylesheet" type="text/css" href="css/holo-light-elements.css" />
+		<link rel="stylesheet" type="text/css" href="css/holo-base-widgets.css" />
+		<link rel="stylesheet" type="text/css" href="css/holo-light-widgets.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script type="text/javascript" src="js/holo-touch.js"></script>
+		<script type="text/javascript" src="js/jquery-1.10.0.min.js"></script>
+		<script type="text/javascript" src="js/mustache.js"></script>
+        <title>WhisperTagBeta</title>
+    </head>
+    <body>
+<header class="holo-actionBar">
+<section class="searchform">
+<input class="search_box" style="float:left;" type="text" placeholder="Search..." id="term" />
+<button id="search" style="float:left; font-size: 15px;">GO</button>
+<button id="search" style="float:right; font-size: 15px;" onClick="openForm()">Account</button>
+<div style="clear:both"></div>
+
+<input class="search_second_row" type="checkbox" style="margin: 5px; " id="available" value="false"><span class="search_second_row" style="margin: 5px; ">ONLY AVAILABLE</span>
+      <select class="search_second_row" id="mediatype" style="margin-bottom: 15px; margin-top: 1px;">
+     <option value="ALL">ALL FORMATS</option>
+     <option value="BOOKS">BOOKS</option>
+     <option value="MOVIES">MOVIES</option>
+     <option value="MUSIC">MUSIC</option>
+     <option value="VIDEO GAMES">VIDEO GAMES</option>
+      </select>
+</section>
+<div id="login_form">
+
+Username: <input type="text" id="username" /><br />
+Password: <input type="password" id="pword" /><br />
+<button id="login" onClick="login()">Login</button>
+
+</div>
+</header>
+		
+		
+
+
+
+
+
+	<div id="results">
+
+	
+</div>
+
+
+	
+	<script id="more_details-template" type="text/template">
+			{{#:items}}
+			<p class="summary" style="position:relative">
+			{{:item.:summary}}
+			</p>
+			<div class="bottomstuff">
+			<h3 style="margin-top: 0px; margin-bottom: 0px; float: left;"><a onClick="hold({{:item.:record_id}})">Place Hold</a></h3><h3 style="margin-top: 0px; margin-bottom: 0px; margin-left: 15px; float: left">Find on Shelf</h3>
+			</div>	
+				{{/:items}}
+				
+	</script>
+		<script id="logedin-template" type="text/template">
+			{{#:users}}
+			<p>
+			 {{:user.:name}}
+			<br />
+			Checkouts: {{:user.:checkouts}}
+			<br />
+			Holds: {{:user.:holds}}
+			<br />
+			Ready for Pickup: {{:user.:pickups}}
+			<br />
+			Fines: {{:user.:fines}}
+			</p>
+			<button id="login" onclick="logout()">Logout</button>
+				{{/:users}}
+	</script>
+	
+
+
+	<script id="results-template" type="text/template">
+
+		{{#:items}}
+	<div class="shadow result" onclick="showmore({{:item.:record_id}});">
+	       
+	        <img class="result_img" onerror="this.src='http://payload.cargocollective.com/1/3/99045/1612074/blue.jpg'" src="http://catalog.tadl.org/opac/extras/ac/jacket/small/r/{{:item.:record_id}}">
+	        
+			<h2 class="title">{{:item.:title}}</h2>  
+			<h3 class="author">{{:item.:author}}</h3>
+			<h3 class="author">{{:item.:availability}}</h3>
+				<div id="{{:item.:record_id}}-loading">	
+		
+	</div>
+				<div id="{{:item.:record_id}}" style="display:none;">	
+		
+	</div>
+		
+		</div>
+		
+		<div style=" clear: both;"></div>
+		{{/:items}}
+	</script>
+<div class="load_more" class="shadow">
+<div id="loadmoretext">
+</div>
+</div>
+
+<script>
+    var searchquery = {};
+    var pagecount = {};
+    var mediatype = {};
+    var available = {};
+	$(document).ready(function(){
+	
+	 $('.searchform').keydown(function() {
+        if (event.keyCode == 13) {
+             getResults();
+         }
+    
+        
+    });
+   
+
+   if (localStorage.getItem('username')){
+      login()
+   }
+   else
+   {
+
+   };
+   
+   
+   
+   
+	
+	 var getResults = function(){
+	     $('#results').empty().trigger("create"); 
+	     $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create"); 
+       pagecount = 0;
+ 
+
+        searchquery = $('#term').val();
+	    mediatype = $('#mediatype').val();
+	    if (document.getElementById('available').checked){
+         available = true 
+        }else{
+         available = false
+         };
+	    
+
+			$.getJSON("http://ilscatcher.herokuapp.com/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available, function(data) {
+			   var results = data.message
+			   if (results != "no results") {
+                 var template = $('#results-template').html();
+			    var info = Mustache.to_html(template, data);
+			    $('#results').html(info);
+                } 
+                  else 
+                  {
+		          $('#results').html("No Results");  	
+			 }
+			 $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');     
+         $('#loadmoretext').trigger("create"); 
+			
+			});
+	     	};
+	
+		
+		  $('#search').click(getResults);
+		  	});
+	</script>
+	
+	 <script>
+ function loadmore(){
+       pagecount++;  
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");    
+    $('#loadmoretext').trigger("create");  
+   $.get("http://ilscatcher.herokuapp.com/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype + "&p=" + pagecount +"&avail=" + available, function(data){
+   var results = data.message
+			   if (results != "no results") {
+                 var template = $('#results-template').html();
+			    var info = Mustache.to_html(template, data);
+			     $('#results').append(info).promise().done(function() {
+         $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');     
+         $('#loadmoretext').trigger("create"); 
+      })}
+                  else 
+                  {
+		          $('#loadmoretext').html("No Further Results");  	
+			 }
+			 });
+   }
+</script>
+
+<script>
+function logout(){
+localStorage.clear();
+$('#results').html("");
+location.reload();
+};
+
+</script>
+
+<script>
+function showmore(record_id){
+var record_id = record_id;
+var e = document.getElementById(record_id);
+    
+if (e.style.display === 'none') {
+if( !$.trim( $('#'+ record_id +'').html() ).length )
+{
+$('#'+ record_id +'-loading').html('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+$.getJSON("http://ilscatcher.herokuapp.com/main/itemdetails.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
+			   var results = data.message;
+                 var template = $('#more_details-template').html();
+			    var info = Mustache.to_html(template, data);
+			    $('#'+ record_id +'').html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
+			    $('#'+ record_id +'').css('display', 'block');
+			    });
+			  
+			    }
+			    else{
+			      $('#'+ record_id +'').css('display', 'block');
+			    };
+			    }
+			    else{
+			    
+			     $('#'+ record_id +'').css('display', 'none');
+			     
+			     };
+};
+
+
+</script>
+<script>
+function hold(record_id){
+var record_id = record_id;
+var username = localStorage.getItem('username');
+var password = localStorage.getItem('password');
+$.getJSON('http://ilscatcher.herokuapp.com/main/hold.json?u='+ username +'&pw=' + password + '&record_id=' + record_id, function(data) {});
+window.setTimeout(partB,5000);
+}
+function partB() {
+var username = localStorage.getItem('username');
+var password = localStorage.getItem('password');
+$.getJSON('https://ilscatcher.herokuapp.com/main/login.json?u='+ username +'&pw=' + password, function(data) {
+                 var template = $('#logedin-template').html();
+			    var info = Mustache.to_html(template, data);
+			    $('#login_form').html(info);
+			    });
+			    
+
+}
+</script>
+<script>
+
+function openForm()
+{
+	 if ($("#login_form").is(":hidden")){
+              $("#login_form").slideDown("fast");
+	}
+	else{
+		$("#login_form").slideUp("fast");
+	}
+}
+
+
+</script>
+
+<script>
+
+function login()
+{
+
+if (localStorage.getItem('username')){
+ username = localStorage.getItem('username');
+ password = localStorage.getItem('password');
+ }
+ else
+ {
+  username = $('#username').val();
+ password = $('#pword').val();
+ };
+$.getJSON('https://ilscatcher.herokuapp.com/main/login.json?u='+ username +'&pw=' + password, function(data) {
+                 var template = $('#logedin-template').html();
+			    var info = Mustache.to_html(template, data);
+			    $('#login_form').html(info);
+			    localStorage.setItem('username', username);
+			    localStorage.setItem('password', password);
+			    });
+			    
+
+
+
+}
+
+
+</script>
+
+
+
+
+
+
+
+<footer class="holo-actionBar smallfoot">TADL BETA</header>
+
+
+    </body>
+</html>
