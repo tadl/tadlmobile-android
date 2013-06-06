@@ -68,7 +68,7 @@ Password: <input type="password" id="pword" /><br />
 			<p>
 			 {{:user.:name}}
 			<br />
-			Checkouts: {{:user.:checkouts}}
+			<a onClick="showcheckouts()">Checkouts: {{:user.:checkouts}}</a>
 			<br />
 			Holds: {{:user.:holds}}
 			<br />
@@ -79,7 +79,23 @@ Password: <input type="password" id="pword" /><br />
 			<button id="login" onclick="logout()">Logout</button>
 				{{/:users}}
 	</script>
-	
+			<script id="showcheckedout-template" type="text/template">
+			{{#:checkouts}}
+			<div class="shadow result">
+			<p>
+			 {{:checkout.:name}}
+			 <br/>
+			 Due on: {{:checkout.:due_date}}
+			  <br/>
+			</p>
+			<div id="{{:checkout.:checkout_id}}">
+			  Remainging Renewal Attempts: {{:checkout.:renew_attempts}}
+			  <br/>
+			  <a onClick="renew({{:checkout.:checkout_id}})">Attempt Renewal</a>
+			  </div> 
+			</div>
+				{{/:checkouts}}
+	</script>
 
 
 	<script id="results-template" type="text/template">
@@ -258,6 +274,9 @@ $.getJSON('https://ilscatcher.herokuapp.com/main/login.json?u='+ username +'&pw=
 </script>
 <script>
 
+
+
+
 function openForm()
 {
 	 if ($("#login_form").is(":hidden")){
@@ -300,6 +319,45 @@ $.getJSON('https://ilscatcher.herokuapp.com/main/login.json?u='+ username +'&pw=
 
 
 </script>
+
+<script>
+
+function showcheckouts()
+{
+
+
+var username = localStorage.getItem('username');
+var password = localStorage.getItem('password'); 
+
+$.getJSON('http://catton.lib.tadl.org:4000/main/showcheckouts.json?u='+ username +'&pw=' + password, function(data) {
+                 var template = $('#showcheckedout-template').html();
+			    var info = Mustache.to_html(template, data);
+			    $('#results').html(info);
+			    });
+			    
+
+
+
+}
+
+
+</script>
+<script>
+function renew(circulation_id){
+var cir_id = circulation_id;
+var username = localStorage.getItem('username');
+var password = localStorage.getItem('password');
+$.getJSON('http://ilscatcher.herokuapp.com/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id, function(data) {});
+ var template = $('#logedin-template').html();
+			    var template = $('#renew_template').html();
+			    var info = Mustache.to_html(template, data);
+			    $('#'+ record_id).html(info);
+			    });
+			    
+
+}
+</script
+
 
 
 
