@@ -85,15 +85,26 @@ Password: <input type="password" id="pword" /><br />
 			<p>
 			 {{:checkout.:name}}
 			 <br/>
-			 Due on: {{:checkout.:due_date}}
-			  <br/>
+			 
 			</p>
-			<div id="{{:checkout.:checkout_id}}">
+			<div id="{{:checkout.:barcode}}">
+			  Due on: {{:checkout.:due_date}}
+			  <br/>
 			  Remainging Renewal Attempts: {{:checkout.:renew_attempts}}
 			  <br/>
-			  <a onClick="renew({{:checkout.:checkout_id}})">Attempt Renewal</a>
+			  <a onClick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Attempt Renewal</a>
 			  </div> 
 			</div>
+				{{/:checkouts}}
+	</script>
+	
+	<script id="renew-template" type="text/template">
+			{{#:checkouts}}
+			  Due on: {{:checkout.:due_date}}
+			  <br/>
+			  Remainging Renewal Attempts: {{:checkout.:renew_attempts}}
+			  <br/>
+			  <a onClick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Attempt Renewal</a>
 				{{/:checkouts}}
 	</script>
 
@@ -120,6 +131,11 @@ Password: <input type="password" id="pword" /><br />
 		<div style=" clear: both;"></div>
 		{{/:items}}
 	</script>
+	
+
+	
+	
+	
 <div class="load_more" class="shadow">
 <div id="loadmoretext">
 </div>
@@ -343,20 +359,20 @@ $.getJSON('http://catton.lib.tadl.org:4000/main/showcheckouts.json?u='+ username
 
 </script>
 <script>
-function renew(circulation_id){
-var cir_id = circulation_id;
+function renew(circulation_id, barcode){
+var circ_id = circulation_id;
+var bc = barcode;
 var username = localStorage.getItem('username');
 var password = localStorage.getItem('password');
-$.getJSON('http://ilscatcher.herokuapp.com/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id, function(data) {});
- var template = $('#logedin-template').html();
-			    var template = $('#renew_template').html();
+$.getJSON('http://catton.lib.tadl.org:4000/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id + '&bc=' + bc, function(data) {
+			    var template = $('#renew-template').html();
 			    var info = Mustache.to_html(template, data);
-			    $('#'+ record_id).html(info);
+			    $('#'+ bc +'').html(info);
 			    });
 			    
 
 }
-</script
+</script>
 
 
 
