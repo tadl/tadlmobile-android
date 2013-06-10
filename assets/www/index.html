@@ -70,7 +70,7 @@ Password: <input type="password" id="pword" /><br />
 			<br />
 			<a onClick="showcheckouts()">Checkouts: {{:user.:checkouts}}</a>
 			<br />
-			Holds: {{:user.:holds}}
+			<a onClick="showholds()">Holds: {{:user.:holds}}</a>
 			<br />
 			Ready for Pickup: {{:user.:pickups}}
 			<br />
@@ -97,6 +97,28 @@ Password: <input type="password" id="pword" /><br />
 			</div>
 				{{/:checkouts}}
 	</script>
+	
+	</script>
+			<script id="showholds-template" type="text/template">
+			{{#:holds}}
+			<div class="shadow result">
+			<p>
+			 {{:hold.:name}}
+			 <br/>
+			 
+			</p>
+			<div id="{{:hold.:hold_id}}">
+			  Pickup Location: {{:hold.:pickup_location}}
+			  <br/>
+			  Status: {{:hold.:status}}
+			  <br/>
+			  <a onClick="renew({{:hold.:hold_id}}">Cancel Hold</a>
+			  </div> 
+			</div>
+				{{/:holds}}
+	</script>
+	
+	
 	
 	<script id="renew-template" type="text/template">
 			{{#:checkouts}}
@@ -345,7 +367,7 @@ function showcheckouts()
 var username = localStorage.getItem('username');
 var password = localStorage.getItem('password'); 
 
-$.getJSON('http://catton.lib.tadl.org:4000/main/showcheckouts.json?u='+ username +'&pw=' + password, function(data) {
+$.getJSON('https://ilscatcher.herokuapp.com/main/showcheckouts.json?u='+ username +'&pw=' + password, function(data) {
                  var template = $('#showcheckedout-template').html();
 			    var info = Mustache.to_html(template, data);
 			    $('#results').html(info);
@@ -364,7 +386,7 @@ var circ_id = circulation_id;
 var bc = barcode;
 var username = localStorage.getItem('username');
 var password = localStorage.getItem('password');
-$.getJSON('http://catton.lib.tadl.org:4000/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id + '&bc=' + bc, function(data) {
+$.getJSON('https://ilscatcher.herokuapp.com/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id + '&bc=' + bc, function(data) {
 			    var template = $('#renew-template').html();
 			    var info = Mustache.to_html(template, data);
 			    $('#'+ bc +'').html(info);
@@ -376,7 +398,43 @@ $.getJSON('http://catton.lib.tadl.org:4000/main/renew.json?u='+ username +'&pw='
 
 
 
+<script>
 
+function showholds()
+{
+
+
+var username = localStorage.getItem('username');
+var password = localStorage.getItem('password'); 
+
+$.getJSON('http://catton.staff.lib.tadl.org:4000/main/showholds.json?u='+ username +'&pw=' + password, function(data) {
+                 var template = $('#showholds-template').html();
+			    var info = Mustache.to_html(template, data);
+			    $('#results').html(info);
+			    });
+			    
+
+
+
+}
+
+
+</script>
+<script>
+function renew(circulation_id, barcode){
+var circ_id = circulation_id;
+var bc = barcode;
+var username = localStorage.getItem('username');
+var password = localStorage.getItem('password');
+$.getJSON('https://ilscatcher.herokuapp.com/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id + '&bc=' + bc, function(data) {
+			    var template = $('#renew-template').html();
+			    var info = Mustache.to_html(template, data);
+			    $('#'+ bc +'').html(info);
+			    });
+			    
+
+}
+</script>
 
 
 
