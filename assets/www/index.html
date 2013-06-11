@@ -101,19 +101,19 @@ Password: <input type="password" id="pword" /><br />
 	</script>
 			<script id="showholds-template" type="text/template">
 			{{#:holds}}
-			<div class="shadow result">
+			<div id="{{:hold.:hold_id}}" class="shadow result">
 			<p>
 			 {{:hold.:name}}
 			 <br/>
 			 
 			</p>
-			<div id="{{:hold.:hold_id}}">
+			
 			  Pickup Location: {{:hold.:pickup_location}}
 			  <br/>
 			  Status: {{:hold.:status}}
 			  <br/>
-			  <a onClick="renew({{:hold.:hold_id}}">Cancel Hold</a>
-			  </div> 
+			  <a onClick="cancelhold({{:hold.:hold_id}})">Cancel Hold</a>
+			
 			</div>
 				{{/:holds}}
 	</script>
@@ -380,16 +380,14 @@ $.getJSON('https://ilscatcher.herokuapp.com/main/showcheckouts.json?u='+ usernam
 
 
 </script>
+
 <script>
-function renew(circulation_id, barcode){
-var circ_id = circulation_id;
-var bc = barcode;
+function cancelhold(hold_id){
+var hold_id = hold_id;
 var username = localStorage.getItem('username');
 var password = localStorage.getItem('password');
-$.getJSON('https://ilscatcher.herokuapp.com/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id + '&bc=' + bc, function(data) {
-			    var template = $('#renew-template').html();
-			    var info = Mustache.to_html(template, data);
-			    $('#'+ bc +'').html(info);
+$.getJSON('https://ilscatcher.herokuapp.com/main/cancelhold.json?u='+ username +'&pw=' + password + '&hold_id=' + hold_id, function(data) {
+			    $('#'+ hold_id +'').css('display', 'none');
 			    });
 			    
 
@@ -407,7 +405,7 @@ function showholds()
 var username = localStorage.getItem('username');
 var password = localStorage.getItem('password'); 
 
-$.getJSON('http://catton.staff.lib.tadl.org:4000/main/showholds.json?u='+ username +'&pw=' + password, function(data) {
+$.getJSON('https://ilscatcher.herokuapp.com/main/showholds.json?u='+ username +'&pw=' + password, function(data) {
                  var template = $('#showholds-template').html();
 			    var info = Mustache.to_html(template, data);
 			    $('#results').html(info);
