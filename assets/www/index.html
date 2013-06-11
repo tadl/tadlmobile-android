@@ -58,11 +58,41 @@ Password: <input type="password" id="pword" /><br />
 			{{:item.:summary}}
 			</p>
 			<div class="bottomstuff">
-			<h3 style="margin-top: 0px; margin-bottom: 0px; float: left;"><a onClick="hold({{:item.:record_id}})">Place Hold</a></h3><h3 style="margin-top: 0px; margin-bottom: 0px; margin-left: 15px; float: left">Find on Shelf</h3>
+			<h3 style="margin-top: 0px; margin-bottom: 0px; float: left;"><a onClick="hold({{:item.:record_id}})">Place Hold</a></h3><h3 style="margin-top: 0px; margin-bottom: 0px; margin-left: 15px; float: left"><a onClick="showshelf({{:item.:record_id}})">Find on Shelf</a></h3>
 			</div>	
+			<div style="clear: both;"></div>
+			          <div id="{{:item.:record_id}}shelf" style="display:none;">
+		</div>
+			
 				{{/:items}}
 				
 	</script>
+	
+		<script id="shelf-template" type="text/template">
+			<table>
+			
+			<th>Library:</th>
+			<th>Status:</th>
+			<th>Shelving Location:</th>
+			<th>Call Number:</th>
+			
+			{{#:items}}
+			<tr>
+			<td>{{:item.:library}}</td>
+			<td>{{:item.:available}}</td>
+			<td>{{:item.:shelving_location}}</td>
+			<td>{{:item.:call_number}}</td>
+			</tr>
+	
+		
+			
+				{{/:items}}
+				</table>
+				
+	</script>
+	
+	
+	
 		<script id="logedin-template" type="text/template">
 			{{#:users}}
 			<p>
@@ -72,7 +102,7 @@ Password: <input type="password" id="pword" /><br />
 			<br />
 			<a onClick="showholds()">Holds: {{:user.:holds}}</a>
 			<br />
-			Ready for Pickup: {{:user.:pickups}}
+			<a onClick="showpickups()">Ready for Pickup: {{:user.:pickups}}</a>
 			<br />
 			Fines: {{:user.:fines}}
 			</p>
@@ -83,7 +113,7 @@ Password: <input type="password" id="pword" /><br />
 			{{#:checkouts}}
 			<div class="shadow result">
 			<p>
-			 {{:checkout.:name}}
+			 <img src="http://catalog.tadl.org/{{:checkout.:format_icon}}">{{:checkout.:name}}
 			 <br/>
 			 
 			</p>
@@ -102,8 +132,9 @@ Password: <input type="password" id="pword" /><br />
 			<script id="showholds-template" type="text/template">
 			{{#:holds}}
 			<div id="{{:hold.:hold_id}}" class="shadow result">
+			<img class="result_img"  src="http://catalog.tadl.org/{{:hold.:image}}">
 			<p>
-			 {{:hold.:name}}
+			 <img src="http://catalog.tadl.org/{{:hold.:format_icon}}">{{:hold.:name}}
 			 <br/>
 			 
 			</p>
@@ -134,20 +165,22 @@ Password: <input type="password" id="pword" /><br />
 	<script id="results-template" type="text/template">
 
 		{{#:items}}
-	<div class="shadow result" onclick="showmore({{:item.:record_id}});">
-	       
+	<div class="shadow result">
+	       <div onclick="showmore({{:item.:record_id}});">
 	        <img class="result_img" onerror="this.src='http://payload.cargocollective.com/1/3/99045/1612074/blue.jpg'" src="http://catalog.tadl.org/opac/extras/ac/jacket/small/r/{{:item.:record_id}}">
 	        
-			<h2 class="title">{{:item.:title}}</h2>  
+			<h2 class="title"><img src="http://catalog.tadl.org/{{:item.:format_icon}}">{{:item.:title}}</h2>  
 			<h3 class="author">{{:item.:author}}</h3>
 			<h3 class="author">{{:item.:availability}}</h3>
-				<div id="{{:item.:record_id}}-loading">	
-		
-	</div>
+				</div>
+				
+
 				<div id="{{:item.:record_id}}" style="display:none;">	
 		
 	</div>
+						<div id="{{:item.:record_id}}-loading">	
 		
+	</div> 
 		</div>
 		
 		<div style=" clear: both;"></div>
@@ -290,6 +323,42 @@ $.getJSON("http://ilscatcher.herokuapp.com/main/itemdetails.json?utf8=%E2%9C%93&
 
 
 </script>
+
+
+<script>
+function showshelf(record_id){
+var record_id = record_id;
+var e = document.getElementById(record_id +'shelf');
+    
+if (e.style.display === 'none') {
+if( !$.trim( $('#'+ record_id +'shelf').html() ).length )
+{
+$('#'+ record_id +'-loading').html('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+$.getJSON("http://ilscatcher.herokuapp.com/main/itemonshelf.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
+			   var results = data.message;
+                 var template = $('#shelf-template').html();
+			    var info = Mustache.to_html(template, data);
+			    $('#'+ record_id +'shelf').html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
+			    $('#'+ record_id +'shelf').css('display', 'block');
+			    });
+			  
+			    }
+			    else{
+			      $('#'+ record_id +'shelf').css('display', 'block');
+			    };
+			    }
+			    else{
+			    
+			     $('#'+ record_id +'shelf').css('display', 'none');
+			     
+			     };
+};
+
+
+</script>
+
+
+
 <script>
 function hold(record_id){
 var record_id = record_id;
@@ -418,6 +487,31 @@ $.getJSON('https://ilscatcher.herokuapp.com/main/showholds.json?u='+ username +'
 
 
 </script>
+
+<script>
+
+function showpickups()
+{
+
+
+var username = localStorage.getItem('username');
+var password = localStorage.getItem('password'); 
+
+$.getJSON('https://ilscatcher.herokuapp.com/main/showpickups.json?u='+ username +'&pw=' + password, function(data) {
+                 var template = $('#showholds-template').html();
+			    var info = Mustache.to_html(template, data);
+			    $('#results').html(info);
+			    });
+			    
+
+
+
+}
+
+
+</script>
+
+
 <script>
 function renew(circulation_id, barcode){
 var circ_id = circulation_id;

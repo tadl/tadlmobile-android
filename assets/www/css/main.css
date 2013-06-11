@@ -154,3 +154,13 @@ margin-left: 15px;
 margin-top 10px;
 margin-bottom 5px;
 }
+
+td
+{
+padding:5px;
+}
+
+th
+{
+padding:5px;
+}
