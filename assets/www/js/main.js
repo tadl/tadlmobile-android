@@ -204,15 +204,14 @@ function renew(circulation_id, barcode) {
     });
 }
 
-function showcard()
-{
-var username = localStorage.getItem('username');
-var password = localStorage.getItem('password'); 
-$.getJSON('https://ilscatcher.herokuapp.com/main/showcard.json?u='+ username +'&pw=' + password, function(data) {
-var card = data.barcode;
-$('#results').empty().append('<div class="shadow result" id="bcTarget"></div>');
-$('#results').trigger("create"); 
-$("#bcTarget").barcode("9085405", "codabar", {barWidth:2, barHeight:80}); 
-});
+function showcard() {
+    var username = localStorage.getItem('username');
+    var password = localStorage.getItem('password'); 
+    $.getJSON('https://ilscatcher.herokuapp.com/main/showcard.json?u='+ username +'&pw=' + password, function(data) {
+        var card = data.barcode;
+        $('#results').empty().append('<div class="shadow result" id="bcTarget"></div>');
+        $('#results').trigger("create"); 
+        $("#bcTarget").barcode(card, "codabar", {barWidth:2, barHeight:80}); 
+    });
 }
 
