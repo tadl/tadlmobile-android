@@ -8,6 +8,11 @@ $(document).ready(function() {
             getResults();
         }
     });
+       $('#login_form').keydown(function() {
+        if (event.keyCode == 13) {
+            login();
+        }
+    });
 
     if (localStorage.getItem('username')) {
         login();
@@ -41,6 +46,7 @@ $(document).ready(function() {
         });
     }
     $('#search').click(getResults);
+    $("#login_form").slideUp("fast");
 });
 	
 function loadmore() {
@@ -55,6 +61,7 @@ function loadmore() {
             $('#results').append(info).promise().done(function() {
                 $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');
                 $('#loadmoretext').trigger("create");
+                $("#login_form").slideUp("fast");
             })
         } else {
             $('#loadmoretext').html("No Further Results");
@@ -131,8 +138,10 @@ function partB() {
 function openForm() {
     if ($("#login_form").is(":hidden")) {
         $("#login_form").slideDown("fast");
+        login();
     } else {
         $("#login_form").slideUp("fast");
+        
     }
 }
 
@@ -160,6 +169,7 @@ function showcheckouts() {
         var template = Handlebars.compile($('#showcheckedout-template').html());
         var info = template(data);
         $('#results').html(info);
+        $("#login_form").slideUp("fast");
     });
 }
 
@@ -179,6 +189,7 @@ function showholds() {
         var template = Handlebars.compile($('#showholds-template').html());
         var info = template(data);
         $('#results').html(info);
+        $("#login_form").slideUp("fast");
     });
 }
 
@@ -189,6 +200,7 @@ function showpickups() {
         var template = Handlebars.compile($('#showholds-template').html());
         var info = template(data);
         $('#results').html(info);
+        $("#login_form").slideUp("fast");
     });
 }
 
@@ -211,7 +223,8 @@ function showcard() {
         var card = data.barcode;
         $('#results').empty().append('<div class="shadow result" id="bcTarget"></div>');
         $('#results').trigger("create"); 
-        $("#bcTarget").barcode(card, "codabar", {barWidth:2, barHeight:80, fontSize:15}); 
+        $("#bcTarget").barcode(card, "code128", {barWidth:2, barHeight:80, fontSize:15}); 
+        $("#login_form").slideUp("fast");
     });
 }
 
