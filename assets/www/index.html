@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script type="text/javascript" src="js/holo-touch.js"></script>
 		<script type="text/javascript" src="js/jquery-1.10.0.min.js"></script>
-		<script type="text/javascript" src="js/mustache.js"></script>
+		<script type="text/javascript" src="js/handlebars.js"></script>
         <title>WhisperTagBeta</title>
     </head>
     <body>
@@ -242,8 +242,8 @@ Password: <input type="password" id="pword" /><br />
 			$.getJSON("http://ilscatcher.herokuapp.com/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available, function(data) {
 			   var results = data.message
 			   if (results != "no results") {
-                 var template = $('#results-template').html();
-			    var info = Mustache.to_html(template, data);
+                var template = Handlebars.compile($('#results-template').html());
+			    var info = template(data);
 			    $('#results').html(info);
                 } 
                   else 
@@ -269,8 +269,8 @@ Password: <input type="password" id="pword" /><br />
    $.get("http://ilscatcher.herokuapp.com/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype + "&p=" + pagecount +"&avail=" + available, function(data){
    var results = data.message
 			   if (results != "no results") {
-                 var template = $('#results-template').html();
-			    var info = Mustache.to_html(template, data);
+                 var template = Handlebars.compile($('#results-template').html());
+			    var info = template(data);
 			     $('#results').append(info).promise().done(function() {
          $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');     
          $('#loadmoretext').trigger("create"); 
@@ -303,8 +303,8 @@ if( !$.trim( $('#'+ record_id +'').html() ).length )
 $('#'+ record_id +'-loading').html('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
 $.getJSON("http://ilscatcher.herokuapp.com/main/itemdetails.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
 			   var results = data.message;
-                 var template = $('#more_details-template').html();
-			    var info = Mustache.to_html(template, data);
+                 var template = Handlebars.compile($('#more_details-template').html());
+			    var info = template(data);
 			    $('#'+ record_id +'').html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
 			    $('#'+ record_id +'').css('display', 'block');
 			    });
@@ -336,8 +336,8 @@ if( !$.trim( $('#'+ record_id +'shelf').html() ).length )
 $('#'+ record_id +'-loading').html('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
 $.getJSON("http://ilscatcher.herokuapp.com/main/itemonshelf.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
 			   var results = data.message;
-                 var template = $('#shelf-template').html();
-			    var info = Mustache.to_html(template, data);
+                 var template = Handlebars.compile($('#shelf-template').html());
+			    var info = template(data);
 			    $('#'+ record_id +'shelf').html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
 			    $('#'+ record_id +'shelf').css('display', 'block');
 			    });
@@ -371,8 +371,8 @@ function partB() {
 var username = localStorage.getItem('username');
 var password = localStorage.getItem('password');
 $.getJSON('https://ilscatcher.herokuapp.com/main/login.json?u='+ username +'&pw=' + password, function(data) {
-                 var template = $('#logedin-template').html();
-			    var info = Mustache.to_html(template, data);
+                 var template = Handlebars.compile($('#logedin-template').html());
+			    var info = template(data);
 			    $('#login_form').html(info);
 			    });
 			    
@@ -412,8 +412,8 @@ if (localStorage.getItem('username')){
  password = $('#pword').val();
  };
 $.getJSON('https://ilscatcher.herokuapp.com/main/login.json?u='+ username +'&pw=' + password, function(data) {
-                 var template = $('#logedin-template').html();
-			    var info = Mustache.to_html(template, data);
+                 var template = Handlebars.compile($('#logedin-template').html());
+			    var info = template(data);
 			    $('#login_form').html(info);
 			    localStorage.setItem('username', username);
 			    localStorage.setItem('password', password);
@@ -437,8 +437,8 @@ var username = localStorage.getItem('username');
 var password = localStorage.getItem('password'); 
 
 $.getJSON('https://ilscatcher.herokuapp.com/main/showcheckouts.json?u='+ username +'&pw=' + password, function(data) {
-                 var template = $('#showcheckedout-template').html();
-			    var info = Mustache.to_html(template, data);
+                 var template = Handlebars.compile($('#showcheckedout-template').html());
+			    var info = template(data);
 			    $('#results').html(info);
 			    });
 			    
@@ -475,8 +475,8 @@ var username = localStorage.getItem('username');
 var password = localStorage.getItem('password'); 
 
 $.getJSON('https://ilscatcher.herokuapp.com/main/showholds.json?u='+ username +'&pw=' + password, function(data) {
-                 var template = $('#showholds-template').html();
-			    var info = Mustache.to_html(template, data);
+                 var template = Handlebars.compile($('#showholds-template').html());
+			    var info = template(data);
 			    $('#results').html(info);
 			    });
 			    
@@ -498,8 +498,8 @@ var username = localStorage.getItem('username');
 var password = localStorage.getItem('password'); 
 
 $.getJSON('https://ilscatcher.herokuapp.com/main/showpickups.json?u='+ username +'&pw=' + password, function(data) {
-                 var template = $('#showholds-template').html();
-			    var info = Mustache.to_html(template, data);
+                 var template = Handlebars.compile($('#showholds-template').html());
+			    var info = template(data);
 			    $('#results').html(info);
 			    });
 			    
@@ -519,8 +519,8 @@ var bc = barcode;
 var username = localStorage.getItem('username');
 var password = localStorage.getItem('password');
 $.getJSON('https://ilscatcher.herokuapp.com/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id + '&bc=' + bc, function(data) {
-			    var template = $('#renew-template').html();
-			    var info = Mustache.to_html(template, data);
+			    var template = Handlebars($('#renew-template').html());
+			    var info = template(data);
 			    $('#'+ bc +'').html(info);
 			    });
 			    
