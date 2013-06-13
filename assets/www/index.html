@@ -11,6 +11,7 @@
     <script type="text/javascript" src="js/jquery-1.10.0.min.js"></script>
     <script type="text/javascript" src="js/handlebars.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/jquery-barcode.min.js"></script>  
     <title>TADL Mobile Beta</title>
 </head>
 <body>
@@ -83,6 +84,7 @@
         Fines: {{:user.:fines}}
         </p>
         <button id="login" onclick="logout()">Logout</button>
+        <button id="showbarcode" onclick="showcard()">Card</button>
     {{/:users}}
 </script>
 
@@ -115,6 +117,7 @@
         </div>
     {{/:holds}}
 </script>
+
 
 
 <script id="renew-template" type="text/template">
