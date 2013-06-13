@@ -223,7 +223,7 @@ function showcard() {
         var card = data.barcode;
         $('#results').empty().append('<div class="shadow result" id="bcTarget"></div>');
         $('#results').trigger("create"); 
-        $("#bcTarget").barcode(card, "code128", {barWidth:2, barHeight:80, fontSize:15}); 
+        $("#bcTarget").barcode(card, "code128", {barWidth:2, barHeight:100}); 
         $("#login_form").slideUp("fast");
     });
 }
