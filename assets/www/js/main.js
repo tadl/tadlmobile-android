@@ -2,238 +2,206 @@ var searchquery = {};
 var pagecount = {};
 var mediatype = {};
 var available = {};
-$(document).ready(function(){
+$(document).ready(function() {
+    $('.searchform').keydown(function() {
+        if (event.keyCode == 13) {
+            getResults();
+        }
+    });
 
-$('.searchform').keydown(function() {
-if (event.keyCode == 13) {
-getResults();
-}
+    if (localStorage.getItem('username')) {
+        login();
+    }
 
+    var getResults = function() {
+        $('#results').empty().trigger("create");
+        $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
 
-});
+        pagecount = 0;
 
-if (localStorage.getItem('username')){
-login()
-}
-else
-{
-};
+        searchquery = $('#term').val();
+        mediatype = $('#mediatype').val();
+        if (document.getElementById('available').checked) {
+            available = true;
+        } else {
+            available = false;
+        }
 
-var getResults = function(){
-$('#results').empty().trigger("create"); 
-$('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create"); 
-pagecount = 0;
-
-searchquery = $('#term').val();
-mediatype = $('#mediatype').val();
-if (document.getElementById('available').checked){
-available = true 
-}else{
-available = false
-};
-
-$.getJSON("http://ilscatcher.herokuapp.com/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available, function(data) {
-var results = data.message
-if (results != "no results") {
-var template = Handlebars.compile($('#results-template').html());
-var info = template(data);
-$('#results').html(info);
-} 
-else 
-{
-$('#results').html("No Results");  	
-}
-$('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');     
-$('#loadmoretext').trigger("create"); 
-
-});
-};
-
-
-$('#search').click(getResults);
+        $.getJSON("http://ilscatcher.herokuapp.com/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available, function(data) {
+            var results = data.message
+            if (results != "no results") {
+                var template = Handlebars.compile($('#results-template').html());
+                var info = template(data);
+                $('#results').html(info);
+            } else {
+                $('#results').html("No Results");
+            }
+            $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');
+            $('#loadmoretext').trigger("create");
+        });
+    }
+    $('#search').click(getResults);
 });
 	
-function loadmore(){
-pagecount++;  
-$('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");    
-$('#loadmoretext').trigger("create");  
-$.get("http://ilscatcher.herokuapp.com/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype + "&p=" + pagecount +"&avail=" + available, function(data){
-var results = data.message
-if (results != "no results") {
-var template = Handlebars.compile($('#results-template').html());
-var info = template(data);
-$('#results').append(info).promise().done(function() {
-$('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');     
-$('#loadmoretext').trigger("create"); 
-})}
-else 
-{
-$('#loadmoretext').html("No Further Results");  	
+function loadmore() {
+    pagecount++;
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').trigger("create");
+    $.get("http://ilscatcher.herokuapp.com/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype + "&p=" + pagecount +"&avail=" + available, function(data) {
+        var results = data.message
+        if (results != "no results") {
+            var template = Handlebars.compile($('#results-template').html());
+            var info = template(data);
+            $('#results').append(info).promise().done(function() {
+                $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');
+                $('#loadmoretext').trigger("create");
+            })
+        } else {
+            $('#loadmoretext').html("No Further Results");
+        }
+    });
 }
-});
+
+function logout() {
+    localStorage.clear();
+    $('#results').html("");
+    location.reload();
 }
 
-function logout(){
-localStorage.clear();
-$('#results').html("");
-location.reload();
-};
-
-function showmore(record_id){
-var record_id = record_id;
-var e = document.getElementById(record_id);
-    
-if (e.style.display === 'none') {
-if( !$.trim( $('#'+ record_id +'').html() ).length )
-{
-$('#'+ record_id +'-loading').html('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
-$.getJSON("http://ilscatcher.herokuapp.com/main/itemdetails.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
-var results = data.message;
-var template = Handlebars.compile($('#more_details-template').html());
-var info = template(data);
-$('#'+ record_id +'').html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
-$('#'+ record_id +'').css('display', 'block');
-});
-
+function showmore(record_id) {
+    var record_id = record_id;
+    var e = document.getElementById(record_id);
+    if (e.style.display === 'none') {
+        if( !$.trim( $('#'+ record_id +'').html() ).length ) {
+            $('#'+ record_id +'-loading').html('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+            $.getJSON("http://ilscatcher.herokuapp.com/main/itemdetails.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
+                var results = data.message;
+                var template = Handlebars.compile($('#more_details-template').html());
+                var info = template(data);
+                $('#'+ record_id +'').html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
+                $('#'+ record_id +'').css('display', 'block');
+            });
+        } else {
+            $('#'+ record_id +'').css('display', 'block');
+        }
+    } else {
+        $('#'+ record_id +'').css('display', 'none');
+    }
 }
-else{
-$('#'+ record_id +'').css('display', 'block');
-};
+
+function showshelf(record_id) {
+    var record_id = record_id;
+    var e = document.getElementById(record_id +'shelf');
+    if (e.style.display === 'none') {
+        if( !$.trim( $('#'+ record_id +'shelf').html() ).length ) {
+            $('#'+ record_id +'-loading').html('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+            $.getJSON("http://ilscatcher.herokuapp.com/main/itemonshelf.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
+                var results = data.message;
+                var template = Handlebars.compile($('#shelf-template').html());
+                var info = template(data);
+                $('#'+ record_id +'shelf').html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
+                $('#'+ record_id +'shelf').css('display', 'block');
+            });
+        } else {
+            $('#'+ record_id +'shelf').css('display', 'block');
+        }
+    } else {
+        $('#'+ record_id +'shelf').css('display', 'none');
+    }
 }
-else{
 
-$('#'+ record_id +'').css('display', 'none');
-
-};
-};
-
-function showshelf(record_id){
-var record_id = record_id;
-var e = document.getElementById(record_id +'shelf');
-if (e.style.display === 'none') {
-if( !$.trim( $('#'+ record_id +'shelf').html() ).length )
-{
-$('#'+ record_id +'-loading').html('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
-$.getJSON("http://ilscatcher.herokuapp.com/main/itemonshelf.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
-var results = data.message;
-var template = Handlebars.compile($('#shelf-template').html());
-var info = template(data);
-$('#'+ record_id +'shelf').html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
-$('#'+ record_id +'shelf').css('display', 'block');
-});
-
+function hold(record_id) {
+    var record_id = record_id;
+    var username = localStorage.getItem('username');
+    var password = localStorage.getItem('password');
+    $.getJSON('http://ilscatcher.herokuapp.com/main/hold.json?u='+ username +'&pw=' + password + '&record_id=' + record_id, function(data) {});
+        window.setTimeout(partB,5000);
 }
-else{
-$('#'+ record_id +'shelf').css('display', 'block');
-};
-}
-else{
 
-$('#'+ record_id +'shelf').css('display', 'none');
-
-};
-};
-
-function hold(record_id){
-var record_id = record_id;
-var username = localStorage.getItem('username');
-var password = localStorage.getItem('password');
-$.getJSON('http://ilscatcher.herokuapp.com/main/hold.json?u='+ username +'&pw=' + password + '&record_id=' + record_id, function(data) {});
-window.setTimeout(partB,5000);
-}
 function partB() {
-var username = localStorage.getItem('username');
-var password = localStorage.getItem('password');
-$.getJSON('https://ilscatcher.herokuapp.com/main/login.json?u='+ username +'&pw=' + password, function(data) {
-var template = Handlebars.compile($('#logedin-template').html());
-var info = template(data);
-$('#login_form').html(info);
-});
+    var username = localStorage.getItem('username');
+    var password = localStorage.getItem('password');
+    $.getJSON('https://ilscatcher.herokuapp.com/main/login.json?u='+ username +'&pw=' + password, function(data) {
+        var template = Handlebars.compile($('#logedin-template').html());
+        var info = template(data);
+        $('#login_form').html(info);
+    });
 }
 
-function openForm()
-{
-if ($("#login_form").is(":hidden")){
-$("#login_form").slideDown("fast");
-}
-else{
-$("#login_form").slideUp("fast");
-}
+function openForm() {
+    if ($("#login_form").is(":hidden")) {
+        $("#login_form").slideDown("fast");
+    } else {
+        $("#login_form").slideUp("fast");
+    }
 }
 
-function login()
-{
-
-if (localStorage.getItem('username')){
-username = localStorage.getItem('username');
-password = localStorage.getItem('password');
-}
-else
-{
-username = $('#username').val();
-password = $('#pword').val();
-};
-$.getJSON('https://ilscatcher.herokuapp.com/main/login.json?u='+ username +'&pw=' + password, function(data) {
-var template = Handlebars.compile($('#logedin-template').html());
-var info = template(data);
-$('#login_form').html(info);
-localStorage.setItem('username', username);
-localStorage.setItem('password', password);
-});
+function login() {
+    if (localStorage.getItem('username')) {
+        username = localStorage.getItem('username');
+        password = localStorage.getItem('password');
+    } else {
+        username = $('#username').val();
+        password = $('#pword').val();
+    }
+    $.getJSON('https://ilscatcher.herokuapp.com/main/login.json?u='+ username +'&pw=' + password, function(data) {
+        var template = Handlebars.compile($('#logedin-template').html());
+        var info = template(data);
+        $('#login_form').html(info);
+        localStorage.setItem('username', username);
+        localStorage.setItem('password', password);
+    });
 }
 
-function showcheckouts()
-{
-var username = localStorage.getItem('username');
-var password = localStorage.getItem('password'); 
-$.getJSON('https://ilscatcher.herokuapp.com/main/showcheckouts.json?u='+ username +'&pw=' + password, function(data) {
-var template = Handlebars.compile($('#showcheckedout-template').html());
-var info = template(data);
-$('#results').html(info);
-});
+function showcheckouts() {
+    var username = localStorage.getItem('username');
+    var password = localStorage.getItem('password'); 
+    $.getJSON('https://ilscatcher.herokuapp.com/main/showcheckouts.json?u='+ username +'&pw=' + password, function(data) {
+        var template = Handlebars.compile($('#showcheckedout-template').html());
+        var info = template(data);
+        $('#results').html(info);
+    });
 }
 
-function cancelhold(hold_id){
-var hold_id = hold_id;
-var username = localStorage.getItem('username');
-var password = localStorage.getItem('password');
-$.getJSON('https://ilscatcher.herokuapp.com/main/cancelhold.json?u='+ username +'&pw=' + password + '&hold_id=' + hold_id, function(data) {
-$('#'+ hold_id +'').css('display', 'none');
-});
+function cancelhold(hold_id) {
+    var hold_id = hold_id;
+    var username = localStorage.getItem('username');
+    var password = localStorage.getItem('password');
+    $.getJSON('https://ilscatcher.herokuapp.com/main/cancelhold.json?u='+ username +'&pw=' + password + '&hold_id=' + hold_id, function(data) {
+        $('#'+ hold_id +'').css('display', 'none');
+    });
 }
 
-function showholds()
-{
-var username = localStorage.getItem('username');
-var password = localStorage.getItem('password'); 
-$.getJSON('https://ilscatcher.herokuapp.com/main/showholds.json?u='+ username +'&pw=' + password, function(data) {
-var template = Handlebars.compile($('#showholds-template').html());
-var info = template(data);
-$('#results').html(info);
-});
+function showholds() {
+    var username = localStorage.getItem('username');
+    var password = localStorage.getItem('password'); 
+    $.getJSON('https://ilscatcher.herokuapp.com/main/showholds.json?u='+ username +'&pw=' + password, function(data) {
+        var template = Handlebars.compile($('#showholds-template').html());
+        var info = template(data);
+        $('#results').html(info);
+    });
 }
 
-function showpickups()
-{
-var username = localStorage.getItem('username');
-var password = localStorage.getItem('password'); 
-$.getJSON('https://ilscatcher.herokuapp.com/main/showpickups.json?u='+ username +'&pw=' + password, function(data) {
-var template = Handlebars.compile($('#showholds-template').html());
-var info = template(data);
-$('#results').html(info);
-});
+function showpickups() {
+    var username = localStorage.getItem('username');
+    var password = localStorage.getItem('password'); 
+    $.getJSON('https://ilscatcher.herokuapp.com/main/showpickups.json?u='+ username +'&pw=' + password, function(data) {
+        var template = Handlebars.compile($('#showholds-template').html());
+        var info = template(data);
+        $('#results').html(info);
+    });
 }
 
-function renew(circulation_id, barcode){
-var circ_id = circulation_id;
-var bc = barcode;
-var username = localStorage.getItem('username');
-var password = localStorage.getItem('password');
-$.getJSON('https://ilscatcher.herokuapp.com/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id + '&bc=' + bc, function(data) {
-var template = Handlebars($('#renew-template').html());
-var info = template(data);
-$('#'+ bc +'').html(info);
-});
+function renew(circulation_id, barcode) {
+    var circ_id = circulation_id;
+    var bc = barcode;
+    var username = localStorage.getItem('username');
+    var password = localStorage.getItem('password');
+    $.getJSON('https://ilscatcher.herokuapp.com/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id + '&bc=' + bc, function(data) {
+        var template = Handlebars($('#renew-template').html());
+        var info = template(data);
+        $('#'+ bc +'').html(info);
+    });
 }
 
 function showcard()
@@ -247,3 +215,4 @@ $('#results').trigger("create");
 $("#bcTarget").barcode("9085405", "codabar", {barWidth:2, barHeight:80}); 
 });
 }
+
