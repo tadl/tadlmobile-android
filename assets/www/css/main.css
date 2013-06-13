@@ -167,6 +167,7 @@ padding:5px;
 
 #bcTarget {
   padding:5px;
+  margin:10em 1em;
   -moz-transform:rotate(90deg);
   -webkit-transform:rotate(90deg);
   -o-transform:rotate(90deg);
