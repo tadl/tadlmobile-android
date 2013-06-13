@@ -8,6 +8,11 @@ $(document).ready(function() {
             getResults();
         }
     });
+       $('.searchform').keydown(function() {
+        if (event.keyCode == 13) {
+            getResults();
+        }
+    });
 
     if (localStorage.getItem('username')) {
         login();
@@ -131,8 +136,10 @@ function partB() {
 function openForm() {
     if ($("#login_form").is(":hidden")) {
         $("#login_form").slideDown("fast");
+        login();
     } else {
         $("#login_form").slideUp("fast");
+        
     }
 }
 
@@ -212,7 +219,7 @@ $.getJSON('https://ilscatcher.herokuapp.com/main/showcard.json?u='+ username +'&
 var card = data.barcode;
 $('#results').empty().append('<div class="shadow result" id="bcTarget"></div>');
 $('#results').trigger("create"); 
-$("#bcTarget").barcode("9085405", "codabar", {barWidth:2, barHeight:80}); 
+$("#bcTarget").barcode(''+ card +'', "code128", {barWidth:2, barHeight:80}); 
 });
 }
 
