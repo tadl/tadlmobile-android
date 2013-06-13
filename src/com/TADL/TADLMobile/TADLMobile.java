@@ -22,7 +22,7 @@ package com.TADL.TADLMobile;
 import android.os.Bundle;
 import org.apache.cordova.*;
 
-public class TADLMoblie extends DroidGap
+public class TADLMobile extends DroidGap
 {
     @Override
     public void onCreate(Bundle savedInstanceState)
