@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-
 <html>
     <head>
         
-  	<link rel="stylesheet" type="text/css" href="css/holo-base-elements.css" />
-		<link rel="stylesheet" type="text/css" href="css/holo-light-elements.css" />
-		<link rel="stylesheet" type="text/css" href="css/holo-base-widgets.css" />
-		<link rel="stylesheet" type="text/css" href="css/holo-light-widgets.css" />
-		<link rel="stylesheet" type="text/css" href="css/main.css" />
-		<script type="text/javascript" src="js/holo-touch.js"></script>
-		<script type="text/javascript" src="js/jquery-1.10.0.min.js"></script>
-		<script type="text/javascript" src="js/handlebars.js"></script>
-        <title>WhisperTagBeta</title>
-    </head>
-    <body>
+    <link rel="stylesheet" type="text/css" href="css/holo-base-elements.css" />
+    <link rel="stylesheet" type="text/css" href="css/holo-light-elements.css" />
+    <link rel="stylesheet" type="text/css" href="css/holo-base-widgets.css" />
+    <link rel="stylesheet" type="text/css" href="css/holo-light-widgets.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <script type="text/javascript" src="js/holo-touch.js"></script>
+    <script type="text/javascript" src="js/jquery-1.10.0.min.js"></script>
+    <script type="text/javascript" src="js/handlebars.js"></script>
+    <title>WhisperTagBeta</title>
+</head>
+<body>
 <header class="holo-actionBar">
 <section class="searchform">
 <input class="search_box" style="float:left;" type="text" placeholder="Search..." id="term" />
@@ -22,13 +21,13 @@
 <div style="clear:both"></div>
 
 <input class="search_second_row" type="checkbox" style="margin: 5px; " id="available" value="false"><span class="search_second_row" style="margin: 5px; ">ONLY AVAILABLE</span>
-      <select class="search_second_row" id="mediatype" style="margin-bottom: 15px; margin-top: 1px;">
-     <option value="ALL">ALL FORMATS</option>
-     <option value="BOOKS">BOOKS</option>
-     <option value="MOVIES">MOVIES</option>
-     <option value="MUSIC">MUSIC</option>
-     <option value="VIDEO GAMES">VIDEO GAMES</option>
-      </select>
+<select class="search_second_row" id="mediatype" style="margin-bottom: 15px; margin-top: 1px;">
+<option value="ALL">ALL FORMATS</option>
+<option value="BOOKS">BOOKS</option>
+<option value="MOVIES">MOVIES</option>
+<option value="MUSIC">MUSIC</option>
+<option value="VIDEO GAMES">VIDEO GAMES</option>
+</select>
 </section>
 <div id="login_form">
 
@@ -38,159 +37,113 @@ Password: <input type="password" id="pword" /><br />
 
 </div>
 </header>
-		
-		
+
+<div id="results"></div>
+	
+<script id="more_details-template" type="text/template">
+    {{#:items}}
+        <p class="summary" style="position:relative">
+        {{:item.:summary}}
+        </p>
+        <div class="bottomstuff">
+            <h3 style="margin-top: 0px; margin-bottom: 0px; float: left;"><a onClick="hold({{:item.:record_id}})">Place Hold</a></h3><h3 style="margin-top: 0px; margin-bottom: 0px; margin-left: 15px; float: left"><a onClick="showshelf({{:item.:record_id}})">Find on Shelf</a></h3>
+        </div>	
+        <div style="clear: both;"></div>
+        <div id="{{:item.:record_id}}shelf" style="display:none;"></div>
+    {{/:items}}
+</script>
+
+
+<script id="shelf-template" type="text/template">
+    <table>
+    <th>Library:</th>
+    <th>Status:</th>
+    <th>Shelving Location:</th>
+    <th>Call Number:</th>
+
+    {{#:items}}
+        <tr>
+        <td>{{:item.:library}}</td>
+        <td>{{:item.:available}}</td>
+        <td>{{:item.:shelving_location}}</td>
+        <td>{{:item.:call_number}}</td>
+        </tr>
+    {{/:items}}
+    </table>
+</script>
 
 
 
+<script id="logedin-template" type="text/template">
+    {{#:users}}
+        <p>
+        {{:user.:name}}<br />
+        <a onClick="showcheckouts()">Checkouts: {{:user.:checkouts}}</a><br />
+        <a onClick="showholds()">Holds: {{:user.:holds}}</a><br />
+        <a onClick="showpickups()">Ready for Pickup: {{:user.:pickups}}</a><br />
+        Fines: {{:user.:fines}}
+        </p>
+        <button id="login" onclick="logout()">Logout</button>
+    {{/:users}}
+</script>
 
 
-	<div id="results">
+<script id="showcheckedout-template" type="text/template">
+    {{#:checkouts}}
+        <div class="shadow result">
+        <p>
+        <img src="http://catalog.tadl.org/{{:checkout.:format_icon}}">{{:checkout.:name}}<br/>
+        </p>
+        <div id="{{:checkout.:barcode}}">
+        Due on: {{:checkout.:due_date}}<br/>
+        Remaining Renewal Attempts: {{:checkout.:renew_attempts}}<br/>
+        <a onClick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Attempt Renewal</a>
+        </div> 
+        </div>
+    {{/:checkouts}}
+</script>
 
-	
-</div>
-
-
-	
-	<script id="more_details-template" type="text/template">
-			{{#:items}}
-			<p class="summary" style="position:relative">
-			{{:item.:summary}}
-			</p>
-			<div class="bottomstuff">
-			<h3 style="margin-top: 0px; margin-bottom: 0px; float: left;"><a onClick="hold({{:item.:record_id}})">Place Hold</a></h3><h3 style="margin-top: 0px; margin-bottom: 0px; margin-left: 15px; float: left"><a onClick="showshelf({{:item.:record_id}})">Find on Shelf</a></h3>
-			</div>	
-			<div style="clear: both;"></div>
-			          <div id="{{:item.:record_id}}shelf" style="display:none;">
-		</div>
-			
-				{{/:items}}
-				
-	</script>
-	
-		<script id="shelf-template" type="text/template">
-			<table>
-			
-			<th>Library:</th>
-			<th>Status:</th>
-			<th>Shelving Location:</th>
-			<th>Call Number:</th>
-			
-			{{#:items}}
-			<tr>
-			<td>{{:item.:library}}</td>
-			<td>{{:item.:available}}</td>
-			<td>{{:item.:shelving_location}}</td>
-			<td>{{:item.:call_number}}</td>
-			</tr>
-	
-		
-			
-				{{/:items}}
-				</table>
-				
-	</script>
-	
-	
-	
-		<script id="logedin-template" type="text/template">
-			{{#:users}}
-			<p>
-			 {{:user.:name}}
-			<br />
-			<a onClick="showcheckouts()">Checkouts: {{:user.:checkouts}}</a>
-			<br />
-			<a onClick="showholds()">Holds: {{:user.:holds}}</a>
-			<br />
-			<a onClick="showpickups()">Ready for Pickup: {{:user.:pickups}}</a>
-			<br />
-			Fines: {{:user.:fines}}
-			</p>
-			<button id="login" onclick="logout()">Logout</button>
-				{{/:users}}
-	</script>
-			<script id="showcheckedout-template" type="text/template">
-			{{#:checkouts}}
-			<div class="shadow result">
-			<p>
-			 <img src="http://catalog.tadl.org/{{:checkout.:format_icon}}">{{:checkout.:name}}
-			 <br/>
-			 
-			</p>
-			<div id="{{:checkout.:barcode}}">
-			  Due on: {{:checkout.:due_date}}
-			  <br/>
-			  Remainging Renewal Attempts: {{:checkout.:renew_attempts}}
-			  <br/>
-			  <a onClick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Attempt Renewal</a>
-			  </div> 
-			</div>
-				{{/:checkouts}}
-	</script>
-	
-	</script>
-			<script id="showholds-template" type="text/template">
-			{{#:holds}}
-			<div id="{{:hold.:hold_id}}" class="shadow result">
-			<img class="result_img"  src="http://catalog.tadl.org/{{:hold.:image}}">
-			<p>
-			 <img src="http://catalog.tadl.org/{{:hold.:format_icon}}">{{:hold.:name}}
-			 <br/>
-			 
-			</p>
-			
-			  Pickup Location: {{:hold.:pickup_location}}
-			  <br/>
-			  Status: {{:hold.:status}}
-			  <br/>
-			  <a onClick="cancelhold({{:hold.:hold_id}})">Cancel Hold</a>
-			
-			</div>
-				{{/:holds}}
-	</script>
-	
-	
-	
-	<script id="renew-template" type="text/template">
-			{{#:checkouts}}
-			  Due on: {{:checkout.:due_date}}
-			  <br/>
-			  Remainging Renewal Attempts: {{:checkout.:renew_attempts}}
-			  <br/>
-			  <a onClick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Attempt Renewal</a>
-				{{/:checkouts}}
-	</script>
+<script id="showholds-template" type="text/template">
+    {{#:holds}}
+        <div id="{{:hold.:hold_id}}" class="shadow result">
+        <img class="result_img"  src="http://catalog.tadl.org/{{:hold.:image}}">
+        <p>
+        <img src="http://catalog.tadl.org/{{:hold.:format_icon}}">{{:hold.:name}}<br/>
+        </p>
+        Pickup Location: {{:hold.:pickup_location}}<br/>
+        Status: {{:hold.:status}}<br/>
+        <a onClick="cancelhold({{:hold.:hold_id}})">Cancel Hold</a>
+        </div>
+    {{/:holds}}
+</script>
 
 
-	<script id="results-template" type="text/template">
+<script id="renew-template" type="text/template">
+    {{#:checkouts}}
+        Due on: {{:checkout.:due_date}}<br/>
+        Remainging Renewal Attempts: {{:checkout.:renew_attempts}}<br/>
+        <a onClick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Attempt Renewal</a>
+    {{/:checkouts}}
+</script>
 
-		{{#:items}}
-	<div class="shadow result">
-	       <div onclick="showmore({{:item.:record_id}});">
-	        <img class="result_img" onerror="this.src='http://payload.cargocollective.com/1/3/99045/1612074/blue.jpg'" src="http://catalog.tadl.org/opac/extras/ac/jacket/small/r/{{:item.:record_id}}">
-	        
-			<h2 class="title"><img src="http://catalog.tadl.org/{{:item.:format_icon}}">{{:item.:title}}</h2>  
-			<h3 class="author">{{:item.:author}}</h3>
-			<h3 class="author">{{:item.:availability}}</h3>
-				</div>
-				
 
-				<div id="{{:item.:record_id}}" style="display:none;">	
-		
-	</div>
-						<div id="{{:item.:record_id}}-loading">	
-		
-	</div> 
-		</div>
-		
-		<div style=" clear: both;"></div>
-		{{/:items}}
-	</script>
-	
+<script id="results-template" type="text/template">
+    {{#:items}}
+        <div class="shadow result">
+        <div onclick="showmore({{:item.:record_id}});">
+        <img class="result_img" onerror="this.src='http://payload.cargocollective.com/1/3/99045/1612074/blue.jpg'" src="http://catalog.tadl.org/opac/extras/ac/jacket/small/r/{{:item.:record_id}}">
+        <h2 class="title"><img src="http://catalog.tadl.org/{{:item.:format_icon}}">{{:item.:title}}</h2>  
+        <h3 class="author">{{:item.:author}}</h3>
+        <h3 class="author">{{:item.:availability}}</h3>
+        </div>
+        <div id="{{:item.:record_id}}" style="display:none;"></div>
+        <div id="{{:item.:record_id}}-loading"></div> 
+        </div>
+        <div style=" clear: both;"></div>
+    {{/:items}}
+</script>
 
-	
-	
-	
+
 <div class="load_more" class="shadow">
 <div id="loadmoretext">
 </div>
