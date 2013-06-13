@@ -211,7 +211,7 @@ function showcard() {
         var card = data.barcode;
         $('#results').empty().append('<div class="shadow result" id="bcTarget"></div>');
         $('#results').trigger("create"); 
-        $("#bcTarget").barcode(card, "codabar", {barWidth:2, barHeight:80}); 
+        $("#bcTarget").barcode(card, "codabar", {barWidth:2, barHeight:80, fontSize:15}); 
     });
 }
 
