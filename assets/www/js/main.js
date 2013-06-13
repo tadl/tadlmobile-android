@@ -8,9 +8,9 @@ $(document).ready(function() {
             getResults();
         }
     });
-       $('.searchform').keydown(function() {
+       $('#login_form').keydown(function() {
         if (event.keyCode == 13) {
-            getResults();
+            login();
         }
     });
 
@@ -46,6 +46,7 @@ $(document).ready(function() {
         });
     }
     $('#search').click(getResults);
+    $("#login_form").slideUp("fast");
 });
 	
 function loadmore() {
@@ -60,6 +61,7 @@ function loadmore() {
             $('#results').append(info).promise().done(function() {
                 $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');
                 $('#loadmoretext').trigger("create");
+                $("#login_form").slideUp("fast");
             })
         } else {
             $('#loadmoretext').html("No Further Results");
@@ -167,6 +169,7 @@ function showcheckouts() {
         var template = Handlebars.compile($('#showcheckedout-template').html());
         var info = template(data);
         $('#results').html(info);
+        $("#login_form").slideUp("fast");
     });
 }
 
@@ -186,6 +189,7 @@ function showholds() {
         var template = Handlebars.compile($('#showholds-template').html());
         var info = template(data);
         $('#results').html(info);
+        $("#login_form").slideUp("fast");
     });
 }
 
@@ -196,6 +200,7 @@ function showpickups() {
         var template = Handlebars.compile($('#showholds-template').html());
         var info = template(data);
         $('#results').html(info);
+        $("#login_form").slideUp("fast");
     });
 }
 
@@ -219,7 +224,8 @@ $.getJSON('https://ilscatcher.herokuapp.com/main/showcard.json?u='+ username +'&
 var card = data.barcode;
 $('#results').empty().append('<div class="shadow result" id="bcTarget"></div>');
 $('#results').trigger("create"); 
-$("#bcTarget").barcode(''+ card +'', "code128", {barWidth:2, barHeight:80}); 
+$("#bcTarget").barcode(''+ card +'', "code128", {barWidth:2, barHeight:80});
+$("#login_form").slideUp("fast");
 });
 }
 
