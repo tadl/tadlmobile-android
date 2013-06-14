@@ -19,7 +19,9 @@ $(document).ready(function() {
     }
 
     var getResults = function() {
+        $("#login_form").slideUp("fast");
         $('#results').empty().trigger("create");
+        $('.loadmore').show();
         $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
 
         pagecount = 0;
@@ -40,13 +42,14 @@ $(document).ready(function() {
                 $('#results').html(info);
             } else {
                 $('#results').html("No Results");
+                 $('.loadmore').hide();
             }
             $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');
             $('#loadmoretext').trigger("create");
         });
     }
     $('#search').click(getResults);
-    $("#login_form").slideUp("fast");
+    
 });
 	
 function loadmore() {
@@ -163,13 +166,17 @@ function login() {
 }
 
 function showcheckouts() {
+    $("#login_form").slideUp("fast");
+    $('#results').html("");
+    $('.loadmore').show();
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
     $.getJSON('https://ilscatcher.herokuapp.com/main/showcheckouts.json?u='+ username +'&pw=' + password, function(data) {
         var template = Handlebars.compile($('#showcheckedout-template').html());
         var info = template(data);
         $('#results').html(info);
-        $("#login_form").slideUp("fast");
+        $('.loadmore').hide();
     });
 }
 
@@ -183,24 +190,34 @@ function cancelhold(hold_id) {
 }
 
 function showholds() {
+    $("#login_form").slideUp("fast");
+    $('#results').html("");
+    $('.loadmore').show();
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
     $.getJSON('https://ilscatcher.herokuapp.com/main/showholds.json?u='+ username +'&pw=' + password, function(data) {
         var template = Handlebars.compile($('#showholds-template').html());
         var info = template(data);
-        $('#results').html(info);
-        $("#login_form").slideUp("fast");
+       $('#results').show();
+       $('#results').html(info);
+        $('.loadmore').hide(); 
     });
 }
 
 function showpickups() {
+    $("#login_form").slideUp("fast");
+    $('#results').html("");
+    $('.loadmore').show();
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");   
+    var username = localStorage.getItem('username');
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
     $.getJSON('https://ilscatcher.herokuapp.com/main/showpickups.json?u='+ username +'&pw=' + password, function(data) {
         var template = Handlebars.compile($('#showholds-template').html());
         var info = template(data);
-        $('#results').html(info);
-        $("#login_form").slideUp("fast");
+       $('#results').html(info);
+        $('.loadmore').hide(); 
     });
 }
 
@@ -217,22 +234,43 @@ function renew(circulation_id, barcode) {
 }
 
 function showcard() {
+    $("#login_form").slideUp("fast");
+    $('#results').html("");
+    $('.loadmore').show();
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
     $.getJSON('https://ilscatcher.herokuapp.com/main/showcard.json?u='+ username +'&pw=' + password, function(data) {
         var card = data.barcode;
+        $('.loadmore').hide();
         $('#results').empty().append('<div class="shadow result" id="bcTarget"></div>');
         $('#results').trigger("create"); 
         $("#bcTarget").barcode(card, "code128", {barWidth:2, barHeight:100}); 
-        $("#login_form").slideUp("fast");
     });
 }
 
 function showevents() { 
+     $("#login_form").slideUp("fast");
+    $('#results').html("");
+    $('.loadmore').show();
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     $.getJSON('http://www.tadl.org/mobile/events/json/all', function(data) {
         var template = Handlebars.compile($('#showevents-template').html());
         var info = template(data);
+        $('.loadmore').hide();
         $('#results').html(info);
-        $("#login_form").slideUp("fast");
+    });
+}
+
+function showlocations() { 
+    $("#login_form").slideUp("fast");
+    $('#results').html("");
+    $('.loadmore').show();
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $.getJSON('http://www.tadl.org/mobile/export/locations/all', function(data) {
+        var template = Handlebars.compile($('#showlocations-template').html());
+        var info = template(data);
+        $('.loadmore').hide();
+        $('#results').html(info);
     });
 }

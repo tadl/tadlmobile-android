@@ -38,7 +38,8 @@
     </div>
 </header>
 
-<div id="results"></div>
+<div id="results">
+</div>
 
 <script id="more_details-template" type="text/template">
     {{#:items}}
@@ -110,10 +111,29 @@
         <div class="shadow result">
         <p>
         <img src="{{node.image}}">{{node.title}}
+        <br/>
+        {{node.event-date}} - {{node.location}}
+        <br/>
+        {{node.body}}
         </p>
         </div>
     {{/nodes}}
 </script>
+
+<script id="showlocations-template" type="text/template">
+    {{#nodes}}
+        <div class="shadow result">
+        <p>
+        <img src="http://www.tadl.org/sites/default/files/libraryphotos/{{node.shortname}}-200x125.jpg">{{node.title}}
+        <br/>
+        {{node.fullname}} - {{node.address}}, {{node.citystatezip}}
+        <br/>
+        {{node.phone}}
+        </p>
+        </div>
+    {{/nodes}}
+</script>
+
 
 
 <script id="showholds-template" type="text/template">
@@ -157,12 +177,12 @@
     {{/:items}}
 </script>
 
-
 <div class="load_more" class="shadow">
     <div id="loadmoretext"></div>
 </div>
 
-<footer class="holo-actionBar smallfoot"><a onclick="showevents()">Events</a></footer>
+
+<footer class="holo-actionBar smallfoot"><a onclick="showevents()">Events</a><a onclick="showlocations()">Locations</a></footer>
 
 </body>
 </html>
