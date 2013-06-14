@@ -22,7 +22,7 @@ $(document).ready(function() {
         $("#login_form").slideUp("fast");
         $('#results').empty().trigger("create");
         $('.loadmore').show();
-        $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+        $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
 
         pagecount = 0;
 
