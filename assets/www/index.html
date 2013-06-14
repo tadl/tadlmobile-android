@@ -110,10 +110,12 @@
     {{#nodes}}
         <div class="shadow result">
         <p>
-        <img src="{{node.image}}">{{node.title}}
-        <br/>
-        {{node.event-date}} - {{node.location}}
-        <br/>
+        <div style="padding:0 15px 0 0;float:left;">
+        {{^node.image}}
+            <img src="img/clocktower100.png">
+        {{/node.image}}
+        <img src="{{node.image}}"></div><span style="font-size:1.3em;">{{node.title}}</span><br>
+        <strong>{{node.event-date}} - {{node.location}}</strong><br>
         {{node.body}}
         </p>
         </div>
@@ -182,7 +184,7 @@
 </div>
 
 
-<footer class="holo-actionBar smallfoot"><a onclick="showevents()">Events</a><a onclick="showlocations()">Locations</a></footer>
+<footer class="holo-actionBar smallfoot"><p><a onclick="showevents()" style="border:1px solid black;margin:8px;padding:3px 5px;cursor:pointer;">Events</a> <a onclick="showlocations()" style="border:1px solid black;margin:8px 0 0 0;padding:3px 5px;cursor:pointer;">Locations</a></p></footer>
 
 </body>
 </html>
