@@ -245,7 +245,7 @@ function showcard() {
         $('.loadmore').hide();
         $('#results').empty().append('<div class="shadow result" id="bcTarget"></div>');
         $('#results').trigger("create"); 
-        $("#bcTarget").barcode(card, "code128", {barWidth:2, barHeight:100}); 
+        $("#bcTarget").barcode(card, "code128", {barWidth:3, barHeight:120, fontSize:14}); 
     });
 }
 

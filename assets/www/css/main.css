@@ -166,10 +166,5 @@ padding:5px;
 }
 
 #bcTarget {
-  margin:10em 1em;
-  padding:5px;
-  -moz-transform:rotate(90deg);
-  -webkit-transform:rotate(90deg);
-  -o-transform:rotate(90deg);
-  -ms-transform:rotate(90deg);
+  margin:3em 1em;
 }
