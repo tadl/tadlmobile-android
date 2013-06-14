@@ -111,10 +111,12 @@
         <div class="shadow result">
         <p>
         <div style="padding:0 15px 0 0;float:left;">
-        {{^node.image}}
+        {{#if node.image}}
+            <img src="{{node.image}}">
+        {{else}}
             <img src="img/clocktower100.png">
-        {{/node.image}}
-        <img src="{{node.image}}"></div><span style="font-size:1.3em;">{{node.title}}</span><br>
+        {{/if}}
+        </div><span style="font-size:1.3em;">{{node.title}}</span><br>
         <strong>{{node.event-date}} - {{node.location}}</strong><br>
         {{node.body}}
         </p>
