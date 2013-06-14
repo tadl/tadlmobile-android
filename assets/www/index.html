@@ -94,7 +94,7 @@
     {{#:checkouts}}
         <div class="shadow result">
         <p>
-        <img src="http://catalog.tadl.org/{{:checkout.:format_icon}}">{{:checkout.:name}}<br/>
+        <img src="{{:checkout.:format_icon}}">{{:checkout.:name}}<br/>
         </p>
         <div id="{{:checkout.:barcode}}">
         Due on: {{:checkout.:due_date}}<br/>
@@ -141,9 +141,9 @@
 <script id="showholds-template" type="text/template">
     {{#:holds}}
         <div id="{{:hold.:hold_id}}" class="shadow result">
-        <img class="result_img"  src="http://catalog.tadl.org/{{:hold.:image}}">
+        <img class="result_img"  src="{{:hold.:image}}">
         <p>
-        <img src="http://catalog.tadl.org/{{:hold.:format_icon}}">{{:hold.:name}}<br/>
+        <img src="{{:hold.:format_icon}}">{{:hold.:name}}<br/>
         </p>
         Pickup Location: {{:hold.:pickup_location}}<br/>
         Status: {{:hold.:status}}<br/>
@@ -167,8 +167,8 @@
     {{#:items}}
         <div class="shadow result">
         <div onclick="showmore({{:item.:record_id}});">
-        <img class="result_img" onerror="this.src='http://payload.cargocollective.com/1/3/99045/1612074/blue.jpg'" src="http://catalog.tadl.org/opac/extras/ac/jacket/small/r/{{:item.:record_id}}">
-        <h2 class="title"><img src="http://catalog.tadl.org/{{:item.:format_icon}}">{{:item.:title}}</h2>  
+        <img class="result_img" onerror="this.src='img/blue.jpg'" src="{{:item.:image}}">
+        <h2 class="title"><img src="{{:item.:format_icon}}">{{:item.:title}}</h2>
         <h3 class="author">{{:item.:author}}</h3>
         <h3 class="author">{{:item.:availability}}</h3>
         </div>
