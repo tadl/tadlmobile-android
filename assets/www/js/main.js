@@ -2,6 +2,7 @@ var ILSCATCHER_HOST = 'ilscatcher.herokuapp.com'
 var ILSCATCHER_BASE = 'https://' + ILSCATCHER_HOST
 var ILSCATCHER_INSECURE_BASE = 'http://' + ILSCATCHER_HOST
 var EVENTS_URL = 'http://www.tadl.org/mobile/events/json/all'
+var LOCATIONS_BASE = 'http://www.tadl.org/mobile/export/locations'
 var searchquery = {};
 var pagecount = {};
 var mediatype = {};
@@ -271,7 +272,7 @@ function showlocations() {
     $('#results').html("");
     $('.loadmore').show();
     $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
-    $.getJSON(EVENTS_URL, function(data) {
+    $.getJSON(LOCATIONS_BASE + "/all", function(data) {
         var template = Handlebars.compile($('#showlocations-template').html());
         var info = template(data);
         $('.loadmore').hide();
