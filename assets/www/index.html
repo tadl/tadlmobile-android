@@ -104,6 +104,18 @@
     {{/:checkouts}}
 </script>
 
+
+<script id="showcheckedout-template" type="text/template">
+    {{#nodes}}
+        <div class="shadow result">
+        <p>
+        <img src="{{node.image}}">{{node.title}}
+        </p>
+        </div>
+    {{/nodes}}
+</script>
+
+
 <script id="showholds-template" type="text/template">
     {{#:holds}}
         <div id="{{:hold.:hold_id}}" class="shadow result">
@@ -150,7 +162,7 @@
     <div id="loadmoretext"></div>
 </div>
 
-<footer class="holo-actionBar smallfoot">TADL BETA</footer>
+<footer class="holo-actionBar smallfoot"><a onclick="showevents()">Events</a></footer>
 
 </body>
 </html>

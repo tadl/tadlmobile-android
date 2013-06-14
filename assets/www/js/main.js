@@ -228,3 +228,11 @@ function showcard() {
     });
 }
 
+function showevents() { 
+    $.getJSON('http://www.tadl.org/mobile/events/json/all', function(data) {
+        var template = Handlebars.compile($('#showevents-template').html());
+        var info = template(data);
+        $('#results').html(info);
+        $("#login_form").slideUp("fast");
+    });
+}
