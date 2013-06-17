@@ -22,7 +22,7 @@
         <button id="search" style="float:right;font-size:15px;" onClick="openForm()">Account</button>
         <div style="clear:both"></div>
 
-        <input class="search_second_row" type="checkbox" style="margin:5px;" id="available" value="false"><span class="search_second_row" style="margin:5px;">ONLY AVAILABLE</span>
+        <input class="search_second_row" type="checkbox" style="margin:5px;cursor:pointer;" id="available" value="false"><span class="search_second_row" style="margin:5px;">ONLY AVAILABLE</span>
         <select class="search_second_row" id="mediatype" style="margin-bottom:15px;margin-top:1px;">
             <option value="ALL">ALL FORMATS</option>
             <option value="BOOKS">BOOKS</option>
@@ -108,7 +108,7 @@
 
 <script id="showevents-template" type="text/template">
     {{#nodes}}
-        <div class="shadow result" onclick="unhide({{node.nid}})" style="cursor:pointer;">
+        <div class="shadow result" onclick="unhide({{node.nid}})">
         <div style="padding:0 15px 0 0;float:left;">
         {{#if node.image}}
             <img src="{{node.image}}">
@@ -125,7 +125,7 @@
 
 <script id="showlocations-template" type="text/template">
     {{#nodes}}
-        <div class="shadow result" onclick="unhide('{{node.shortname}}')" style="cursor:pointer;">
+        <div class="shadow result" onclick="unhide('{{node.shortname}}')">
         <img style="float:left;padding-right:5px;" src="http://www.tadl.org/sites/default/files/libraryphotos/{{node.shortname}}-200x125.jpg">{{node.title}}
         <h3 style="padding:0;margin:0;">{{node.fullname}}</h3>
         {{node.address}}<br/>
@@ -195,6 +195,6 @@
 </div>
 
 
-<footer class="holo-actionBar smallfoot"><span><a onclick="showevents()" style="border:1px solid #d2d2d2;margin:0 5px;padding:3px 5px;cursor:pointer;">Events</a> <a onclick="showlocations()" style="border:1px solid #d2d2d2;margin:0 5px;padding:3px 5px;cursor:pointer;">Locations</a></span></footer>
+<footer class="holo-actionBar smallfoot"><span><a onclick="showevents()" style="border:1px solid #d2d2d2;margin:0 5px;padding:3px 5px;">Events</a> <a onclick="showlocations()" style="border:1px solid #d2d2d2;margin:0 5px;padding:3px 5px;">Locations</a></span></footer>
 </body>
 </html>

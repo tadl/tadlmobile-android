@@ -1,4 +1,6 @@
-
+a {
+    cursor:pointer;
+}
 
 
 
@@ -104,6 +106,10 @@ margin-top: 35px;
 
 #loadmoreanimation img {
 margin-left: 15px;
+}
+
+button {
+    cursor:pointer;
 }
 
 .resultbutton {
