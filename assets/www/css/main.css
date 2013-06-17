@@ -42,16 +42,13 @@ height: 40px;
 }
 
 
-.result_img
-{
+.result_img {
 float: left;
-margin-right: 10px;
-min-width: 10px;
+margin-right: 5px;
 max-width: 75px;
 }
 
-.title
-{
+.title {
 font-size: 15px;
 margin-top: -5px;
 margin-bottom: 0px;

@@ -93,12 +93,11 @@
 <script id="showcheckedout-template" type="text/template">
     {{#:checkouts}}
         <div class="shadow result">
-        <p>
+        <img src="{{:checkout.:image}}" onerror="this.src='img/clocktower100.png';" class="result_img">
         <img src="{{:checkout.:format_icon}}">{{:checkout.:name}}<br/>
-        </p>
         <div id="{{:checkout.:barcode}}">
         Due on: {{:checkout.:due_date}}<br/>
-        Remaining Renewal Attempts: {{:checkout.:renew_attempts}}<br/>
+        Remaining Renewals: {{:checkout.:renew_attempts}}<br/>
         <a onClick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Attempt Renewal</a>
         </div> 
         </div>
@@ -152,10 +151,8 @@
 <script id="showholds-template" type="text/template">
     {{#:holds}}
         <div id="{{:hold.:hold_id}}" class="shadow result">
-        <img class="result_img"  src="{{:hold.:image}}">
-        <p>
+        <img class="result_img" src="{{:hold.:image}}" onerror="this.src='img/clocktower100.png';">
         <img src="{{:hold.:format_icon}}">{{:hold.:name}}<br/>
-        </p>
         Pickup Location: {{:hold.:pickup_location}}<br/>
         Status: {{:hold.:status}}<br/>
         <a onClick="cancelhold({{:hold.:hold_id}})">Cancel Hold</a>
