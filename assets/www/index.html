@@ -125,14 +125,24 @@
 
 <script id="showlocations-template" type="text/template">
     {{#nodes}}
-        <div class="shadow result">
-        <p>
-        <img src="http://www.tadl.org/sites/default/files/libraryphotos/{{node.shortname}}-200x125.jpg">{{node.title}}
-        <br/>
-        {{node.fullname}} - {{node.address}}, {{node.citystatezip}}
-        <br/>
-        {{node.phone}}
-        </p>
+        <div class="shadow result" onclick="unhide('{{node.shortname}}')" style="cursor:pointer;">
+        <img style="float:left;padding-right:5px;" src="http://www.tadl.org/sites/default/files/libraryphotos/{{node.shortname}}-200x125.jpg">{{node.title}}
+        <h3 style="padding:0;margin:0;">{{node.fullname}}</h3>
+        {{node.address}}<br/>
+        {{node.citystatezip}}<br/>
+        {{node.phone}}<br/>
+        <span id="more{{node.shortname}}" style="font-size:0.8em;">click for hours</span>
+        <span id="{{node.shortname}}" style="display:none;">
+        <table>
+        <tr><td>Sunday</td><td>{{node.sunday}}</td></tr>
+        <tr><td>Monday</td><td>{{node.monday}}</td></tr>
+        <tr><td>Tuesday</td><td>{{node.tuesday}}</td></tr>
+        <tr><td>Wednesday</td><td>{{node.wednesday}}</td></tr>
+        <tr><td>Thursday</td><td>{{node.thursday}}</td></tr>
+        <tr><td>Friday</td><td>{{node.friday}}</td></tr>
+        <tr><td>Saturday</td><td>{{node.saturday}}</td></tr>
+        </table>
+        </div>
         </div>
     {{/nodes}}
 </script>
@@ -185,7 +195,6 @@
 </div>
 
 
-<footer class="holo-actionBar smallfoot"><p><a onclick="showevents()" style="border:1px solid black;margin:8px;padding:3px 5px;cursor:pointer;">Events</a> <a onclick="showlocations()" style="border:1px solid black;margin:8px 0 0 0;padding:3px 5px;cursor:pointer;">Locations</a></p></footer>
-
+<footer class="holo-actionBar smallfoot"><span><a onclick="showevents()" style="border:1px solid #d2d2d2;margin:0 5px;padding:3px 5px;cursor:pointer;">Events</a> <a onclick="showlocations()" style="border:1px solid #d2d2d2;margin:0 5px;padding:3px 5px;cursor:pointer;">Locations</a></span></footer>
 </body>
 </html>
