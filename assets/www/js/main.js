@@ -104,6 +104,18 @@ function showmore(record_id) {
     }
 }
 
+function unhide(eventId) {
+    var eventId = eventId;
+    var e = document.getElementById(eventId);
+    if (e.style.display === 'none') {
+        $('#' + eventId).css('display', 'block');
+        $('#more' + eventId).css('display', 'none');
+    } else {
+        $('#' + eventId).css('display', 'none');
+        $('#more' + eventId).css('display', 'block');
+    }
+}
+
 function showshelf(record_id) {
     var record_id = record_id;
     var e = document.getElementById(record_id +'shelf');

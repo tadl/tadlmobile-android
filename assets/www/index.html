@@ -18,12 +18,12 @@
 <header class="holo-actionBar">
     <section class="searchform">
         <input class="search_box" style="float:left;" type="text" placeholder="Search..." id="term" />
-        <button id="search" style="float:left; font-size: 15px;">GO</button>
-        <button id="search" style="float:right; font-size: 15px;" onClick="openForm()">Account</button>
+        <button id="search" style="float:left;font-size:15px;">GO</button>
+        <button id="search" style="float:right;font-size:15px;" onClick="openForm()">Account</button>
         <div style="clear:both"></div>
 
-        <input class="search_second_row" type="checkbox" style="margin: 5px; " id="available" value="false"><span class="search_second_row" style="margin: 5px; ">ONLY AVAILABLE</span>
-        <select class="search_second_row" id="mediatype" style="margin-bottom: 15px; margin-top: 1px;">
+        <input class="search_second_row" type="checkbox" style="margin:5px;" id="available" value="false"><span class="search_second_row" style="margin:5px;">ONLY AVAILABLE</span>
+        <select class="search_second_row" id="mediatype" style="margin-bottom:15px;margin-top:1px;">
             <option value="ALL">ALL FORMATS</option>
             <option value="BOOKS">BOOKS</option>
             <option value="MOVIES">MOVIES</option>
@@ -108,7 +108,7 @@
 
 <script id="showevents-template" type="text/template">
     {{#nodes}}
-        <div class="shadow result">
+        <div class="shadow result" onclick="unhide({{node.nid}})" style="cursor:pointer;">
         <p>
         <div style="padding:0 15px 0 0;float:left;">
         {{#if node.image}}
@@ -118,7 +118,8 @@
         {{/if}}
         </div><span style="font-size:1.3em;">{{node.title}}</span><br>
         <strong>{{node.event-date}} - {{node.location}}</strong><br>
-        {{node.body}}
+        <span id="more{{node.nid}}" style="font-size:0.8em;">click for details</span>
+        <span id="{{node.nid}}" style="display:none;">{{node.body}}</span>
         </p>
         </div>
     {{/nodes}}
