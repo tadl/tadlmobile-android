@@ -109,7 +109,6 @@
 <script id="showevents-template" type="text/template">
     {{#nodes}}
         <div class="shadow result" onclick="unhide({{node.nid}})" style="cursor:pointer;">
-        <p>
         <div style="padding:0 15px 0 0;float:left;">
         {{#if node.image}}
             <img src="{{node.image}}">
@@ -120,7 +119,6 @@
         <strong>{{node.event-date}} - {{node.location}}</strong><br>
         <span id="more{{node.nid}}" style="font-size:0.8em;">click for details</span>
         <span id="{{node.nid}}" style="display:none;">{{node.body}}</span>
-        </p>
         </div>
     {{/nodes}}
 </script>
