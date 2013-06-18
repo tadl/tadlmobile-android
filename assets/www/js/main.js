@@ -1,7 +1,7 @@
 var ILSCATCHER_HOST = 'ilscatcher.herokuapp.com'
 var ILSCATCHER_BASE = 'https://' + ILSCATCHER_HOST
 var ILSCATCHER_INSECURE_BASE = 'http://' + ILSCATCHER_HOST
-var EVENTS_URL = 'http://www.tadl.org/mobile/events/json/all'
+var EVENTS_URL = 'http://www.tadl.org/mobile/export/events/json/all'
 var LOCATIONS_BASE = 'http://www.tadl.org/mobile/export/locations'
 var searchquery = {};
 var pagecount = {};
