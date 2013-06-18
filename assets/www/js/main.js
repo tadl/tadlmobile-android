@@ -280,7 +280,7 @@ function renew(circulation_id, barcode) {
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password');
     $.getJSON(ILSCATCHER_BASE + '/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id + '&bc=' + bc, function(data) {
-        var template = Handlebars($('#renew-template').html());
+        var template = Handlebars.compile($('#renew-template').html());
         var info = template(data);
         $('#'+ bc +'').html(info);
     });
