@@ -37,11 +37,16 @@ a {
     height:40px;
 }
 
-
 .result_img {
     float:left;
     margin-right:5px;
     max-width:75px;
+}
+
+.location_img {
+    float:left;
+    margin-right:5px;
+    max-width:125px;
 }
 
 .title {
