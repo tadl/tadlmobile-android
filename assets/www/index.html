@@ -108,7 +108,7 @@
 <script id="showevents-template" type="text/template">
     {{#nodes}}
         <div class="shadow result" onclick="unhide({{node.nid}})">
-        <div style="padding:0 15px 0 0;float:left;">
+        <div class="result_img">
         {{#if node.image}}
             <img src="{{node.image}}">
         {{else}}
@@ -125,7 +125,7 @@
 <script id="showlocations-template" type="text/template">
     {{#nodes}}
         <div class="shadow result" onclick="unhide('{{node.shortname}}')">
-        <img style="float:left;padding-right:5px;" src="http://www.tadl.org/sites/default/files/libraryphotos/{{node.shortname}}-200x125.jpg">{{node.title}}
+        <img class="result_img" src="http://www.tadl.org/sites/default/files/libraryphotos/{{node.shortname}}-200x125.jpg">{{node.title}}
         <h3 style="padding:0;margin:0;">{{node.fullname}}</h3>
         {{node.address}}<br/>
         {{node.citystatezip}}<br/>
@@ -175,7 +175,7 @@
     {{#:items}}
         <div class="shadow result">
         <div onclick="showmore({{:item.:record_id}});">
-        <img class="result_img" onerror="this.src='img/blue.jpg'" src="{{:item.:image}}">
+        <img class="result_img" onerror="this.src='img/clocktower100.png';" src="{{:item.:image}}">
         <h2 class="title"><img src="{{:item.:format_icon}}">{{:item.:title}}</h2>
         <h3 class="author">{{:item.:author}}</h3>
         <h3 class="author">{{:item.:availability}}</h3>
