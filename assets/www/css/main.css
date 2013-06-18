@@ -101,6 +101,16 @@ a {
     margin-left:15px;
 }
 
+.padme {
+    padding:8px;
+}
+
+.clearfix {
+    clear:both;
+}
+.indent {
+    padding-left:90px;
+}
 button {
     cursor:pointer;
 }
@@ -108,11 +118,14 @@ button {
 .button {
     color:#33B5E5;
     border:1px solid #d2d2d2;
-    margin:0 5px;
+    margin:3px 5px;
     padding:3px 5px;
     -webkit-border-radius:5px;
     -moz-border-radius:5px;
     border-radius:5px;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:1.1em;
 }
 
 .button:hover {
@@ -120,32 +133,6 @@ button {
     border:1px solid #d2d2d2;
     background-color:#33B5E5;
     cursor:pointer;
-}
-
-.resultbutton {
-    font-family:helvetica;
-    font-weight:bold;
-    color:#FFFFFF !important;
-    font-size:13px;
-    box-shadow:1px 3px 2px #BEE2F9;
-    padding:10px 17px;
-    -moz-border-radius:5px;
-    -webkit-border-radius:5px;
-    border-radius:5px;
-    background:#63B8EE;
-    background:linear-gradient(top,  #63B8EE,  #42ADFF);
-    background:-ms-linear-gradient(top,  #63B8EE,  #42ADFF);
-    background:-webkit-gradient(linear, left top, left bottom, from(#63B8EE), to(#42ADFF));
-    background:-moz-linear-gradient(top,  #63B8EE,  #42ADFF);
-}
-
-.resultbutton:hover {
-    color:#14396A;
-    background:#468CCF;
-    background:linear-gradient(top,  #468CCF,  #63B8EE);
-    background:-ms-linear-gradient(top,  #468CCF,  #63B8EE);
-    background:-webkit-gradient(linear, left top, left bottom, from(#468CCF), to(#63B8EE));
-    background:-moz-linear-gradient(top,  #468CCF,  #63B8EE);
 }
 
 #login_container {
@@ -161,6 +148,7 @@ button {
     z-index:999;
     top:77px;
     right:0px;
+    line-height:2em;
     padding:10px;
     min-width:175px;
 }
