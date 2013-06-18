@@ -137,12 +137,37 @@ function showshelf(record_id) {
     }
 }
 
+function pre_hold(record_id) {
+    var record_id = record_id;
+    link_id = '#place_hold_' + record_id;
+    $(link_id).html('Requesting hold...');
+    $(link_id).css('color', 'green');
+    hold(record_id);
+}
+
 function hold(record_id) {
     var record_id = record_id;
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password');
-    $.getJSON(ILSCATCHER_BASE + '/main/hold.json?u='+ username +'&pw=' + password + '&record_id=' + record_id, function(data) {});
-        window.setTimeout(partB,5000);
+    $.getJSON(ILSCATCHER_BASE + '/main/hold.json?u='+ username +'&pw=' + password + '&record_id=' + record_id, function(data) {
+        var message = data[':message'];
+        var success = false;
+        var button_id = '#place_hold_' + record_id;
+
+        if (message == 'Hold was successfully placed') {
+            success = true;
+        }
+
+        if (message) {
+            $(button_id).html(message);
+        } else {
+            $(button_id).html('Unable to place hold.');
+        }
+
+        $(button_id).css('color', (success) ? 'green' : 'red');
+
+    });
+    window.setTimeout(partB,5000);
 }
 
 function partB() {
@@ -197,12 +222,23 @@ function showcheckouts() {
     });
 }
 
+function pre_cancelhold(element, hold_id) {
+    var element = element;
+    var hold_id = hold_id;
+    var confirm_text = 'Tap to Cancel Hold';
+    var canceling_text = 'Canceling hold...';
+    $(element).css('color', 'red');
+    $(element).html(confirm_text);
+    $(element).prop("onclick", null); /* remove existing onclick */
+    $(element).on("click", function(event) {$(this).off('click'); $(this).html(canceling_text); cancelhold(hold_id);});
+}
+
 function cancelhold(hold_id) {
     var hold_id = hold_id;
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password');
     $.getJSON(ILSCATCHER_BASE + '/main/cancelhold.json?u='+ username +'&pw=' + password + '&hold_id=' + hold_id, function(data) {
-        $('#'+ hold_id +'').css('display', 'none');
+        $('#hold_' + hold_id).remove();
     });
 }
 
