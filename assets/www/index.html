@@ -107,7 +107,7 @@
 
 <script id="showevents-template" type="text/template">
     {{#nodes}}
-        <div class="shadow result" onclick="unhide({{node.nid}})">
+        <div class="shadow result pointer" onclick="unhide({{node.nid}})">
         <div class="result_img">
         {{#if node.image}}
             <img src="{{node.image}}">
@@ -124,7 +124,7 @@
 
 <script id="showlocations-template" type="text/template">
     {{#nodes}}
-        <div class="shadow result" onclick="unhide('{{node.shortname}}')">
+        <div class="shadow result pointer" onclick="unhide('{{node.shortname}}')">
         <img class="location_img" src="http://www.tadl.org/sites/default/files/libraryphotos/{{node.shortname}}-200x125.jpg">{{node.title}}
         <h3 style="padding:0;margin:0;">{{node.fullname}}</h3>
         {{node.address}}<br/>
@@ -192,6 +192,6 @@
 </div>
 
 
-<footer class="holo-actionBar smallfoot"><span><a onclick="showevents()" style="border:1px solid #d2d2d2;margin:0 5px;padding:3px 5px;">Events</a> <a onclick="showlocations()" style="border:1px solid #d2d2d2;margin:0 5px;padding:3px 5px;">Locations</a></span></footer>
+<footer class="holo-actionBar smallfoot"><span><a onclick="showevents()" class="button">Events</a> <a onclick="showlocations()" class="button">Locations</a></span></footer>
 </body>
 </html>
