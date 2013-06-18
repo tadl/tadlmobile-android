@@ -91,6 +91,11 @@ function showmore(record_id) {
             $('#'+ record_id +'-loading').html('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
             $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/itemdetails.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
                 var results = data.message;
+                if (data[':items'][0][':item'][':copies_available'].substring(0,2) == '0 ') {
+                    data[':items'][0][':item'][':is_available'] = false;
+                } else {
+                    data[':items'][0][':item'][':is_available'] = true;
+                }
                 var template = Handlebars.compile($('#more_details-template').html());
                 var info = template(data);
                 $('#'+ record_id +'').html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});

@@ -47,7 +47,7 @@
         {{:item.:summary}}
         </p>
         <div class="bottomstuff">
-            <h3 style="margin-top: 0px; margin-bottom: 0px; float: left;"><a onClick="hold({{:item.:record_id}})">Place Hold</a></h3><h3 style="margin-top: 0px; margin-bottom: 0px; margin-left: 15px; float: left"><a onClick="showshelf({{:item.:record_id}})">Find on Shelf</a></h3>
+            <h3 style="margin-top: 0px; margin-bottom: 0px; float: left;"><a onClick="hold({{:item.:record_id}})">Place Hold</a></h3><h3 style="margin-top: 0px; margin-bottom: 0px; margin-left: 15px; float: left">{{#if :item.:is_available}}<a onClick="showshelf({{:item.:record_id}})">Find on Shelf</a>{{/if}}</h3>
         </div>	
         <div style="clear: both;"></div>
         <div id="{{:item.:record_id}}shelf" style="display:none;"></div>
