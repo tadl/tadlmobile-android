@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <link rel="stylesheet" type="text/css" href="css/holo-base-elements.css" />
     <link rel="stylesheet" type="text/css" href="css/holo-light-elements.css" />
@@ -14,6 +14,7 @@
     <script type="text/javascript" src="js/jquery-barcode.min.js"></script>  
     <title>TADL Mobile Beta</title>
 </head>
+
 <body>
 <header class="holo-actionBar">
     <section class="searchform">
@@ -101,7 +102,6 @@
     <div id="{{:item.:record_id}}shelf" style="display:none;"></div>
 </script>
 
-
 <script id="shelf-template" type="text/template">
     <table>
     <th>Library:</th>
@@ -119,8 +119,6 @@
     </table>
 </script>
 
-
-
 <script id="logedin-template" type="text/template">
     {{#:users}}
         <div>
@@ -134,7 +132,6 @@
         <button id="showbarcode" onclick="showcard()">Card</button>
     {{/:users}}
 </script>
-
 
 <script id="showcheckedout-template" type="text/template">
     {{#:checkouts}}
@@ -150,7 +147,6 @@
         </div>
     {{/:checkouts}}
 </script>
-
 
 <script id="showevents-template" type="text/template">
     {{#nodes}}
@@ -193,8 +189,6 @@
     {{/nodes}}
 </script>
 
-
-
 <script id="showholds-template" type="text/template">
     {{#:holds}}
         <div id="hold_{{:hold.:hold_id}}" class="shadow result">
@@ -208,8 +202,6 @@
     {{/:holds}}
 </script>
 
-
-<!-- I don't think this is used anywhere.. Probably going to remove in a commit or two. /wjr -->
 <script id="renew-template" type="text/template">
     {{#:checkouts}}
         Due on: {{:checkout.:due_date}}<br/>
@@ -217,7 +209,6 @@
         <a onClick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Attempt Renewal</a>
     {{/:checkouts}}
 </script>
-
 
 <div class="load_more" class="shadow">
     <div id="loadmoretext"></div>
