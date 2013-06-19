@@ -142,7 +142,7 @@
         Due on: {{:checkout.:due_date}}<br/>
         Remaining Renewals: {{:checkout.:renew_attempts}}<br/>
         <div class="clearfix"></div>
-        <a onclick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Click to Renew</a>
+        <a class="actionlink" onclick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Click to Renew</a>
         </div> 
         </div>
     {{/:checkouts}}
@@ -195,9 +195,8 @@
         <img class="result_img" src="{{make_https :hold.:image}}" onerror="this.src='img/clocktower100.png';">
         <img src="{{make_https :hold.:format_icon}}">{{:hold.:name}}<br/>
         Pickup Location: {{:hold.:pickup_location}}<br/>
-        Status: {{:hold.:status}}
-        <div class="clearfix"></div>
-        <a id="cancel_hold_{{:hold.:hold_id}}" onclick="pre_cancelhold(this, {{:hold.:hold_id}})">Cancel Hold</a>
+        Status: {{:hold.:status}}<br/>
+        <a class="actionlink" id="cancel_hold_{{:hold.:hold_id}}" onclick="pre_cancelhold(this, {{:hold.:hold_id}})">Cancel Hold</a>
         </div>
     {{/:holds}}
 </script>
