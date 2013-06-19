@@ -51,7 +51,7 @@
                 {{:item.:copies_available}} of {{:item.:copies_total}} available</div>
             {{/compare}}
             {{#compare :item.:copies_available null operator="=="}}
-                <div class="indent"><a class="button" href="{{:item.:eresource}}">View Online</a></div>
+                <div class="indent"><a class="button" onclick="window.open('{{:item.:eresource}}', '_system')">View Online</a></div>
             {{/compare}}
         </div>
         <div class="clearfix"></div>
@@ -75,8 +75,9 @@
         {{else}}
             <h1>Something went wrong...</h1>
         {{/if}}
-        </table>
+       
     {{/:shelvinglocations}}
+     </table>
     </div>	
     <div class="clearfix"></div>
     <div id="{{:item.:record_id}}shelf" style="display:none;"></div>
