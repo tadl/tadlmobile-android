@@ -46,8 +46,8 @@
     {{#:items}}
         <div class="shadow result">
         <div onclick="showmore({{:item.:record_id}});" style="cursor:pointer;">
-        <img class="result_img" onerror="this.src='img/clocktower100.png';" src="{{:item.:image}}">
-        <span class="title"><img src="{{:item.:format_icon}}"> {{:item.:title}}</span><br/>
+        <img class="result_img" onerror="this.src='img/clocktower100.png';" src="{{make_https :item.:image}}">
+        <span class="title"><img src="{{make_https :item.:format_icon}}"> {{:item.:title}}</span><br/>
         {{#if :item.:author }}
             <span class="author">{{:item.:author}}, </span>
         {{/if}}
@@ -136,8 +136,8 @@
 <script id="showcheckedout-template" type="text/template">
     {{#:checkouts}}
         <div class="shadow result">
-        <img src="{{:checkout.:image}}" onerror="this.src='img/clocktower100.png';" class="result_img">
-        <img src="{{:checkout.:format_icon}}">{{:checkout.:name}}<br/>
+        <img src="{{make_https :checkout.:image}}" onerror="this.src='img/clocktower100.png';" class="result_img">
+        <img src="{{make_https :checkout.:format_icon}}">{{:checkout.:name}}<br/>
         <div id="{{:checkout.:barcode}}">
         Due on: {{:checkout.:due_date}}<br/>
         Remaining Renewals: {{:checkout.:renew_attempts}}<br/>
@@ -153,7 +153,7 @@
         <div class="shadow result pointer" onclick="unhide({{node.nid}})">
         <div class="result_img">
         {{#if node.image}}
-            <img src="{{node.image}}">
+            <img src="{{make_https node.image}}">
         {{else}}
             <img src="img/clocktower100.png">
         {{/if}}
@@ -168,7 +168,7 @@
 <script id="showlocations-template" type="text/template">
     {{#nodes}}
         <div class="shadow result pointer" onclick="unhide('{{node.shortname}}')">
-        <img class="location_img" src="http://www.tadl.org/sites/default/files/libraryphotos/{{node.shortname}}-200x125.jpg">{{node.title}}
+        <img class="location_img" src="https://www.tadl.org/sites/default/files/libraryphotos/{{node.shortname}}-200x125.jpg">{{node.title}}
         <h3 style="padding:0;margin:0;">{{node.fullname}}</h3>
         {{node.address}}<br/>
         {{node.citystatezip}}<br/>
@@ -192,8 +192,8 @@
 <script id="showholds-template" type="text/template">
     {{#:holds}}
         <div id="hold_{{:hold.:hold_id}}" class="shadow result">
-        <img class="result_img" src="{{:hold.:image}}" onerror="this.src='img/clocktower100.png';">
-        <img src="{{:hold.:format_icon}}">{{:hold.:name}}<br/>
+        <img class="result_img" src="{{make_https :hold.:image}}" onerror="this.src='img/clocktower100.png';">
+        <img src="{{make_https :hold.:format_icon}}">{{:hold.:name}}<br/>
         Pickup Location: {{:hold.:pickup_location}}<br/>
         Status: {{:hold.:status}}
         <div class="clearfix"></div>
