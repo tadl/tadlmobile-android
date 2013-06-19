@@ -87,20 +87,21 @@ function showmore(record_id) {
     var record_id = record_id;
     var e = document.getElementById(record_id);
     if (e.style.display === 'none') {
-        if( !$.trim( $('#'+ record_id +'').html() ).length ) {
+        if( !$.trim( $('#'+ record_id).html() ).length ) {
             $('#'+ record_id +'-loading').html('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
             $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/itemdetails.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
                 var results = data.message;
                 var template = Handlebars.compile($('#more_details-template').html());
                 var info = template(data);
-                $('#'+ record_id +'').html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
-                $('#'+ record_id +'').css('display', 'block');
+                $('#'+ record_id).html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
+                $('#'+ record_id).css('display', 'block');
+                $('#showmore-' + record_id).css('display', 'none');
             });
         } else {
-            $('#'+ record_id +'').css('display', 'block');
+            $('#'+ record_id).css('display', 'block');
         }
     } else {
-        $('#'+ record_id +'').css('display', 'none');
+        $('#'+ record_id).css('display', 'none');
     }
 }
 
@@ -280,7 +281,7 @@ function renew(circulation_id, barcode) {
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password');
     $.getJSON(ILSCATCHER_BASE + '/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id + '&bc=' + bc, function(data) {
-        var template = Handlebars($('#renew-template').html());
+        var template = Handlebars.compile($('#renew-template').html());
         var info = template(data);
         $('#'+ bc +'').html(info);
     });
@@ -327,3 +328,30 @@ function showlocations() {
         $('#results').html(info);
     });
 }
+
+Handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
+    if (arguments.length < 3)
+        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+
+    operator = options.hash.operator || "==";
+    var operators = {
+        '==':       function(l,r) { return l == r; },
+        '===':      function(l,r) { return l === r; },
+        '!=':       function(l,r) { return l != r; },
+        '<':        function(l,r) { return l < r; },
+        '>':        function(l,r) { return l > r; },
+        '<=':       function(l,r) { return l <= r; },
+        '>=':       function(l,r) { return l >= r; },
+        'typeof':   function(l,r) { return typeof l == r; }
+    }
+    if (!operators[operator])
+        throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
+
+    var result = operators[operator](lvalue,rvalue);
+
+    if( result ) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+});
