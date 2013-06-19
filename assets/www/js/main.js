@@ -87,20 +87,21 @@ function showmore(record_id) {
     var record_id = record_id;
     var e = document.getElementById(record_id);
     if (e.style.display === 'none') {
-        if( !$.trim( $('#'+ record_id +'').html() ).length ) {
+        if( !$.trim( $('#'+ record_id).html() ).length ) {
             $('#'+ record_id +'-loading').html('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
             $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/itemdetails.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
                 var results = data.message;
                 var template = Handlebars.compile($('#more_details-template').html());
                 var info = template(data);
-                $('#'+ record_id +'').html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
-                $('#'+ record_id +'').css('display', 'block');
+                $('#'+ record_id).html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
+                $('#'+ record_id).css('display', 'block');
+                $('#showmore-' + record_id).css('display', 'none');
             });
         } else {
-            $('#'+ record_id +'').css('display', 'block');
+            $('#'+ record_id).css('display', 'block');
         }
     } else {
-        $('#'+ record_id +'').css('display', 'none');
+        $('#'+ record_id).css('display', 'none');
     }
 }
 

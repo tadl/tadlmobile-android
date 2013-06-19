@@ -41,18 +41,39 @@
 <div id="results">
 </div>
 
+<script id="results-template" type="text/template">
+    {{#:items}}
+        <div class="shadow result">
+        <div onclick="showmore({{:item.:record_id}});">
+        <img onclick="showmore({{:item.:record_id}});" class="result_img" onerror="this.src='img/clocktower100.png';" src="{{:item.:image}}">
+        <span class="title"><img src="{{:item.:format_icon}}"> {{:item.:title}}</span><br/>
+        {{#if :item.:author }}
+            <span class="author">{{:item.:author}}, </span>
+        {{/if}}
+        {{:item.:record_year}}
+        </div>
+        <div id="{{:item.:record_id}}" style="display:none;"></div>
+        <div id="showmore-{{:item.:record_id}}">click for details</div>
+        <div id="{{:item.:record_id}}-loading"></div> 
+        </div>
+        <div class="clearfix"></div>
+    {{/:items}}
+</script>
+
 <script id="more_details-template" type="text/template">
     {{#:items}}
-        <p class="summary" style="position:relative">{{:item.:summary}}</p>
+        <div class="summary" style="position:relative">{{:item.:summary}}</div>
         <div class="clearfix"></div>
         <div class="bottomstuff">
+        <div class="more">
             {{#compare :item.:copies_available null operator="!="}} 
-                <div class="indent"><a class="button" id="place_hold_{{:item.:record_id}}" onClick="pre_hold({{:item.:record_id}})">Place Hold</a> 
-                {{:item.:copies_available}} of {{:item.:copies_total}} available</div>
+                {{:item.:copies_available}} of {{:item.:copies_total}} available<br/>
+                <a id="place_hold_{{:item.:record_id}}" onClick="pre_hold({{:item.:record_id}})">Place Hold</a> 
             {{/compare}}
             {{#compare :item.:copies_available null operator="=="}}
-                <div class="indent"><a class="button" onclick="window.open('{{:item.:eresource}}', '_system')">View Online</a></div>
+                <a onclick="window.open('{{:item.:eresource}}', '_system')">View Online</a>
             {{/compare}}
+        </div>
         </div>
         <div class="clearfix"></div>
         <div>
@@ -72,12 +93,9 @@
             <td>{{:shelf_location.:shelving_location}}</td>
             <td>{{:shelf_location.:call_number}}</td>
             </tr>
-        {{else}}
-            <h1>Something went wrong...</h1>
         {{/if}}
-       
     {{/:shelvinglocations}}
-     </table>
+    </table>
     </div>	
     <div class="clearfix"></div>
     <div id="{{:item.:record_id}}shelf" style="display:none;"></div>
@@ -90,7 +108,6 @@
     <th>Status:</th>
     <th>Shelving Location:</th>
     <th>Call Number:</th>
-
     {{#:items}}
         <tr>
         <td>{{:item.:library}}</td>
@@ -106,13 +123,13 @@
 
 <script id="logedin-template" type="text/template">
     {{#:users}}
-        <p>
+        <div>
         {{:user.:name}}<br />
         <a class="button" onClick="showcheckouts()">Checkouts: {{:user.:checkouts}}</a><br />
         <a class="button" onClick="showholds()">Holds: {{:user.:holds}}</a><br />
         <a class="button" onClick="showpickups()">Ready for Pickup: {{:user.:pickups}}</a><br />
         Fines: {{:user.:fines}}
-        </p>
+        </div>
         <button id="login" onclick="logout()">Logout</button>
         <button id="showbarcode" onclick="showcard()">Card</button>
     {{/:users}}
@@ -122,13 +139,13 @@
 <script id="showcheckedout-template" type="text/template">
     {{#:checkouts}}
         <div class="shadow result">
-        <img src="{{:checkout.:image}}" onerror="this.src='img/clocktower100.png';" class="result_img">
+        <img src="{{:checkout.:image}}" onerror="this.src='img/clocktower100.png';" class="list_img">
         <img src="{{:checkout.:format_icon}}">{{:checkout.:name}}<br/>
         <div id="{{:checkout.:barcode}}">
         Due on: {{:checkout.:due_date}}<br/>
         Remaining Renewals: {{:checkout.:renew_attempts}}<br/>
         <div class="clearfix"></div>
-        <div class="indent"><a class="button" onClick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Click to Renew</a></div>
+        <a onClick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Click to Renew</a>
         </div> 
         </div>
     {{/:checkouts}}
@@ -181,12 +198,12 @@
 <script id="showholds-template" type="text/template">
     {{#:holds}}
         <div id="hold_{{:hold.:hold_id}}" class="shadow result">
-        <img class="result_img" src="{{:hold.:image}}" onerror="this.src='img/clocktower100.png';">
+        <img class="list_img" src="{{:hold.:image}}" onerror="this.src='img/clocktower100.png';">
         <img src="{{:hold.:format_icon}}">{{:hold.:name}}<br/>
         Pickup Location: {{:hold.:pickup_location}}<br/>
         Status: {{:hold.:status}}
         <div class="clearfix"></div>
-        <div class="indent"><a class="button" id="cancel_hold_{{:hold.:hold_id}}" onClick="pre_cancelhold(this, {{:hold.:hold_id}})">Cancel Hold</a></div>
+        <a id="cancel_hold_{{:hold.:hold_id}}" onClick="pre_cancelhold(this, {{:hold.:hold_id}})">Cancel Hold</a>
         </div>
     {{/:holds}}
 </script>
@@ -197,25 +214,10 @@
     {{#:checkouts}}
         Due on: {{:checkout.:due_date}}<br/>
         Remaining Renewal Attempts: {{:checkout.:renew_attempts}}<br/>
-        <a class="button" onClick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Attempt Renewal</a>
+        <a onClick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Attempt Renewal</a>
     {{/:checkouts}}
 </script>
 
-
-<script id="results-template" type="text/template">
-    {{#:items}}
-        <div class="shadow result">
-        <div onclick="showmore({{:item.:record_id}});">
-        <img class="result_img" onerror="this.src='img/clocktower100.png';" src="{{:item.:image}}">
-        <h2 class="title"><img src="{{:item.:format_icon}}">{{:item.:title}}</h2>
-        <h3 class="author">{{:item.:author}}</h3>
-        </div>
-        <div id="{{:item.:record_id}}" style="display:none;"></div>
-        <div id="{{:item.:record_id}}-loading"></div> 
-        </div>
-        <div class="clearfix"></div>
-    {{/:items}}
-</script>
 
 <div class="load_more" class="shadow">
     <div id="loadmoretext"></div>

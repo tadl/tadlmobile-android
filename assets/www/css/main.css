@@ -42,7 +42,14 @@ a {
 
 .result_img {
     float:left;
-    margin-right:5px;
+    margin-right:15px;
+    max-width:75px;
+    cursor:pointer;
+}
+
+.list_img {
+    float:left;
+    margin-right:15px;
     max-width:75px;
 }
 
@@ -52,19 +59,21 @@ a {
     max-width:125px;
 }
 
+.more {
+    margin:10px 0;
+    padding:0;
+}
+
 .title {
-    font-size:15px;
-    margin-top:-5px;
-    margin-bottom:0px;
-    margin-left:77px;
+    font-size:18px;
+    font-weight:bold;
+    margin:-5px 0;
 }
 
 .author {
     font-size:14px;
     font-style:italic;
-    margin-top:5px;
-    margin-left:77px;
-    margin-bottom:5px;
+    margin:5px 0;
 }
 
 .summary {
