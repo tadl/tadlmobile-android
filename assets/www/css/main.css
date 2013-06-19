@@ -44,13 +44,6 @@ a {
     float:left;
     margin-right:15px;
     max-width:75px;
-    cursor:pointer;
-}
-
-.list_img {
-    float:left;
-    margin-right:15px;
-    max-width:75px;
 }
 
 .location_img {
@@ -114,12 +107,26 @@ a {
     padding:8px;
 }
 
+.viewmore {
+    text-decoration:underline;
+    color:#33B5E5;
+    font-size:0.8em;
+}
+
+.actionlink {
+    text-decoration:underline;
+    color:#33B5E5;
+    font-size:1.2em;
+}
+
 .clearfix {
     clear:both;
 }
+
 .indent {
     padding-left:90px;
 }
+
 button {
     cursor:pointer;
 }
