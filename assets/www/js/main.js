@@ -275,11 +275,14 @@ function showpickups() {
     });
 }
 
-function renew(circulation_id, barcode) {
+function renew(element, circulation_id, barcode) {
+    var element = element;
     var circ_id = circulation_id;
     var bc = barcode;
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password');
+    $(element).css('color','red');
+    $(element).html('Renewing...');
     $.getJSON(ILSCATCHER_BASE + '/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id + '&bc=' + bc, function(data) {
         var template = Handlebars.compile($('#renew-template').html());
         var info = template(data);

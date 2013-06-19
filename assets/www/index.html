@@ -142,7 +142,7 @@
         Due on: {{:checkout.:due_date}}<br/>
         Remaining Renewals: {{:checkout.:renew_attempts}}<br/>
         <div class="clearfix"></div>
-        <a class="actionlink" onclick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Click to Renew</a>
+        <a class="actionlink" onclick="renew(this, {{:checkout.:checkout_id}}, {{:checkout.:barcode}})">Click to Renew</a>
         </div> 
         </div>
     {{/:checkouts}}
@@ -205,8 +205,8 @@
     {{#:checkouts}}
         Due on: {{:checkout.:due_date}}<br/>
         Remaining Renewals: {{:checkout.:renew_attempts}}<br/>
-        <a onclick="renew({{:checkout.:checkout_id}},{{:checkout.:barcode}})">Attempt Renewal</a>
     {{/:checkouts}}
+        <a onclick="return false;">{{:response}}</a>
 </script>
 
 <div class="load_more" class="shadow">
