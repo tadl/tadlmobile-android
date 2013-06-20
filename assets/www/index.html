@@ -46,7 +46,7 @@ This text (and anything else I put here) is only visible when the page/app is fi
     {{#:items}}
         <div class="shadow result">
         <div onclick="showmore({{:item.:record_id}});" style="cursor:pointer;">
-        <img class="result_img" onerror="this.src='img/clocktower100.png';" src="{{make_https :item.:image}}">
+        <img class="result_img" onload="img_check(this);" onerror="img_error(this);" src="{{make_https :item.:image}}">
         <span class="title"><img src="{{make_https :item.:format_icon}}"> {{:item.:title}}</span><br/>
         {{#if :item.:author }}
             <span class="author">{{:item.:author}}, </span>
@@ -136,7 +136,7 @@ This text (and anything else I put here) is only visible when the page/app is fi
 <script id="showcheckedout-template" type="text/template">
     {{#:checkouts}}
         <div class="shadow result">
-        <img src="{{make_https :checkout.:image}}" onerror="this.src='img/clocktower100.png';" class="result_img">
+        <img src="{{make_https :checkout.:image}}" onload="img_check(this);" onerror="img_error(this);" class="result_img">
         <img src="{{make_https :checkout.:format_icon}}"><span class="title">{{:checkout.:name}}</span><br/>
         <div id="{{:checkout.:barcode}}">
         Due on: {{:checkout.:due_date}}<br/>
@@ -192,7 +192,7 @@ This text (and anything else I put here) is only visible when the page/app is fi
 <script id="showholds-template" type="text/template">
     {{#:holds}}
         <div id="hold_{{:hold.:hold_id}}" class="shadow result">
-        <img class="result_img" src="{{make_https :hold.:image}}" onerror="this.src='img/clocktower100.png';">
+        <img class="result_img" src="{{make_https :hold.:image}}" onload="img_check(this);" onerror="img_error(this);">
         <img src="{{make_https :hold.:format_icon}}"><span class="title">{{:hold.:name}}</span><br/>
         Pickup Location: {{:hold.:pickup_location}}<br/>
         Status: {{:hold.:status}}<br/>
