@@ -3,18 +3,20 @@
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.phonegap.hello-world"
+        id        = "com.tadl.tadl-mobileandroid"
         version   = "1.0.0">
 
     <name>TADL BETA</name>
 
     <description>
-        TADL Mobile app for Android!
+        TADL Mobile app for Android
     </description>
 
 
     
     <access origin="http://127.0.0.1*"/> 
+    <access origin="https://ilscatcher.herokuapp.com"/>
     <access origin="http://ilscatcher.herokuapp.com"/>
-
+    <access origin="https://via.tadl.org/" browserOnly="true" />
+    <access origin="http://via.tadl.org/" browserOnly="true" /> 
 </widget>
