@@ -1,8 +1,8 @@
 var ILSCATCHER_HOST = 'ilscatcher.herokuapp.com'
 var ILSCATCHER_BASE = 'https://' + ILSCATCHER_HOST
-var ILSCATCHER_INSECURE_BASE = 'http://' + ILSCATCHER_HOST
-var EVENTS_URL = 'http://www.tadl.org/mobile/export/events/json/all'
-var LOCATIONS_BASE = 'http://www.tadl.org/mobile/export/locations'
+var ILSCATCHER_INSECURE_BASE = 'https://' + ILSCATCHER_HOST /* we will actually use https here also */
+var EVENTS_URL = 'https://www.tadl.org/mobile/export/events/json/all'
+var LOCATIONS_BASE = 'https://www.tadl.org/mobile/export/locations'
 var searchquery = {};
 var pagecount = {};
 var mediatype = {};
@@ -212,7 +212,7 @@ function showcheckouts() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
     $.getJSON(ILSCATCHER_BASE + '/main/showcheckouts.json?u='+ username +'&pw=' + password, function(data) {
@@ -247,7 +247,7 @@ function showholds() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
     $.getJSON(ILSCATCHER_BASE + '/main/showholds.json?u='+ username +'&pw=' + password, function(data) {
@@ -263,7 +263,7 @@ function showpickups() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");   
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");   
     var username = localStorage.getItem('username');
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
@@ -275,11 +275,14 @@ function showpickups() {
     });
 }
 
-function renew(circulation_id, barcode) {
+function renew(element, circulation_id, barcode) {
+    var element = element;
     var circ_id = circulation_id;
     var bc = barcode;
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password');
+    $(element).css('color','red');
+    $(element).html('Renewing...');
     $.getJSON(ILSCATCHER_BASE + '/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id + '&bc=' + bc, function(data) {
         var template = Handlebars.compile($('#renew-template').html());
         var info = template(data);
@@ -291,7 +294,7 @@ function showcard() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
     $.getJSON(ILSCATCHER_BASE + '/main/showcard.json?u='+ username +'&pw=' + password, function(data) {
@@ -307,7 +310,7 @@ function showevents() {
      $("#login_form").slideUp("fast");
     $('#results').html("");
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     $.getJSON(EVENTS_URL, function(data) {
         var template = Handlebars.compile($('#showevents-template').html());
         var info = template(data);
@@ -320,7 +323,7 @@ function showlocations() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="http://empower.swmorey.com/images/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     $.getJSON(LOCATIONS_BASE + "/all", function(data) {
         var template = Handlebars.compile($('#showlocations-template').html());
         var info = template(data);
@@ -354,4 +357,10 @@ Handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
     } else {
         return options.inverse(this);
     }
+});
+
+Handlebars.registerHelper('make_https', function(url, options) {
+    var url = url;
+    var https_url = url.replace(/^http:/, 'https:');
+    return https_url;
 });

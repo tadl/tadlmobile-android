@@ -1,3 +1,7 @@
+body {
+    background-color:#f0f2f5;
+}
+
 a {
     cursor:pointer;
 }
@@ -41,13 +45,6 @@ a {
 }
 
 .result_img {
-    float:left;
-    margin-right:15px;
-    max-width:75px;
-    cursor:pointer;
-}
-
-.list_img {
     float:left;
     margin-right:15px;
     max-width:75px;
@@ -114,12 +111,27 @@ a {
     padding:8px;
 }
 
+.viewmore {
+    text-decoration:underline;
+    color:#33B5E5;
+    font-size:0.8em;
+}
+
+.actionlink {
+    text-decoration:underline;
+    color:#33B5E5;
+    font-size:1.2em;
+    font-weight:bold;
+}
+
 .clearfix {
     clear:both;
 }
+
 .indent {
     padding-left:90px;
 }
+
 button {
     cursor:pointer;
 }
