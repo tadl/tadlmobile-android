@@ -29,7 +29,8 @@ function showsliders() {
                 onMouse: true
             }
         }, {
-            debug: true
+            debug: true,
+            transition: true
         });
     });
     $.getJSON('https://www.tadl.org/mobile/export/items/json/books', function(data) {
