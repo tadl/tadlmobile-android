@@ -9,12 +9,12 @@ var pagecount = {};
 var mediatype = {};
 var available = {};
 $(document).ready(function() {
-    $('.searchform').keydown(function() {
+    $('.searchform').keydown(function(event) {
         if (event.keyCode == 13) {
             getResults();
         }
     });
-       $('#login_form').keydown(function() {
+       $('#login_form').keydown(function(event) {
         if (event.keyCode == 13) {
             login();
         }
