@@ -337,6 +337,7 @@ function img_check(img) {
     var img = img;
     if ($(img).width() == 1) {
         img_error(img);
+    }
 }
 
 function img_error(img) {
