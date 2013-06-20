@@ -18,7 +18,7 @@
     <script type="text/javascript" src="js/jquery.ba-throttle-debounce.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/slider.js"></script>
-    <script type="text/javascript" src="phonegap.js"></script>
+    <script type="text/javascript" src="js/phonegap-1.2.0.js"></script>
     <script>
 		document.addEventListener("deviceready", function() {
 		// before this event, window.open likely won't work properly
@@ -53,17 +53,9 @@
 
 <div id="results">
 <div class="image_carousel">
-<div id="books">
+<div id="books"></div><div class="clearfix"></div><div id="music"></div><div class="clearfix"></div><div id="movies"></div><div class="clearfix"></div>
 </div>
-<div class="clearfix"></div>
-<div id="music">
 </div>
-<div class="clearfix"></div>
-<div id="movies">
-</div>
-<div class="clearfix"></div>
-</div><!-- // image_carousel -->
-</div><!-- // results -->
 
 <script id="items-template" type="text/template">
     {{#nodes}}
@@ -242,7 +234,7 @@
     <div id="loadmoretext"></div>
 </div>
 
-<footer class="holo-actionBar smallfoot"><span><a onclick="showevents()" class="button">Events</a> <a onclick="showlocations()" class="button">Locations</a></span></footer>
+<footer class="holo-actionBar smallfoot"><span><a onclick="showsliders()" class="button">Featured Items</a> <a onclick="showevents()" class="button">Events</a> <a onclick="showlocations()" class="button">Locations</a></span></footer>
 
 </body>
 </html>
