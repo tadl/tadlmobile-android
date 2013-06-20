@@ -126,6 +126,7 @@ a {
 
 .clearfix {
     clear:both;
+    float:none;
 }
 
 .indent {
@@ -190,3 +191,17 @@ th {
 #bcTarget {
   margin:3em 1em;
 }
+
+.image_carousel {
+    padding: 5px 0;
+}
+
+.image_carousel img {
+    border: 1px solid #ccc;
+    background-color: white;
+    padding: 8px;
+    margin: 5px;
+    display: block;
+    float: left;
+}
+

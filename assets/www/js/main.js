@@ -9,6 +9,8 @@ var pagecount = {};
 var mediatype = {};
 var available = {};
 $(document).ready(function() {
+    showsliders();
+
     $('.searchform').keydown(function() {
         if (event.keyCode == 13) {
             getResults();
