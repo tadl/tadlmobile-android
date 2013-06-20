@@ -18,7 +18,7 @@ function showsliders() {
             align: "center",
             items: {
                 width: "variable",
-                height: 135
+                height: 130
             },
             auto: false,
             swipe: {
@@ -45,7 +45,7 @@ function showsliders() {
             align: "center",
             items: {
                 width: "variable",
-                height: 135
+                height: 130
             },
             auto: false,
             swipe: {
@@ -72,7 +72,7 @@ function showsliders() {
             align: "center",
             items: {
                 width: "variable",
-                height: 135
+                height: 130
             },
             auto: false,
             swipe: {
