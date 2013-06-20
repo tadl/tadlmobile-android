@@ -203,5 +203,6 @@ th {
     margin: 5px;
     display: block;
     float: left;
+    max-width:125px;
 }
 

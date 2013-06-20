@@ -6,9 +6,6 @@
 function showsliders() {
     $("#login_form").slideUp("fast");
     $('#results').html('<div class="image_carousel"><div id="books"></div><div class="clearfix"></div><div id="music"></div><div class="clearfix"></div><div id="movies"></div><div class="clearfix"></div></div>');
-    addsliders();
-}
-function addsliders() {
     $.getJSON('https://www.tadl.org/mobile/export/items/json/music', function(data) {
         var template = Handlebars.compile($('#items-template').html());
         var info = template(data);
@@ -31,6 +28,8 @@ function addsliders() {
                 onTouch: true,
                 onMouse: true
             }
+        }, {
+            debug: true
         });
     });
     $.getJSON('https://www.tadl.org/mobile/export/items/json/books', function(data) {
@@ -55,6 +54,8 @@ function addsliders() {
                 onTouch: true,
                 onMouse: true
             }
+        }, {
+            debug: true
         });
     });
     $.getJSON('https://www.tadl.org/mobile/export/items/json/movies', function(data) {
@@ -64,7 +65,7 @@ function addsliders() {
         $("#movies").carouFredSel({
             circular: true,
             infinite: true,
-            direction: "left",
+            direction: "right",
             width: "100%",
             align: "center",
             items: {
@@ -79,6 +80,8 @@ function addsliders() {
                 onTouch: true,
                 onMouse: true
             }
+        }, {
+            debug: true
         });
     });
 }
