@@ -8,6 +8,12 @@ var searchquery = {};
 var pagecount = {};
 var mediatype = {};
 var available = {};
+
+$(document).ready(function() {
+    scrollTop();
+});
+
+
 $(document).ready(function() {
     $('.searchform').keydown(function(event) {
         if (event.keyCode == 13) {
@@ -50,6 +56,8 @@ $(document).ready(function() {
                 $('#results').html("No Results");
                  $('.loadmore').hide();
             }
+            $('#term').blur(); /* un-focus the search term input */
+            scrollTop();
             $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');
             $('#loadmoretext').trigger("create");
         });
@@ -57,7 +65,11 @@ $(document).ready(function() {
     $('#search').click(getResults);
     
 });
-	
+
+function scrollTop() {
+    window.scrollTo(0,$('#main_header').offset().top);
+}
+
 function loadmore() {
     pagecount++;
     $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
