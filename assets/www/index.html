@@ -137,12 +137,12 @@
     {{#:checkouts}}
         <div class="shadow result">
         <img src="{{make_https :checkout.:image}}" onerror="this.src='img/clocktower100.png';" class="result_img">
-        <img src="{{make_https :checkout.:format_icon}}">{{:checkout.:name}}<br/>
+        <img src="{{make_https :checkout.:format_icon}}"><span class="title">{{:checkout.:name}}</span><br/>
         <div id="{{:checkout.:barcode}}">
         Due on: {{:checkout.:due_date}}<br/>
         Remaining Renewals: {{:checkout.:renew_attempts}}<br/>
         <div class="clearfix"></div>
-        <a class="actionlink" onclick="renew(this, {{:checkout.:checkout_id}}, {{:checkout.:barcode}})">Click to Renew</a>
+        <a class="actionlink" onclick="renew(this, {{:checkout.:checkout_id}}, {{:checkout.:barcode}})">Renew this item</a>
         </div> 
         </div>
     {{/:checkouts}}
@@ -159,7 +159,7 @@
         {{/if}}
         </div><span style="font-size:1.3em;">{{node.title}}</span><br>
         <strong>{{node.event-date}} - {{node.location}}</strong><br>
-        <span id="more{{node.nid}}" style="font-size:0.8em;">click for details</span>
+        <span id="more{{node.nid}}" class="viewmore">more details</span>
         <span id="{{node.nid}}" style="display:none;">{{node.body}}</span>
         </div>
     {{/nodes}}
@@ -173,7 +173,7 @@
         {{node.address}}<br/>
         {{node.citystatezip}}<br/>
         {{node.phone}}<br/>
-        <span id="more{{node.shortname}}" style="font-size:0.8em;">click for hours</span>
+        <span id="more{{node.shortname}}" class="viewmore">view hours</span>
         <span id="{{node.shortname}}" style="display:none;">
         <table>
         <tr><td>Sunday</td><td>{{node.sunday}}</td></tr>
@@ -193,7 +193,7 @@
     {{#:holds}}
         <div id="hold_{{:hold.:hold_id}}" class="shadow result">
         <img class="result_img" src="{{make_https :hold.:image}}" onerror="this.src='img/clocktower100.png';">
-        <img src="{{make_https :hold.:format_icon}}">{{:hold.:name}}<br/>
+        <img src="{{make_https :hold.:format_icon}}"><span class="title">{{:hold.:name}}</span><br/>
         Pickup Location: {{:hold.:pickup_location}}<br/>
         Status: {{:hold.:status}}<br/>
         <a class="actionlink" id="cancel_hold_{{:hold.:hold_id}}" onclick="pre_cancelhold(this, {{:hold.:hold_id}})">Cancel Hold</a>
