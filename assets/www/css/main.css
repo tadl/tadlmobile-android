@@ -97,6 +97,15 @@ a {
 
 #results {
     margin-top:35px;
+    background:url(img/bookpage.png);
+}
+
+.bg {
+    width:100%;
+    position:fixed;
+    z-index:-999;
+    top:35px;
+    left:0;
 }
 
 #loadmoreanimation img {
