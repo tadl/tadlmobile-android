@@ -1,3 +1,7 @@
+body {
+    background-color:#f0f2f5;
+}
+
 a {
     cursor:pointer;
 }
@@ -97,7 +101,6 @@ a {
 
 #results {
     margin-top:35px;
-    background-color:#f0f2f5;
 }
 
 #loadmoreanimation img {
