@@ -1,19 +1,20 @@
-var ILSCATCHER_HOST = 'ilscatcher.herokuapp.com'
+var ILSCATCHER_HOST = 'tadl-ilscatcher.herokuapp.com'
 var ILSCATCHER_BASE = 'https://' + ILSCATCHER_HOST
 var ILSCATCHER_INSECURE_BASE = 'https://' + ILSCATCHER_HOST /* we will actually use https here also */
 var EVENTS_URL = 'https://www.tadl.org/mobile/export/events/json/all'
 var LOCATIONS_BASE = 'https://www.tadl.org/mobile/export/locations'
+var PLACEHOLDER_IMG = 'img/clocktower100.png';
 var searchquery = {};
 var pagecount = {};
 var mediatype = {};
 var available = {};
 $(document).ready(function() {
-    $('.searchform').keydown(function() {
+    $('.searchform').keydown(function(event) {
         if (event.keyCode == 13) {
             getResults();
         }
     });
-       $('#login_form').keydown(function() {
+       $('#login_form').keydown(function(event) {
         if (event.keyCode == 13) {
             login();
         }
@@ -330,6 +331,18 @@ function showlocations() {
         $('.loadmore').hide();
         $('#results').html(info);
     });
+}
+
+function img_check(img) {
+    var img = img;
+    if ($(img).width() == 1) {
+        img_error(img);
+    }
+}
+
+function img_error(img) {
+    var img = img;
+    $(img).attr('src', PLACEHOLDER_IMG);
 }
 
 Handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
