@@ -137,13 +137,15 @@ input[type="checkbox"] {
 }
 
 .viewmore {
-    text-decoration:underline;
+    text-decoration:none;
+    text-transform:uppercase;
     color:#33B5E5;
     font-size:0.8em;
 }
 
 .actionlink {
-    text-decoration:underline;
+    text-decoration:none;
+    text-transform:uppercase;
     color:#33B5E5;
     font-size:1.2em;
     font-weight:bold;
@@ -242,6 +244,7 @@ th {
 .accountlinks {
     line-height:2.5em;
 }
+
 .logo {
     margin:0;
     padding: 4px 0 0 2px;
