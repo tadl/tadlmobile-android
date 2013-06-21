@@ -36,6 +36,13 @@ a {
     margin-left:5px;
 }
 
+.left {
+    float:left;
+}
+.right {
+    float:right;
+}
+
 .search_second_row {
     float:left;
 }
@@ -137,6 +144,10 @@ button {
     cursor:pointer;
 }
 
+button.bigger {
+    font-size:15px;
+}
+
 .button {
     color:#33B5E5;
     border:1px solid #d2d2d2;
@@ -205,3 +216,10 @@ th {
     float: left;
 }
 
+.bottomlinks {
+    padding-top:9px;
+}
+
+.accountlinks {
+    line-height:2.5em;
+}

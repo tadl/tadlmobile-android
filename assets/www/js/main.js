@@ -59,7 +59,7 @@ $(document).ready(function() {
     $('#search').click(getResults);
     
 });
-	
+
 function loadmore() {
     pagecount++;
     $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
