@@ -55,6 +55,10 @@ input[type="checkbox"] {
     float:right;
 }
 
+.relative {
+    position:relative;
+}
+
 .search_second_row {
     float:left;
     margin:0;
@@ -164,6 +168,7 @@ button.bigger {
 
 .button {
     color:#33B5E5;
+    background-color:#f0f2f5;
     border:1px solid #d2d2d2;
     margin:3px 5px;
     padding:3px 5px;
@@ -176,7 +181,7 @@ button.bigger {
 }
 
 .button:hover {
-    color:#d2d2d2;
+    color:#f0f2f5;
     border:1px solid #d2d2d2;
     background-color:#33B5E5;
     cursor:pointer;
@@ -236,4 +241,8 @@ th {
 
 .accountlinks {
     line-height:2.5em;
+}
+.logo {
+    margin:0;
+    padding: 4px 0 0 2px;
 }
