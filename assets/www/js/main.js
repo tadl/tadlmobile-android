@@ -47,12 +47,12 @@ $(document).ready(function() {
                 var template = Handlebars.compile($('#results-template').html());
                 var info = template(data);
                 $('#results').html(info);
+                $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');
+                $('#loadmoretext').trigger("create");
             } else {
                 $('#results').html("No Results");
                  $('.loadmore').hide();
             }
-            $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');
-            $('#loadmoretext').trigger("create");
         });
     }
     $('#search').click(getResults);
