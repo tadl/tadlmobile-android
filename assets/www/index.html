@@ -34,9 +34,8 @@
         <button id="search" class="left bigger">GO</button>
         <button id="account" class="right bigger" onclick="openForm()">Acct</button>
         <div class="clearfix"></div>
-
-        <input class="search_second_row" type="checkbox" style="margin:5px;cursor:pointer;" id="available" value="false"><span class="search_second_row" style="margin:5px;">ONLY AVAILABLE</span>
-        <select class="search_second_row" id="mediatype" style="margin-bottom:15px;margin-top:1px;">
+        <input class="left" type="checkbox" id="available" value="false" /><div class="left five">ONLY AVAILABLE</div>
+        <select style="margin-bottom:15px;margin-top:0;" id="mediatype">
             <option value="ALL">ALL FORMATS</option>
             <option value="BOOKS">BOOKS</option>
             <option value="MOVIES">MOVIES</option>
@@ -86,8 +85,7 @@
             {{#compare :item.:copies_available null operator="=="}}
                 <a class="actionlink external" href="{{:item.:eresource}}");">View Online</a>
             {{/compare}}
-        </div>
-        </div>
+        </div></div>
         <div class="clearfix"></div>
         <div>
         {{#compare :item.:copies_available 0 operator="!="}}
@@ -109,9 +107,10 @@
         {{/if}}
     {{/:shelvinglocations}}
     </table>
-    </div>	
+    </div>
     <div class="clearfix"></div>
     <div id="{{:item.:record_id}}shelf" style="display:none;"></div>
+    </div>
 </script>
 
 <script id="results-template" type="text/template">
