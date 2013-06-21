@@ -238,14 +238,23 @@ function login() {
         username = $('#username').val();
         password = $('#pword').val();
     }
-    $.getJSON(ILSCATCHER_BASE + '/main/login.json?u='+ username +'&pw=' + password, function(data) {
-        var template = Handlebars.compile($('#logedin-template').html());
-        var info = template(data);
-        $('#login_form').html(info);
-        localStorage.setItem('username', username);
-        localStorage.setItem('password', password);
-        reset_hold_links(); /* change any 'Please log in first' hold links */
-    });
+    if (username && password) { /* only attempt login if we have a username and password */
+        $.getJSON(ILSCATCHER_BASE + '/main/login.json?u='+ username +'&pw=' + password, function(data) {
+            if (data['status'] == 'error') {
+                $('#username').val('');
+                $('#pword').val('');
+                $('#login_msg').html('Error logging in.');
+                localStorage.clear();
+            } else {
+                var template = Handlebars.compile($('#logedin-template').html());
+                var info = template(data);
+                $('#login_form').html(info);
+                localStorage.setItem('username', username);
+                localStorage.setItem('password', password);
+                reset_hold_links(); /* change any 'Please log in first' hold links */
+            }
+        });
+    }
 }
 
 function showcheckouts() {
