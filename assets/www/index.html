@@ -12,12 +12,26 @@
     <script type="text/javascript" src="js/handlebars.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/jquery-barcode.min.js"></script>  
+    <script type="text/javascript" src="js/jquery.history.js"></script> 
     <script type="text/javascript" src="phonegap.js"></script>
     <script>
 		document.addEventListener("deviceready", function() {
 		// before this event, window.open likely won't work properly
 		}, false);
 	</script>
+	<script>
+	jQuery(document).ready(function($){
+
+    $.history.init(function(hash){
+        if(hash == "") {
+            // initialize your app
+        } else {
+            // restore the state from hash
+        }
+    },
+    { unescape: ",/" });
+});
+</script>
     <title>TADL Mobile Beta</title>
 </head>
 

@@ -29,11 +29,11 @@ $(document).ready(function() {
         $('#results').empty().trigger("create");
         $('.loadmore').show();
         $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
-
         pagecount = 0;
 
         searchquery = $('#term').val();
         mediatype = $('#mediatype').val();
+        history.pushState(searchquery, null, "search");
         if (document.getElementById('available').checked) {
             available = true;
         } else {
@@ -377,3 +377,11 @@ Handlebars.registerHelper('make_https', function(url, options) {
     var https_url = url.replace(/^http:/, 'https:');
     return https_url;
 });
+
+window.onpopstate = function(event) {
+if (event.state) {
+  var previoussearch = JSON.stringify(event.state);
+  document.getElementById('term').value = 'Blahblah';
+  $('#search').click(getResults);
+  }
+};
