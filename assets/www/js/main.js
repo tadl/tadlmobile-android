@@ -117,7 +117,7 @@ function viewitem(record_id) {
         var results = data.message;
         var template = Handlebars.compile($('#result-details-template').html());
         var info = template(data);
-        $('#'+ record_id).html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
+        $('#results').html(info).promise().done(function() {  $('#loadmoretext').empty();});
         $('#'+ record_id).css('display', 'block');
     });
 }
