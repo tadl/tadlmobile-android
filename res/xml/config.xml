@@ -28,8 +28,7 @@
     <!-- <access origin="https://example.com" /> allow any secure requests to example.com -->
     <!-- <access origin="https://example.com" subdomains="true" /> such as above, but including subdomains, such as www -->
  <access origin="http://127.0.0.1*"/> 
-    <access origin="https://ilscatcher.herokuapp.com"/>
-    <access origin="http://ilscatcher.herokuapp.com"/>
+    <access origin="https://tadl-ilscatcher.herokuapp.com"/>
     <access origin="http://catalog.tadl.org"/>
     <access origin="https://catalog.tadl.org"/>
     <access origin="http://www.tadl.org"/>

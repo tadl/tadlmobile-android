@@ -15,8 +15,7 @@
 
     
     <access origin="http://127.0.0.1*"/> 
-    <access origin="https://ilscatcher.herokuapp.com"/>
-    <access origin="http://ilscatcher.herokuapp.com"/>
+    <access origin="https://tadl-ilscatcher.herokuapp.com"/>
     <access origin="https://via.tadl.org/" browserOnly="true" />
     <access origin="http://via.tadl.org/" browserOnly="true" /> 
 </widget>
