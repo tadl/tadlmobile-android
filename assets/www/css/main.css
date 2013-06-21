@@ -138,14 +138,12 @@ input[type="checkbox"] {
 
 .viewmore {
     text-decoration:none;
-    text-transform:uppercase;
     color:#33B5E5;
     font-size:0.8em;
 }
 
 .actionlink {
     text-decoration:none;
-    text-transform:uppercase;
     color:#33B5E5;
     font-size:1.2em;
     font-weight:bold;
