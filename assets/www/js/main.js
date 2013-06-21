@@ -31,7 +31,6 @@ $(document).ready(function() {
         $('#results').empty().trigger("create");
         $('.loadmore').show();
         $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
-
         pagecount = 0;
 
         searchquery = $('#term').val();
@@ -78,6 +77,15 @@ function loadmore() {
             $('#loadmoretext').html("No Further Results");
         }
     });
+}
+
+function logged_in() {
+    var username = localStorage.getItem('username');
+    if (username) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function logout() {
@@ -159,9 +167,22 @@ function showshelf(record_id) {
 function pre_hold(record_id) {
     var record_id = record_id;
     link_id = '#place_hold_' + record_id;
-    $(link_id).html('Requesting hold...');
-    $(link_id).css('color', 'green');
-    hold(record_id);
+    if (logged_in()) {
+        $(link_id).html('Requesting hold...');
+        $(link_id).css('color', 'green');
+        hold(record_id);
+    } else {
+        $(link_id).html('Log in to place hold');
+        $(link_id).addClass('hold_login_first');
+        $("#login_form").slideDown("fast");
+    }
+}
+
+function reset_hold_links() {
+    $(".hold_login_first").each(function() {
+        $(this).removeClass('hold_login_first');
+        $(this).html('Place Hold');
+    });
 }
 
 function hold(record_id) {
@@ -223,6 +244,7 @@ function login() {
         $('#login_form').html(info);
         localStorage.setItem('username', username);
         localStorage.setItem('password', password);
+        reset_hold_links(); /* change any 'Please log in first' hold links */
     });
 }
 
@@ -394,3 +416,5 @@ Handlebars.registerHelper('make_https', function(url, options) {
     var https_url = url.replace(/^http:/, 'https:');
     return https_url;
 });
+
+
