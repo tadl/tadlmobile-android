@@ -238,14 +238,14 @@ function login() {
         username = $('#username').val();
         password = $('#pword').val();
     }
-    if (username && password) { /* only attempt login if we have a username and password */
+    if (typeof(username) !== 'undefined' && username != '' && typeof(password) !== 'undefined' && password != '') { /* only attempt login if we have a username and password */
         $.getJSON(ILSCATCHER_BASE + '/main/login.json?u='+ username +'&pw=' + password, function(data) {
-            if (data['status'] == 'error') {
+            if (data['status'] == 'error') { /* unsuccessful login */
                 $('#username').val('');
                 $('#pword').val('');
                 $('#login_msg').html('Error logging in.');
                 localStorage.clear();
-            } else {
+            } else { /* login appears successful */
                 var template = Handlebars.compile($('#logedin-template').html());
                 var info = template(data);
                 $('#login_form').html(info);
