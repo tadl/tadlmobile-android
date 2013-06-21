@@ -32,7 +32,7 @@
     <section class="searchform">
         <input class="search_box left" type="text" placeholder="Search..." id="term" />
         <button id="search" class="left bigger">GO</button>
-        <button id="search" class="right bigger" onclick="openForm()">Acct</button>
+        <button id="account" class="right bigger" onclick="openForm()">Acct</button>
         <div class="clearfix"></div>
 
         <input class="search_second_row" type="checkbox" style="margin:5px;cursor:pointer;" id="available" value="false"><span class="search_second_row" style="margin:5px;">ONLY AVAILABLE</span>
@@ -56,13 +56,13 @@
 
 <script id="books-template" type="text/template">
     {{#nodes}}
-        <img onclick="window.alert('item {{node.item}}')" src="https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/{{node.item}}" height="100" width="70" />
+        <img onclick="viewitem({{node.item}})" src="https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/{{node.item}}" height="100" width="70" />
     {{/nodes}}
 </script>
 
 <script id="music-template" type="text/template">
     {{#nodes}}
-        <img onclick="window.alert('item {{node.item}}')" src="https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/{{node.item}}" height="100" width="100" />
+        <img onclick="viewitem({{node.item}})" src="https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/{{node.item}}" height="100" width="100" />
     {{/nodes}}
 </script>
 

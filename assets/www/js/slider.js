@@ -30,7 +30,6 @@ function showsliders() {
                 onMouse: true
             }
         }, {
-            debug: true,
             transition: true
         });
     });
@@ -57,7 +56,7 @@ function showsliders() {
                 onMouse: true
             }
         }, {
-            debug: true
+            transition: true
         });
     });
     $.getJSON('https://www.tadl.org/mobile/export/items/json/movies', function(data) {
@@ -83,7 +82,7 @@ function showsliders() {
                 onMouse: true
             }
         }, {
-            debug: true
+            transition: true
         });
     });
 }

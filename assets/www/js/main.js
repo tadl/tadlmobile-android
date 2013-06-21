@@ -11,12 +11,12 @@ var available = {};
 $(document).ready(function() {
     showsliders();
 
-    $('.searchform').keydown(function(event) {
+    $('#term').keydown(function(event) {
         if (event.keyCode == 13) {
             getResults();
         }
     });
-       $('#login_form').keydown(function(event) {
+    $('#login_form').keydown(function(event) {
         if (event.keyCode == 13) {
             login();
         }
@@ -106,6 +106,21 @@ function showmore(record_id) {
     } else {
         $('#'+ record_id).css('display', 'none');
     }
+}
+
+function viewitem(record_id) {
+    $("#login_form").slideUp("fast");
+    $('#results').empty().trigger("create");
+    $('.loadmore').show();
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    var record_id = record_id;
+    $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/itemdetails.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
+        var results = data.message;
+        var template = Handlebars.compile($('#result-details-template').html());
+        var info = template(data);
+        $('#'+ record_id).html(info).promise().done(function() {  $('#'+ record_id +'-loading').empty();});
+        $('#'+ record_id).css('display', 'block');
+    });
 }
 
 function unhide(eventId) {
