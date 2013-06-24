@@ -1,4 +1,6 @@
 var ILSCATCHER_HOST = 'tadl-ilscatcher.herokuapp.com'
+// test ilscatcher host:
+// var ILSCATCHER_HOST = 'rocky-mountain-7481.herokuapp.com'
 var ILSCATCHER_BASE = 'https://' + ILSCATCHER_HOST
 var ILSCATCHER_INSECURE_BASE = 'https://' + ILSCATCHER_HOST /* we will actually use https here also */
 var EVENTS_URL = 'https://www.tadl.org/mobile/export/events/json/all'
