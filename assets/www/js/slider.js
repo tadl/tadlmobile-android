@@ -60,7 +60,7 @@ function showsliders() {
         });
     });
     $.getJSON('https://www.tadl.org/mobile/export/items/json/movies', function(data) {
-        var template = Handlebars.compile($('#books-template').html());
+        var template = Handlebars.compile($('#movies-template').html());
         var info = template(data);
         $('#movies').html(info);
         $("#movies").carouFredSel({
@@ -85,4 +85,5 @@ function showsliders() {
             transition: true
         });
     });
+    $('#results').append('<div id="refreshbutton" style="text-align:center;"><a href="#" class="button" onclick="showsliders();return false;">Shuffle Items</a></div>');
 }
