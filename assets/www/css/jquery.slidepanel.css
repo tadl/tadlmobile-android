@@ -1,7 +1,7 @@
 /* Slide Panel */
         .cb_slide_panel {
             background-color: rgb(221,221,221);
-            border-right: 1px solid #E0E0E0;
+            border-right: 1px solid #ccc;
             box-shadow: 1px 1px 23px rgba(0, 0, 0, 0.17), -1px -1px 0 rgba(255, 255, 255, 0.85) inset;
             position: fixed;
             z-index: 65000;
@@ -26,16 +26,20 @@
         }
         .cb_slide_panel a.close {
             background: url(../img/half_tinylogo.png) no-repeat;
+            background-position:3px 2px;
             border: 1px solid #ccc;
-            height: 30px;
+            background-color: #fff;
+            height: 35px;
+            width: 35px;
             position: absolute;
             text-indent: -9999em;
-            width: 30px;
+            -webkit-border-top-right-radius: 5px;
+            -webkit-border-bottom-right-radius: 5px;
             display: none;
         }
         .cb_slide_panel.panel_left a.close {
-            right: -42px;
-            top: 20px;
+            right: -35px;
+            top: 1px;
         }
         .cb_slide_panel.panel_right a.close {
             left: -42px;
