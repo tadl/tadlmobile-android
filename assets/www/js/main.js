@@ -13,7 +13,8 @@ var mediatype = {};
 var available = {};
 
 $(document).ready(function() {
-    showsliders();
+//    showsliders();
+    facebookfeed();
 
     $('#term').keydown(function(event) {
         if (event.keyCode == 13) {
@@ -386,7 +387,7 @@ function showlocations() {
 }
 
 function facebookfeed() { 
-     $("#login_form").slideUp("fast");
+    $("#login_form").slideUp("fast");
     $('#results').html("");
     $('.loadmore').show();
     $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
@@ -395,37 +396,44 @@ function facebookfeed() {
         var info = template(data);
         $('.loadmore').hide();
         $('#results').html(info);
-        $('.linkable').urlize();
-         $(".shortDateFormat").each(function (idx, elem) {
- if ($(elem).is(":input")) {
- $(elem).val($.format.date($(elem).val(), 'MM/dd/yyyy'));
- } else {
- $(elem).text($.format.date($(elem).text(), 'MM/dd/yyyy'));
- }
- });
+        $('.linkable').doLinks();
+        $(".shortDateFormat").each(function (idx, elem) {
+            if ($(elem).is(":input")) {
+                $(elem).val($.format.date($(elem).val(), 'MM/dd/yyyy'));
+            } else {
+                $(elem).text($.format.date($(elem).text(), 'MM/dd/yyyy'));
+            }
+        });
     });
-    
+}
+/* doLinks script */ 
+
+function linkify(inputText, options) {
+    this.options = {linkClass: 'url', targetBlank: true};
+    this.options = $.extend(this.options, options);
+    inputText = inputText.replace(/\u200B/g, "");
+
+    //URLs starting with http://, https://, or ftp://
+    var replacePattern1 = /(src="|href="|">|\s>)?(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;ï]*[-A-Z0-9+&@#\/%=~_|ï]/gim;
+    var replacedText = inputText.replace(replacePattern1, function($0,$1){ return $1?$0:'<br/><a class="'+ this.options.linkClass + '" href="' + $0 + '"' + (this.options.targetBlank?'target="_blank"':'') + '>'+ $0.trunc(30) + '</a>';});
+
+    //URLS starting with www and not the above
+    var replacePattern2 = /(src="|href="|">|\s>|https?:\/\/|ftp:\/\/)?www\.[-A-Z0-9+&@#\/%?=~_|!:,.;ï]*[-A-Z0-9+&@#\/%=~_|ï]/gim;
+    var replacedText = replacedText.replace(replacePattern2, function($0,$1){ return $1?$0:'<br/><a class="'+ this.options.linkClass + '" href="http://' + $0 + '"' + (this.options.targetBlank?'target="_blank"':'') + '>'+ $0.trunc(30) + '</a>';});
+
+    return replacedText;
 }
 
-jQuery.fn.urlize = function() {
-    if (this.length > 0) {
-        this.each(function(i, obj){
-            // making links active
-            var x = $(obj).html();
-            var list = x.match( /\b(http:\/\/|www\.|http:\/\/www\.)[^ <]{2,200}\b/g );
-            if (list) {
-                for ( i = 0; i < list.length; i++ ) {
-                    var prot = list[i].indexOf('http://') === 0 || list[i].indexOf('https://') === 0 ? '' : 'http://';
-                    x = x.replace( list[i], "<a target='_blank' href='" + prot + list[i] + "'>"+ list[i] + "</a>" );
-                }
+$.fn.doLinks = function(){
+    this.each(function(){
+        $(this).html(linkify($(this).html()));
+    });
+}
 
-            }
-            $(obj).html(x);
-        });
-    }
-};
-
-
+String.prototype.trunc = 
+    function(n){
+        return this.substr(0,n-1)+(this.length>n?'&hellip;':'');
+    };
 
 
 function img_check(img) {

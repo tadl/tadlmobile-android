@@ -1,4 +1,5 @@
 <br/>
+<a href="#" class="menufacebook button">Facebook Feed</a><br/><br/>
 <a href="#" class="menulocations button">Find a Library</a><br/><br/>
 <a href="#" class="menuevents button">Upcoming Events</a><br/><br/>
 <a href="#" class="menufeatured button">Featured Items</a><br/><br/>
@@ -18,6 +19,9 @@
         var $showfeatured = $('.menufeatured').click(function(){
             showsliders();
             $('.close').trigger('click');
+        });
+        var $showfacebook = $('.menufacebook').click(function(){
+            facebookfeed();
             $('.close').trigger('click');
         });
     });
