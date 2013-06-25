@@ -246,5 +246,9 @@ th {
 
 .logo {
     margin:0;
-    padding: 4px 0 0 2px;
+    padding: 3px 2px 5px 5px;
+    background-color: #fff;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    border: 1px solid #ccc;
 }
