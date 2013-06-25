@@ -6,9 +6,11 @@
     <link rel="stylesheet" type="text/css" href="css/holo-light-elements.css" />
     <link rel="stylesheet" type="text/css" href="css/holo-base-widgets.css" />
     <link rel="stylesheet" type="text/css" href="css/holo-light-widgets.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.slidepanel.css" />
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <script type="text/javascript" src="js/holo-touch.js"></script>
     <script type="text/javascript" src="js/jquery-1.10.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery.slidepanel.js"></script>
     <script type="text/javascript" src="js/handlebars.js"></script>
     <script type="text/javascript" src="js/jquery-barcode.min.js"></script>  
     <script type="text/javascript" src="js/jquery.carouFredSel-6.2.1-packed.js"></script>
@@ -31,7 +33,7 @@
 <body>
 <header class="holo-actionBar">
     <section class="searchform">
-        <img onclick="showsliders();" class="left logo pointer" src="img/tinylogo.png" width="30" height="30" alt="" />
+        <a href="menu.html" data-slidepanel="panel"><img class="left logo pointer" src="img/tinylogo.png" width="30" height="30" alt="" /></a>
         <input class="search_box left" type="text" placeholder="Search..." id="term" />
         <button id="search" class="left bigger">GO</button>
         <button id="account" class="right bigger" onclick="openForm()"><img src="img/account.png" alt="ACCT" width="30" height="30" /></button>
@@ -52,6 +54,15 @@
     <span id="login_msg"></span>
     </div>
 </header>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('[data-slidepanel]').slidepanel({
+            orientation: 'left',
+            mode: 'overlay'
+        });
+    });
+</script>
 
 <div id="results">
 </div>
@@ -296,14 +307,6 @@
 <div class="load_more" class="shadow">
     <div id="loadmoretext"></div>
 </div>
-
-<footer class="holo-actionBar smallfoot">
-<div class="bottomlinks">
-<a onclick="showlocations()" class="button">Locations</a>
-<a onclick="showevents()" class="button">Events</a>
-<a class="button" href="http://www.tadl.org/?nomobi=true">Full Website</a>
-</div>
-</footer>
 
 </body>
 </html>
