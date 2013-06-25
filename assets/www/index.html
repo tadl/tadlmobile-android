@@ -21,6 +21,7 @@
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/slider.js"></script>
     <script type="text/javascript" src="js/phonegap-1.2.0.js"></script>
+    <script type="text/javascript" src="js/jquery.dateFormat-1.0.js"></script>
     <script>
 		document.addEventListener("deviceready", function() {
 		// before this event, window.open likely won't work properly
@@ -283,6 +284,42 @@
         </div>
     {{/nodes}}
 </script>
+
+
+<script id="facebookfeed-template" type="text/template">
+    {{#data}}
+       {{#compare from.id 6113436733 operator="=="}}
+       {{#compare application.name "Photos" operator="!="}}
+       {{#compare privacy.value "" operator="!="}}
+        <div class="shadow result pointer">
+        <div class="result_img">
+         
+        {{#if picture}}
+            <img src="{{make_https picture}}">
+        {{else}}
+            <img src="img/clocktower100.png">
+        {{/if}}
+        </div>
+        
+        <span class="linkable" style="font-size:14px;">{{message}} <span class="shortDateFormat" style="font-size:12px; display:block;">- Posted on {{created_time}}</span></span><br>
+        <span style="font-size:13px; font-style:italic;">{{description}}
+             {{#if caption}}
+          {{#if link}}
+            <a href="{{link}}" style="font-decoration: none; font-size: 12px;">See More</a>
+        {{/if}}
+        {{/if}}
+        </span><br>
+       <br>
+     
+        
+        <span id="{{node.nid}}" style="display:none;">{{node.body}}</span>
+        </div>
+           {{/compare}} 
+           {{/compare}} 
+           {{/compare}}
+    {{/data}}
+</script>
+
 
 <script id="showholds-template" type="text/template">
     {{#:holds}}
