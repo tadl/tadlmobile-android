@@ -41,7 +41,7 @@ input[type="checkbox"] {
 }
 
 .search_box {
-    width:50%;
+    width:40%;
     max-width:350px;
     height:22px;
     font-size:16px;
