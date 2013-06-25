@@ -6,10 +6,12 @@ var ILSCATCHER_INSECURE_BASE = 'https://' + ILSCATCHER_HOST /* we will actually 
 var EVENTS_URL = 'https://www.tadl.org/mobile/export/events/json/all'
 var LOCATIONS_BASE = 'https://www.tadl.org/mobile/export/locations'
 var PLACEHOLDER_IMG = 'img/clocktower100.png';
+var FACEBOOK_URL = 'https://graph.facebook.com/TraverseAreaDistrictLibrary/feed?access_token=CAAFh5Quq0YMBAENgjPYY9MY0y3cdiAMvXmLl6Fq3H4LDZBBZBukKlXFwWPq0xMLa6hqDrfxfGqvFpBlIZCjFKg0rKdd37qHLsjwcBve4UeZAQymPksV7ddAeZAJOyaeZC05WqlLzrVpOUQEtjiCZArjB6NMUHjvU90qXZAGEOESKDgZDZD';
 var searchquery = {};
 var pagecount = {};
 var mediatype = {};
 var available = {};
+
 $(document).ready(function() {
     showsliders();
 
@@ -382,6 +384,49 @@ function showlocations() {
         $('#results').html(info);
     });
 }
+
+function facebookfeed() { 
+     $("#login_form").slideUp("fast");
+    $('#results').html("");
+    $('.loadmore').show();
+    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $.getJSON(FACEBOOK_URL, function(data) {
+        var template = Handlebars.compile($('#facebookfeed-template').html());
+        var info = template(data);
+        $('.loadmore').hide();
+        $('#results').html(info);
+        $('.linkable').urlize();
+         $(".shortDateFormat").each(function (idx, elem) {
+ if ($(elem).is(":input")) {
+ $(elem).val($.format.date($(elem).val(), 'MM/dd/yyyy'));
+ } else {
+ $(elem).text($.format.date($(elem).text(), 'MM/dd/yyyy'));
+ }
+ });
+    });
+    
+}
+
+jQuery.fn.urlize = function() {
+    if (this.length > 0) {
+        this.each(function(i, obj){
+            // making links active
+            var x = $(obj).html();
+            var list = x.match( /\b(http:\/\/|www\.|http:\/\/www\.)[^ <]{2,200}\b/g );
+            if (list) {
+                for ( i = 0; i < list.length; i++ ) {
+                    var prot = list[i].indexOf('http://') === 0 || list[i].indexOf('https://') === 0 ? '' : 'http://';
+                    x = x.replace( list[i], "<a target='_blank' href='" + prot + list[i] + "'>"+ list[i] + "</a>" );
+                }
+
+            }
+            $(obj).html(x);
+        });
+    }
+};
+
+
+
 
 function img_check(img) {
     var img = img;
