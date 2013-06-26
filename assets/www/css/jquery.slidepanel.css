@@ -63,7 +63,7 @@
         }
         .cb_slide_panel.loading .inner {
             min-height: 300px;
-            background: url(../img/ajax-loader.gif) no-repeat scroll 50% 50% transparent
+            background: url(../img/ajax-loader-2.gif) no-repeat scroll 50% 50% transparent
         }
         .cb_slide_panel h1 {
             color: #000;
