@@ -356,7 +356,7 @@ var query = query;
 var avail = avail;
 var mt = mt;
 $("#mediatype").val(mt);
-$("#term").val(query);
+$("#term").val(decodeURIComponent(query));
 if (avail == 'true') {
 $("#available").each(function(){ this.checked = true; });
 }
