@@ -353,8 +353,8 @@ function getsearch(query, mt, avail) {
     var query = query;
     var avail = avail;
     var mt = mt;
-    $("#mediatype").val(mt);
-    $("#term").val(query);
+    $("#mediatype").val(decodeURIComponent(mt));
+    $("#term").val(decodeURIComponent(query));
     if (avail == 'true') {
         $("#available").each(function(){ this.checked = true; });
     } else {
