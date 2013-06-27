@@ -6,6 +6,7 @@
 function showsliders() {
     $("#login_form").slideUp("fast");
     $('.loadmore').hide();
+    History.pushState({action: facebookfeed}, "Featured Items", "featured"); 
     $('#results').html('<div class="image_carousel"><div id="books"></div><div class="clearfix"></div><div id="music"></div><div class="clearfix"></div><div id="movies"></div><div class="clearfix"></div></div>');
     $.getJSON('https://www.tadl.org/mobile/export/items/json/music', function(data) {
         var template = Handlebars.compile($('#music-template').html());

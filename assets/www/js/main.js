@@ -14,8 +14,8 @@ var available = {};
 
 $(document).ready(function() {
 //    showsliders();
-    facebookfeed();
-
+//    facebookfeed();
+router.perform();
     $('#term').keydown(function(event) {
         if (event.keyCode == 13) {
             getResults();
@@ -29,36 +29,6 @@ $(document).ready(function() {
 
     if (localStorage.getItem('username')) {
         login();
-    }
-
-    var getResults = function() {
-        $("#login_form").slideUp("fast");
-        $('#results').empty().trigger("create");
-        $('.loadmore').show();
-        $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
-        pagecount = 0;
-
-        searchquery = $('#term').val();
-        mediatype = $('#mediatype').val();
-        if (document.getElementById('available').checked) {
-            available = true;
-        } else {
-            available = false;
-        }
-
-        $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available, function(data) {
-            var results = data.message
-            if (results != "no results") {
-                var template = Handlebars.compile($('#results-template').html());
-                var info = template(data);
-                $('#results').html(info);
-                $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');
-                $('#loadmoretext').trigger("create");
-            } else {
-                $('#results').html("No Results");
-                 $('.loadmore').hide();
-            }
-        });
     }
     $('#search').click(getResults);
     
@@ -83,6 +53,40 @@ function loadmore() {
         }
     });
 }
+
+
+function getResults() {
+        $("#login_form").slideUp("fast");
+        $('#results').empty().trigger("create");
+        $('.loadmore').show();
+        $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+        pagecount = 0;
+
+        searchquery = $('#term').val();
+        mediatype = $('#mediatype').val();
+        if (document.getElementById('available').checked) {
+            available = true;
+        } else {
+            available = false;
+        }
+        var newstate = 'search/'+ searchquery+'/'+mediatype+'/'+available; 
+        History.pushState({action: showcheckouts}, "Search", newstate); 
+
+        $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available, function(data) {
+            var results = data.message
+            if (results != "no results") {
+                var template = Handlebars.compile($('#results-template').html());
+                var info = template(data);
+                $('#results').html(info);
+                $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');
+                $('#loadmoretext').trigger("create");
+            } else {
+                $('#results').html("No Results");
+                 $('.loadmore').hide();
+            }
+        });
+    }
+
 
 function logged_in() {
     var username = localStorage.getItem('username');
@@ -265,6 +269,7 @@ function login() {
 function showcheckouts() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
+    History.pushState({action: showcheckouts}, "Your Checkedout Items", "checkout");  
     $('.loadmore').show();
     $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     var username = localStorage.getItem('username');
@@ -300,6 +305,7 @@ function cancelhold(hold_id) {
 function showholds() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
+    History.pushState({action: showholds}, "Your Holds", "holds"); 
     $('.loadmore').show();
     $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     var username = localStorage.getItem('username');
@@ -316,6 +322,7 @@ function showholds() {
 function showpickups() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
+    History.pushState({action: showpickups}, "Ready for Pickup", "pickup"); 
     $('.loadmore').show();
     $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");   
     var username = localStorage.getItem('username');
@@ -344,9 +351,27 @@ function renew(element, circulation_id, barcode) {
     });
 }
 
+function getsearch(query, mt, avail) {
+var query = query;
+var avail = avail;
+var mt = mt;
+$("#mediatype").val(mt);
+$("#term").val(query);
+if (avail == 'true') {
+$("#available").each(function(){ this.checked = true; });
+}
+else
+{
+$("#available").each(function(){ this.checked = false; });
+}
+getResults();
+}
+
+
 function showcard() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
+    History.pushState({action: showcard}, "Your Card", "card"); 
     $('.loadmore').show();
     $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     var username = localStorage.getItem('username');
@@ -363,6 +388,7 @@ function showcard() {
 function showevents() { 
      $("#login_form").slideUp("fast");
     $('#results').html("");
+    History.pushState({action: showevents}, "Upcoming Event", "events"); 
     $('.loadmore').show();
     $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     $.getJSON(EVENTS_URL, function(data) {
@@ -376,6 +402,7 @@ function showevents() {
 function showlocations() { 
     $("#login_form").slideUp("fast");
     $('#results').html("");
+    History.pushState({action: showlocations}, "Locations", "locations"); 
     $('.loadmore').show();
     $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     $.getJSON(LOCATIONS_BASE + "/all", function(data) {
@@ -389,6 +416,7 @@ function showlocations() {
 function facebookfeed() { 
     $("#login_form").slideUp("fast");
     $('#results').html("");
+    History.pushState({action: facebookfeed}, "Facebook Feed", "facebook"); 
     $('.loadmore').show();
     $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     $.getJSON(FACEBOOK_URL, function(data) {

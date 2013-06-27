@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <link rel="stylesheet" type="text/css" href="css/holo-base-elements.css" />
     <link rel="stylesheet" type="text/css" href="css/holo-light-elements.css" />
@@ -23,11 +24,35 @@
     <script type="text/javascript" src="js/phonegap-1.2.0.js"></script>
     <script type="text/javascript" src="js/jquery.dateFormat-1.0.js"></script>
     <script src="js/history.js/scripts/bundled/html4+html5/jquery.history.js"></script>
+    <script type="text/javascript" src="js/staterouter.js"></script>    
     <script>
 		document.addEventListener("deviceready", function() {
 		// before this event, window.open likely won't work properly
 		}, false);
 	</script>
+	<script>	
+	var router = new staterouter.Router();
+// Configure routes
+router
+  .route('/', facebookfeed)
+  .route('/#events', showevents)
+  .route('/events', showevents)
+  .route('/#facebook', facebookfeed)
+  .route('/facebook', facebookfeed)
+  .route('/locations', showlocations)
+  .route('/#locations', showlocations)
+  .route('/card', showcard)
+  .route('/#card', showcard)
+  .route('/pickup', showpickups)
+  .route('/#pickup', showpickups)
+  .route('/holds', showholds)
+  .route('/#holds', showholds)
+  .route('/checkouts', showcheckouts)
+  .route('/#checkouts', showcheckouts)
+  .route('/featured', showsliders)
+  .route('/search/:query/:mt/:avail', getsearch)
+  ;
+</script>	
 
     <title>TADL Mobile Beta</title>
 </head>
