@@ -19,7 +19,7 @@
         var base = this;
 
         if($('#slidepanel').length == 0){
-            var panel_html = '<div id="slidepanel" class="cb_slide_panel"><div class="wrapper"><a href="#" class="close">Close</a><div class="inner"><div class="wrapper"></div></div></div></div>';
+            var panel_html = '<div id="slidepanel" class="cb_slide_panel"><div class="wrapper"><a href="#" class="close">&nbsp;</a></div><div class="inner"><div class="wrapper"></div></div></div></div>';
             $(panel_html).hide().appendTo($('body'));    
         }
 
