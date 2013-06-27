@@ -30,27 +30,28 @@
 		// before this event, window.open likely won't work properly
 		}, false);
 	</script>
-	<script>	
+	<script>
+    var BASE_URL = '/m/';
 	var router = new staterouter.Router();
 // Configure routes
 router
-  .route('/m/', facebookfeed)
-  .route('/m/#events', showevents)
-  .route('/m/events', showevents)
-  .route('/m/#facebook', facebookfeed)
-  .route('/m/facebook', facebookfeed)
-  .route('/m/locations', showlocations)
-  .route('/m/#locations', showlocations)
-  .route('/m/card', showcard)
-  .route('/m/#card', showcard)
-  .route('/pickup', showpickups)
-  .route('/#pickup', showpickups)
-  .route('/holds', showholds)
-  .route('/#holds', showholds)
-  .route('/checkouts', showcheckouts)
-  .route('/#checkouts', showcheckouts)
-  .route('/featured', showsliders)
-  .route('/search/:query/:mt/:avail', getsearch)
+  .route(BASE_URL, facebookfeed)
+  .route(BASE_URL + '#events', showevents)
+  .route(BASE_URL + 'events', showevents)
+  .route(BASE_URL + '#facebook', facebookfeed)
+  .route(BASE_URL + 'facebook', facebookfeed)
+  .route(BASE_URL + 'locations', showlocations)
+  .route(BASE_URL + '#locations', showlocations)
+  .route(BASE_URL + 'card', showcard)
+  .route(BASE_URL + '#card', showcard)
+  .route(BASE_URL + 'pickup', showpickups)
+  .route(BASE_URL + '#pickup', showpickups)
+  .route(BASE_URL + 'holds', showholds)
+  .route(BASE_URL + '#holds', showholds)
+  .route(BASE_URL + 'checkouts', showcheckouts)
+  .route(BASE_URL + '#checkouts', showcheckouts)
+  .route(BASE_URL + 'featured', showsliders)
+  .route(BASE_URL + 'search/:query/:mt/:avail', getsearch)
   ;
 </script>	
 
