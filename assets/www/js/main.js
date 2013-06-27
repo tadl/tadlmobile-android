@@ -13,8 +13,6 @@ var mediatype = {};
 var available = {};
 
 $(document).ready(function() {
-//    showsliders();
-//    facebookfeed();
 router.perform();
     $('#term').keydown(function(event) {
         if (event.keyCode == 13) {
@@ -352,19 +350,17 @@ function renew(element, circulation_id, barcode) {
 }
 
 function getsearch(query, mt, avail) {
-var query = query;
-var avail = avail;
-var mt = mt;
-$("#mediatype").val(mt);
-$("#term").val(query);
-if (avail == 'true') {
-$("#available").each(function(){ this.checked = true; });
-}
-else
-{
-$("#available").each(function(){ this.checked = false; });
-}
-getResults();
+    var query = query;
+    var avail = avail;
+    var mt = mt;
+    $("#mediatype").val(mt);
+    $("#term").val(query);
+    if (avail == 'true') {
+        $("#available").each(function(){ this.checked = true; });
+    } else {
+        $("#available").each(function(){ this.checked = false; });
+    }
+    getResults();
 }
 
 
