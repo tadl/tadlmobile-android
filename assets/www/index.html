@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <base href="/">
+   <base href="/m/">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <link rel="stylesheet" type="text/css" href="css/holo-base-elements.css" />
     <link rel="stylesheet" type="text/css" href="css/holo-light-elements.css" />
@@ -34,15 +34,15 @@
 	var router = new staterouter.Router();
 // Configure routes
 router
-  .route('/', facebookfeed)
-  .route('/#events', showevents)
-  .route('/events', showevents)
-  .route('/#facebook', facebookfeed)
-  .route('/facebook', facebookfeed)
-  .route('/locations', showlocations)
-  .route('/#locations', showlocations)
-  .route('/card', showcard)
-  .route('/#card', showcard)
+  .route('/m/', facebookfeed)
+  .route('/m/#events', showevents)
+  .route('/m/events', showevents)
+  .route('/m/#facebook', facebookfeed)
+  .route('/m/facebook', facebookfeed)
+  .route('/m/locations', showlocations)
+  .route('/m/#locations', showlocations)
+  .route('/m/card', showcard)
+  .route('/m/#card', showcard)
   .route('/pickup', showpickups)
   .route('/#pickup', showpickups)
   .route('/holds', showholds)
