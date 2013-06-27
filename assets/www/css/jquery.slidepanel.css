@@ -25,21 +25,19 @@
             box-shadow: 1px 1px 23px rgba(0, 0, 0, 0.17), 1px 1px 0 rgba(255, 255, 255, 0.85) inset;
         }
         .cb_slide_panel a.close {
-            background: url(../img/half_tinylogo.png) no-repeat;
-            background-position:3px 2px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            height: 35px;
-            width: 35px;
-            position: absolute;
-            text-indent: -9999em;
-            -webkit-border-top-right-radius: 5px;
-            -webkit-border-bottom-right-radius: 5px;
+            background-color: rgba(0,0,0,0.6);
+            text-decoration:none;
+            border: none;
+            position: fixed;
+            left:168px;
+            top:0px;
+            padding:100%;
+            overflow:visible;
             display: none;
         }
         .cb_slide_panel.panel_left a.close {
-            right: -35px;
-            top: 1px;
+            left:168px;
+            top: 0px;
         }
         .cb_slide_panel.panel_right a.close {
             left: -42px;
