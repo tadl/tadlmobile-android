@@ -20,7 +20,6 @@
     <script type="text/javascript" src="js/jquery.transit.min.js"></script>
     <script type="text/javascript" src="js/jquery.ba-throttle-debounce.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
-    <script type="text/javascript" src="js/slider.js"></script>
     <script type="text/javascript" src="js/phonegap-1.2.0.js"></script>
     <script type="text/javascript" src="js/jquery.dateFormat-1.0.js"></script>
     <script src="js/history.js/scripts/bundled/html4+html5/jquery.history.js"></script>
@@ -50,8 +49,10 @@ router
   .route(BASE_URL + '#holds', showholds)
   .route(BASE_URL + 'checkouts', showcheckouts)
   .route(BASE_URL + '#checkouts', showcheckouts)
-  .route(BASE_URL + 'featured', showsliders)
+  .route(BASE_URL + 'featured', showfeatured)
+  .route(BASE_URL + '#featured', showfeatured)
   .route(BASE_URL + 'search/:query/:mt/:avail', getsearch)
+  .route(BASE_URL + 'item/:record_id', viewitem)
   ;
 </script>	
 
@@ -95,22 +96,9 @@ router
 <div id="results">
 </div>
 
-<script id="books-template" type="text/template">
+<script id="featured-template" type="text/template">
     {{#nodes}}
-        <img class="noSwipe" onclick="viewitem({{node.item}});return false;" src="https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/{{node.item}}" height="100" width="70" />
-    {{/nodes}}
-</script>
-
-<script id="movies-template" type="text/template">
-    {{#nodes}}
-        <img class="noSwipe" onclick="viewitem({{node.item}});return false;" src="https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/{{node.item}}" height="100" width="70" />
-    {{/nodes}}
-    <a href="#" class="button" onclick="showsliders();return false;">Shuffle Items</a>
-</script>
-
-<script id="music-template" type="text/template">
-    {{#nodes}}
-        <img class="noSwipe" onclick="viewitem({{node.item}});return false;" src="https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/{{node.item}}" height="100" width="100" />
+        <img onclick="viewitem({{node.item}});return false;" src="https://catalog.tadl.org/opac/extras/ac/jacket/medium/r/{{node.item}}" height="100" />
     {{/nodes}}
 </script>
 
@@ -158,7 +146,7 @@ router
     </table>
     </div>
     <div class="clearfix"></div>
-    <a onclick="showsliders();" class="actionlink">Back to Featured Items</a>
+    <a onclick="showfeatured();" class="actionlink">Back to Featured Items</a>
     <div id="{{:item.:record_id}}shelf" style="display:none;"></div>
     </div>
 </script>

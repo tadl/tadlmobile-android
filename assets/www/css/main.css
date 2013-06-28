@@ -225,6 +225,7 @@ th {
 
 .image_carousel {
     padding: 5px 0;
+    text-align:center;
 }
 
 .image_carousel img {
@@ -232,8 +233,7 @@ th {
     background-color: white;
     padding: 8px;
     margin: 5px 10px;
-    display: block;
-    float: left;
+    cursor:pointer;
 }
 
 .bottomlinks {

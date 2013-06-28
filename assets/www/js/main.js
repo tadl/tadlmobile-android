@@ -122,10 +122,24 @@ function showmore(record_id) {
         $('#'+ record_id).css('display', 'none');
     }
 }
+function showfeatured() {
+    $("#login_form").slideUp("fast");
+    $('.loadmore').hide();
+    History.pushState({action: showfeatured}, "Featured Items", "featured");
+    $('#results').html('<div class="image_carousel"><div id="featured"></div><div class="clearfix"></div></div>');
+    $.getJSON('https://www.tadl.org/mobile/export/items/json/featured', function(data) {
+        var template = Handlebars.compile($('#featured-template').html());
+        var info = template(data);
+        $('#featured').html(info);
+    });
+    $('#results').append('<div id="refreshbutton" style="text-align:center;"><a href="#" class="button" onclick="showfeatured();return false;">Shuffle Items</a></div>');
+}
+
 
 function viewitem(record_id) {
     $("#login_form").slideUp("fast");
     $('#results').empty().trigger("create");
+    History.pushState({action: viewitem}, 'Featured Item ' + record_id, 'item/' + record_id);
     $('.loadmore').show();
     $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
     var record_id = record_id;
