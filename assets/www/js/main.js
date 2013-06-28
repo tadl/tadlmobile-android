@@ -56,7 +56,7 @@ function loadmore() {
 function getResults() {
         $("#login_form").slideUp("fast");
         $('#results').empty().trigger("create");
-        $('.loadmore').show();
+        $('.load_more').show();
         $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
         pagecount = 0;
         searchquery = $('#term').val();
@@ -78,7 +78,7 @@ function getResults() {
                 $('#loadmoretext').trigger("create");
             } else {
                 $('#results').html("No Results");
-                 $('.loadmore').hide();
+                 $('.load_more').hide();
             }
         });
     }
@@ -124,7 +124,7 @@ function showfeatured() {
     $("#login_form").slideUp("fast");
     $('#results').html('<div class="image_carousel"><div id="featured"></div><div class="clearfix"></div></div>');
     History.pushState({action: showfeatured}, "Featured Items", "featured");
-    $('.loadmore').show();
+    $('.load_more').show();
     $('.image_carousel').hide();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(FEATURED_URL, function(data) {
@@ -132,7 +132,7 @@ function showfeatured() {
         var info = template(data);
         $('#featured').html(info);
         $('#featured').imagesLoaded().done( function( instance ) { 
-            $('.loadmore').hide();
+            $('.load_more').hide();
             $('.image_carousel').show();
         });
     });
@@ -142,7 +142,7 @@ function viewitem(record_id) {
     $("#login_form").slideUp("fast");
     $('#results').empty().trigger("create");
     History.pushState({action: viewitem}, 'Featured Item ' + record_id, 'item/' + record_id);
-    $('.loadmore').show();
+    $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var record_id = record_id;
     $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/itemdetails.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
@@ -284,7 +284,7 @@ function showcheckouts() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
     History.pushState({action: showcheckouts}, "Your Checkedout Items", "checkout");  
-    $('.loadmore').show();
+    $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
@@ -292,7 +292,7 @@ function showcheckouts() {
         var template = Handlebars.compile($('#showcheckedout-template').html());
         var info = template(data);
         $('#results').html(info);
-        $('.loadmore').hide();
+        $('.load_more').hide();
     });
 }
 
@@ -320,7 +320,7 @@ function showholds() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
     History.pushState({action: showholds}, "Your Holds", "holds"); 
-    $('.loadmore').show();
+    $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
@@ -329,7 +329,7 @@ function showholds() {
         var info = template(data);
        $('#results').show();
        $('#results').html(info);
-        $('.loadmore').hide(); 
+        $('.load_more').hide(); 
     });
 }
 
@@ -337,7 +337,7 @@ function showpickups() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
     History.pushState({action: showpickups}, "Ready for Pickup", "pickup"); 
-    $('.loadmore').show();
+    $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");   
     var username = localStorage.getItem('username');
     var username = localStorage.getItem('username');
@@ -346,7 +346,7 @@ function showpickups() {
         var template = Handlebars.compile($('#showholds-template').html());
         var info = template(data);
        $('#results').html(info);
-        $('.loadmore').hide(); 
+        $('.load_more').hide(); 
     });
 }
 
@@ -383,13 +383,13 @@ function showcard() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
     History.pushState({action: showcard}, "Your Card", "card"); 
-    $('.loadmore').show();
+    $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
     $.getJSON(ILSCATCHER_BASE + '/main/showcard.json?u='+ username +'&pw=' + password, function(data) {
         var card = data.barcode;
-        $('.loadmore').hide();
+        $('.load_more').hide();
         $('#results').empty().append('<div class="shadow result" id="bcTarget"></div>');
         $('#results').trigger("create"); 
         $("#bcTarget").barcode(card, "code128", {barWidth:2, barHeight:100, fontSize:14}); 
@@ -400,12 +400,12 @@ function showevents() {
      $("#login_form").slideUp("fast");
     $('#results').html("");
     History.pushState({action: showevents}, "Upcoming Event", "events"); 
-    $('.loadmore').show();
+    $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(EVENTS_URL, function(data) {
         var template = Handlebars.compile($('#showevents-template').html());
         var info = template(data);
-        $('.loadmore').hide();
+        $('.load_more').hide();
         $('#results').html(info);
     });
 }
@@ -414,12 +414,12 @@ function showlocations() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
     History.pushState({action: showlocations}, "Locations", "locations"); 
-    $('.loadmore').show();
+    $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(LOCATIONS_BASE + "/all", function(data) {
         var template = Handlebars.compile($('#showlocations-template').html());
         var info = template(data);
-        $('.loadmore').hide();
+        $('.load_more').hide();
         $('#results').html(info);
     });
 }
@@ -428,12 +428,12 @@ function facebookfeed() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
     History.pushState({action: facebookfeed}, "Facebook Feed", "facebook"); 
-    $('.loadmore').show();
+    $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(FACEBOOK_URL, function(data) {
         var template = Handlebars.compile($('#facebookfeed-template').html());
         var info = template(data);
-        $('.loadmore').hide();
+        $('.load_more').hide();
         $('#results').html(info);
         $('.linkable').doLinks();
         $(".shortDateFormat").each(function (idx, elem) {
