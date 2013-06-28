@@ -6,6 +6,8 @@ var EVENTS_URL = 'https://www.tadl.org/mobile/export/events/json/all'
 var LOCATIONS_BASE = 'https://www.tadl.org/mobile/export/locations'
 var PLACEHOLDER_IMG = 'img/clocktower100.png';
 var FACEBOOK_URL = 'https://graph.facebook.com/TraverseAreaDistrictLibrary/feed?access_token=CAAFh5Quq0YMBAENgjPYY9MY0y3cdiAMvXmLl6Fq3H4LDZBBZBukKlXFwWPq0xMLa6hqDrfxfGqvFpBlIZCjFKg0rKdd37qHLsjwcBve4UeZAQymPksV7ddAeZAJOyaeZC05WqlLzrVpOUQEtjiCZArjB6NMUHjvU90qXZAGEOESKDgZDZD';
+var loadingmoreText = '<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>';
+var loadmoreText = '<a class="loadmore button" onclick="loadmore();">LOAD MORE RESULTS</a>';
 var searchquery = {};
 var pagecount = {};
 var mediatype = {};
@@ -33,7 +35,7 @@ router.perform();
 
 function loadmore() {
     pagecount++;
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $('#loadmoretext').trigger("create");
     $.get(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype + "&p=" + pagecount +"&avail=" + available, function(data) {
         var results = data.message
@@ -41,7 +43,7 @@ function loadmore() {
             var template = Handlebars.compile($('#results-template').html());
             var info = template(data);
             $('#results').append(info).promise().done(function() {
-                $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');
+                $('#loadmoretext').empty().append(loadmoreText);
                 $('#loadmoretext').trigger("create");
                 $("#login_form").slideUp("fast");
             })
@@ -55,7 +57,7 @@ function getResults() {
         $("#login_form").slideUp("fast");
         $('#results').empty().trigger("create");
         $('.loadmore').show();
-        $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+        $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
         pagecount = 0;
         searchquery = $('#term').val();
         mediatype = $('#mediatype').val();
@@ -72,7 +74,7 @@ function getResults() {
                 var template = Handlebars.compile($('#results-template').html());
                 var info = template(data);
                 $('#results').html(info);
-                $('#loadmoretext').empty().append('<a class="loadmore" onclick="loadmore();">LOAD MORE RESULTS</a>');
+                $('#loadmoretext').empty().append(loadmoreText);
                 $('#loadmoretext').trigger("create");
             } else {
                 $('#results').html("No Results");
@@ -101,7 +103,7 @@ function showmore(record_id) {
     var e = document.getElementById(record_id);
     if (e.style.display === 'none') {
         if( !$.trim( $('#'+ record_id).html() ).length ) {
-            $('#'+ record_id +'-loading').html('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+            $('#'+ record_id +'-loading').html(loadingmoreText).trigger("create");
             $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/itemdetails.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
                 var results = data.message;
                 var template = Handlebars.compile($('#more_details-template').html());
@@ -123,7 +125,7 @@ function showfeatured() {
     $('#results').html('');
     History.pushState({action: showfeatured}, "Featured Items", "featured");
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(FEATURED_URL, function(data) {
         var template = Handlebars.compile($('#featured-template').html());
         var info = '<div class="image_carousel"><div id="featured">' + template(data) + '</div><div class="clearfix"></div></div>';
@@ -137,7 +139,7 @@ function viewitem(record_id) {
     $('#results').empty().trigger("create");
     History.pushState({action: viewitem}, 'Featured Item ' + record_id, 'item/' + record_id);
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var record_id = record_id;
     $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/itemdetails.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
         var results = data.message;
@@ -165,7 +167,7 @@ function showshelf(record_id) {
     var e = document.getElementById(record_id +'shelf');
     if (e.style.display === 'none') {
         if( !$.trim( $('#'+ record_id +'shelf').html() ).length ) {
-            $('#'+ record_id +'-loading').html('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+            $('#'+ record_id +'-loading').html(loadingmoreText).trigger("create");
             $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/itemonshelf.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
                 var results = data.message;
                 var template = Handlebars.compile($('#shelf-template').html());
@@ -279,7 +281,7 @@ function showcheckouts() {
     $('#results').html("");
     History.pushState({action: showcheckouts}, "Your Checkedout Items", "checkout");  
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
     $.getJSON(ILSCATCHER_BASE + '/main/showcheckouts.json?u='+ username +'&pw=' + password, function(data) {
@@ -315,7 +317,7 @@ function showholds() {
     $('#results').html("");
     History.pushState({action: showholds}, "Your Holds", "holds"); 
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
     $.getJSON(ILSCATCHER_BASE + '/main/showholds.json?u='+ username +'&pw=' + password, function(data) {
@@ -332,7 +334,7 @@ function showpickups() {
     $('#results').html("");
     History.pushState({action: showpickups}, "Ready for Pickup", "pickup"); 
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");   
+    $('#loadmoretext').empty().append(loadingmoreText).trigger("create");   
     var username = localStorage.getItem('username');
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
@@ -378,7 +380,7 @@ function showcard() {
     $('#results').html("");
     History.pushState({action: showcard}, "Your Card", "card"); 
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password'); 
     $.getJSON(ILSCATCHER_BASE + '/main/showcard.json?u='+ username +'&pw=' + password, function(data) {
@@ -395,7 +397,7 @@ function showevents() {
     $('#results').html("");
     History.pushState({action: showevents}, "Upcoming Event", "events"); 
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(EVENTS_URL, function(data) {
         var template = Handlebars.compile($('#showevents-template').html());
         var info = template(data);
@@ -409,7 +411,7 @@ function showlocations() {
     $('#results').html("");
     History.pushState({action: showlocations}, "Locations", "locations"); 
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(LOCATIONS_BASE + "/all", function(data) {
         var template = Handlebars.compile($('#showlocations-template').html());
         var info = template(data);
@@ -423,7 +425,7 @@ function facebookfeed() {
     $('#results').html("");
     History.pushState({action: facebookfeed}, "Facebook Feed", "facebook"); 
     $('.loadmore').show();
-    $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
+    $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(FACEBOOK_URL, function(data) {
         var template = Handlebars.compile($('#facebookfeed-template').html());
         var info = template(data);
