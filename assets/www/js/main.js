@@ -1,8 +1,7 @@
 var ILSCATCHER_HOST = 'tadl-ilscatcher.herokuapp.com'
-// test ilscatcher host:
-// var ILSCATCHER_HOST = 'rocky-mountain-7481.herokuapp.com'
 var ILSCATCHER_BASE = 'https://' + ILSCATCHER_HOST
 var ILSCATCHER_INSECURE_BASE = 'https://' + ILSCATCHER_HOST /* we will actually use https here also */
+var FEATURED_URL = 'https://www.tadl.org/mobile/export/items/json/featured'
 var EVENTS_URL = 'https://www.tadl.org/mobile/export/events/json/all'
 var LOCATIONS_BASE = 'https://www.tadl.org/mobile/export/locations'
 var PLACEHOLDER_IMG = 'img/clocktower100.png';
@@ -52,14 +51,12 @@ function loadmore() {
     });
 }
 
-
 function getResults() {
         $("#login_form").slideUp("fast");
         $('#results').empty().trigger("create");
         $('.loadmore').show();
         $('#loadmoretext').empty().append('<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>').trigger("create");
         pagecount = 0;
-
         searchquery = $('#term').val();
         mediatype = $('#mediatype').val();
         if (document.getElementById('available').checked) {
@@ -69,7 +66,6 @@ function getResults() {
         }
         var newstate = 'search/'+ searchquery+'/'+mediatype+'/'+available; 
         History.pushState({action: showcheckouts}, "Search", newstate); 
-
         $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available, function(data) {
             var results = data.message
             if (results != "no results") {
@@ -84,7 +80,6 @@ function getResults() {
             }
         });
     }
-
 
 function logged_in() {
     var username = localStorage.getItem('username');
@@ -122,19 +117,19 @@ function showmore(record_id) {
         $('#'+ record_id).css('display', 'none');
     }
 }
+
 function showfeatured() {
     $("#login_form").slideUp("fast");
     $('.loadmore').hide();
     History.pushState({action: showfeatured}, "Featured Items", "featured");
     $('#results').html('<div class="image_carousel"><div id="featured"></div><div class="clearfix"></div></div>');
-    $.getJSON('https://www.tadl.org/mobile/export/items/json/featured', function(data) {
+    $.getJSON(FEATURED_URL, function(data) {
         var template = Handlebars.compile($('#featured-template').html());
         var info = template(data);
         $('#featured').html(info);
     });
     $('#results').append('<div id="refreshbutton" style="text-align:center;"><a href="#" class="button" onclick="showfeatured();return false;">Shuffle Items</a></div>');
 }
-
 
 function viewitem(record_id) {
     $("#login_form").slideUp("fast");
@@ -377,7 +372,6 @@ function getsearch(query, mt, avail) {
     getResults();
 }
 
-
 function showcard() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
@@ -444,18 +438,15 @@ function facebookfeed() {
         });
     });
 }
-/* doLinks script */ 
 
 function linkify(inputText, options) {
     this.options = {linkClass: 'url', targetBlank: true};
     this.options = $.extend(this.options, options);
     inputText = inputText.replace(/\u200B/g, "");
 
-    //URLs starting with http://, https://, or ftp://
     var replacePattern1 = /(src="|href="|">|\s>)?(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;ï]*[-A-Z0-9+&@#\/%=~_|ï]/gim;
     var replacedText = inputText.replace(replacePattern1, function($0,$1){ return $1?$0:'<br/><a class="'+ this.options.linkClass + '" href="' + $0 + '?nomobi=true"' + (this.options.targetBlank?'target="_blank"':'') + '>'+ $0.trunc(32) + '</a>';});
 
-    //URLS starting with www and not the above
     var replacePattern2 = /(src="|href="|">|\s>|https?:\/\/|ftp:\/\/)?www\.[-A-Z0-9+&@#\/%?=~_|!:,.;ï]*[-A-Z0-9+&@#\/%=~_|ï]/gim;
     var replacedText = replacedText.replace(replacePattern2, function($0,$1){ return $1?$0:'<br/><a class="'+ this.options.linkClass + '" href="http://' + $0 + '?nomobi=true"' + (this.options.targetBlank?'target="_blank"':'') + '>'+ $0.trunc(32) + '</a>';});
 
@@ -472,7 +463,6 @@ String.prototype.trunc =
     function(n){
         return this.substr(0,n-1)+(this.length>n?'&hellip;':'');
     };
-
 
 function img_check(img) {
     var img = img;
@@ -518,5 +508,4 @@ Handlebars.registerHelper('make_https', function(url, options) {
     var https_url = url.replace(/^http:/, 'https:');
     return https_url;
 });
-
 
