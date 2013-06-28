@@ -128,13 +128,13 @@
         //else the panel is overlayed on top of the body
         if(this.options.mode == 'push'){
             //animate the body position in relation to the panel dimensions
-            this.$body.css('position', 'absolute').animate(body_options, 250);
+            this.$body.css('position', 'absolute').animate(body_options, 100);
         }
 
         //animate the panel into view
-        this.$panel.addClass('loading').animate(panel_options, 250, function() {
+        this.$panel.addClass('loading').animate(panel_options, 100, function() {
             //show the panel's close button
-            $('.close', base.$panel).fadeIn(250);
+            $('.close', base.$panel).fadeIn(100);
         });
     };
 
@@ -151,10 +151,10 @@
         
         //if the animation mode is push, move the document body back to it's original position
         if(this.options.mode == 'push'){
-            this.$body.css('position', this.$body_position).animate(body_options, 250);
+            this.$body.css('position', this.$body_position).animate(body_options, 100);
         }
         //animate the panel out of view
-        this.$panel.animate(panel_options, 250).data('slidepanel-current', false);
+        this.$panel.animate(panel_options, 100).data('slidepanel-current', false);
     };
 
     $.fn['slidepanel'] = function ( options ) {
