@@ -122,15 +122,19 @@ function showmore(record_id) {
 
 function showfeatured() {
     $("#login_form").slideUp("fast");
-    $('#results').html('');
+    $('#results').html('<div class="image_carousel"><div id="featured"></div><div class="clearfix"></div></div>');
     History.pushState({action: showfeatured}, "Featured Items", "featured");
     $('.loadmore').show();
+    $('.image_carousel').hide();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(FEATURED_URL, function(data) {
         var template = Handlebars.compile($('#featured-template').html());
-        var info = '<div class="image_carousel"><div id="featured">' + template(data) + '</div><div class="clearfix"></div></div>';
-        $('.loadmore').hide();
-        $('#results').html(info);
+        var info = template(data);
+        $('#featured').html(info);
+        $('#featured').imagesLoaded().done( function( instance ) { 
+            $('.loadmore').hide();
+            $('.image_carousel').show();
+        });
     });
 }
 
