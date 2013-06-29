@@ -15,7 +15,7 @@ var mediatype = {};
 var available = {};
 
 $(document).ready(function() {
-router.perform();
+    router.perform();
     $('#term').keydown(function(event) {
         if (event.keyCode == 13) {
             getResults();
@@ -26,12 +26,10 @@ router.perform();
             login();
         }
     });
-
     if (localStorage.getItem('username')) {
         login();
     }
     $('#search').click(getResults);
-    
 });
 
 function loadmore() {
@@ -67,7 +65,7 @@ function getResults() {
         } else {
             available = false;
         }
-        var newstate = 'search/'+ searchquery+'/'+mediatype+'/'+available; 
+        var newstate = 'search/'+searchquery+'/'+mediatype+'/'+available; 
         History.pushState({action: showcheckouts}, psTitle + "Search", newstate); 
         $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available, function(data) {
             var results = data.message
