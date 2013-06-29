@@ -8,6 +8,7 @@ var PLACEHOLDER_IMG = 'img/clocktower100.png';
 var FACEBOOK_URL = 'https://graph.facebook.com/TraverseAreaDistrictLibrary/feed?access_token=CAAFh5Quq0YMBAENgjPYY9MY0y3cdiAMvXmLl6Fq3H4LDZBBZBukKlXFwWPq0xMLa6hqDrfxfGqvFpBlIZCjFKg0rKdd37qHLsjwcBve4UeZAQymPksV7ddAeZAJOyaeZC05WqlLzrVpOUQEtjiCZArjB6NMUHjvU90qXZAGEOESKDgZDZD';
 var loadingmoreText = '<a class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</a>';
 var loadmoreText = '<a class="loadmore button" onclick="loadmore();">LOAD MORE RESULTS</a>';
+var psTitle = "TADL Mobile | ";
 var searchquery = {};
 var pagecount = {};
 var mediatype = {};
@@ -67,7 +68,7 @@ function getResults() {
             available = false;
         }
         var newstate = 'search/'+ searchquery+'/'+mediatype+'/'+available; 
-        History.pushState({action: showcheckouts}, "Search", newstate); 
+        History.pushState({action: showcheckouts}, psTitle + "Search", newstate); 
         $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available, function(data) {
             var results = data.message
             if (results != "no results") {
@@ -123,7 +124,7 @@ function showmore(record_id) {
 function showfeatured() {
     $("#login_form").slideUp("fast");
     $('#results').html('<div class="image_carousel"><div id="featured"></div><div class="clearfix"></div></div>');
-    History.pushState({action: showfeatured}, "Featured Items", "featured");
+    History.pushState({action: showfeatured}, psTitle + "Featured Items", "featured");
     $('.load_more').show();
     $('.image_carousel').hide();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
@@ -141,7 +142,7 @@ function showfeatured() {
 function viewitem(record_id) {
     $("#login_form").slideUp("fast");
     $('#results').empty().trigger("create");
-    History.pushState({action: viewitem}, 'Featured Item ' + record_id, 'item/' + record_id);
+    History.pushState({action: viewitem}, psTitle + "Item " + record_id, "item/" + record_id);
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var record_id = record_id;
@@ -283,7 +284,7 @@ function login() {
 function showcheckouts() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
-    History.pushState({action: showcheckouts}, "Your Checkedout Items", "checkout");  
+    History.pushState({action: showcheckouts}, psTitle + "Checked-Out Items", "checkout");  
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = localStorage.getItem('username');
@@ -319,7 +320,7 @@ function cancelhold(hold_id) {
 function showholds() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
-    History.pushState({action: showholds}, "Your Holds", "holds"); 
+    History.pushState({action: showholds}, psTitle + "Holds", "holds"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = localStorage.getItem('username');
@@ -336,7 +337,7 @@ function showholds() {
 function showpickups() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
-    History.pushState({action: showpickups}, "Ready for Pickup", "pickup"); 
+    History.pushState({action: showpickups}, psTitle + "Items ready for pickup", "pickup"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");   
     var username = localStorage.getItem('username');
@@ -382,7 +383,7 @@ function getsearch(query, mt, avail) {
 function showcard() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
-    History.pushState({action: showcard}, "Your Card", "card"); 
+    History.pushState({action: showcard}, psTitle + "Mobile Library Card", "card"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = localStorage.getItem('username');
@@ -399,7 +400,7 @@ function showcard() {
 function showevents() { 
      $("#login_form").slideUp("fast");
     $('#results').html("");
-    History.pushState({action: showevents}, "Upcoming Event", "events"); 
+    History.pushState({action: showevents}, psTitle + "Upcoming Events", "events"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(EVENTS_URL, function(data) {
@@ -413,7 +414,7 @@ function showevents() {
 function showlocations() { 
     $("#login_form").slideUp("fast");
     $('#results').html("");
-    History.pushState({action: showlocations}, "Locations", "locations"); 
+    History.pushState({action: showlocations}, psTitle + "Library Locations", "locations"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(LOCATIONS_BASE + "/all", function(data) {
@@ -427,7 +428,7 @@ function showlocations() {
 function facebookfeed() { 
     $("#login_form").slideUp("fast");
     $('#results').html("");
-    History.pushState({action: facebookfeed}, "Facebook Feed", "facebook"); 
+    History.pushState({action: facebookfeed}, psTitle + "Facebook Feed", "facebook"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(FACEBOOK_URL, function(data) {
