@@ -337,7 +337,7 @@ function showholds() {
 function showpickups() {
     $("#login_form").slideUp("fast");
     $('#results').html("");
-    History.pushState({action: showpickups}, psTitle + "Items ready for pickup", "pickup"); 
+    History.pushState({action: showpickups}, psTitle + "Items Ready for Pickup", "pickup"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");   
     var username = localStorage.getItem('username');
