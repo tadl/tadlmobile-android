@@ -425,9 +425,8 @@ function showlocations() {
 
 function showmain() {
     $("#login_form").slideUp("fast");
-    $('#results').html('<div id="mainpage"><div class="mainlogo"></div><div class="mainlinks"></div><div class="clearfix"></div></div>');
+    $('#results').html('<div id="mainpage"><div class="mainlogo"><img class="homelogo" src="img/clean-logo-header.png" alt="" /></div><div class="mainlinks"></div><div class="clearfix"></div></div>');
     History.pushState({action: showmain}, psTitle + "Search and Explore", "");
-    $('.mainlogo').append('<img class="homelogo" src="img/clean-logo-header.png" alt="" />');
     $('.mainlinks').load('menu.html');
 }
 
