@@ -256,3 +256,26 @@ th {
     -webkit-border-bottom-right-radius: 5px;
     border: 1px solid #ccc;
 }
+
+.mainlogo {
+    float:left;
+    max-width:240px;
+    width:100%;
+    margin: 0 auto;
+}
+
+.mainlinks {
+    float:left;
+    max-width:280px;
+    text-align:left;
+    margin:0 auto;
+}
+
+.mainlinks .button {
+    font-size: 1.3em;
+}
+
+#mainpage {
+    max-width: 460px;
+    margin:0 auto;
+}
