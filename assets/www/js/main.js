@@ -389,9 +389,9 @@ function showcard() {
     $.getJSON(ILSCATCHER_BASE + '/main/showcard.json?u='+ username +'&pw=' + password, function(data) {
         var card = data.barcode;
         $('.load_more').hide();
-        $('#results').empty().append('<div class="shadow result" id="bcTarget"></div>');
+        $('#results').empty().append('<div class="shadow result"><div id="barcodepage"><div class="barcode"><div id="bcTarget"></div></div><div class="barcodelogo"><div class="bclogoTarget"><img src="img/clean-logo-header.png" alt="" /></div></div><div class="clearfix"></div></div></div>');
         $('#results').trigger("create"); 
-        $("#bcTarget").barcode(card, "code128", {barWidth:2, barHeight:100, fontSize:14}); 
+        $("#bcTarget").barcode(card, "code128", {barWidth:2, barHeight:80, fontSize:12}); 
     });
 }
 

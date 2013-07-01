@@ -223,10 +223,6 @@ th {
     padding:5px;
 }
 
-#bcTarget {
-  margin:3em 1em;
-}
-
 .image_carousel {
     padding: 5px 0;
     text-align:center;
@@ -257,6 +253,39 @@ th {
     border: 1px solid #ccc;
 }
 
+#bcTarget {
+    margin:15px auto;
+}
+
+.barcode {
+    float:left;
+    width:100%;
+    max-width:300px;
+    margin:15px auto;
+}
+
+#barcodepage {
+    width:100%;
+    margin:0 auto;
+    text-align:center;
+}
+
+.barcodelogo {
+    float:left;
+    max-width:300px;
+    width:100%;
+    margin:0 auto;
+}
+
+.bclogoTarget {
+    margin:0 auto;
+    text-align:center;
+}
+
+.bclogoTarget img {
+    height:200px;
+}
+
 .mainlogo {
     float:left;
     max-width:240px;
@@ -279,3 +308,4 @@ th {
     max-width: 460px;
     margin:0 auto;
 }
+
