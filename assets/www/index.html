@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <base href="/m/">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <link rel="stylesheet" type="text/css" href="css/holo-base-elements.css" />
     <link rel="stylesheet" type="text/css" href="css/holo-light-elements.css" />
@@ -16,7 +16,6 @@
     <script type="text/javascript" src="js/handlebars.js"></script>
     <script type="text/javascript" src="js/jquery-barcode.min.js"></script>  
     <script type="text/javascript" src="js/main.js"></script>
-    <script type="text/javascript" src="js/phonegap-1.2.0.js"></script>
     <script type="text/javascript" src="js/jquery.dateFormat-1.0.js"></script>
     <script type="text/javascript" src="js/jquery.history.js"></script>
     <script type="text/javascript" src="js/staterouter.js"></script>    
@@ -26,31 +25,53 @@
 		}, false);
 	</script>
 	<script>
-    var BASE_URL = '/m/';
-	var router = new staterouter.Router();
-// Configure routes
-router
-  .route(BASE_URL, showmain)
-  .route(BASE_URL + '#events', showevents)
-  .route(BASE_URL + 'events', showevents)
-  .route(BASE_URL + '#facebook', facebookfeed)
-  .route(BASE_URL + 'facebook', facebookfeed)
-  .route(BASE_URL + 'locations', showlocations)
-  .route(BASE_URL + '#locations', showlocations)
-  .route(BASE_URL + 'card', showcard)
-  .route(BASE_URL + '#card', showcard)
-  .route(BASE_URL + 'pickup', showpickups)
-  .route(BASE_URL + '#pickup', showpickups)
-  .route(BASE_URL + 'holds', showholds)
-  .route(BASE_URL + '#holds', showholds)
-  .route(BASE_URL + 'checkout', showcheckouts)
-  .route(BASE_URL + '#checkout', showcheckouts)
-  .route(BASE_URL + 'featured', showfeatured)
-  .route(BASE_URL + '#featured', showfeatured)
-  .route(BASE_URL + 'search/:query/:mt/:avail', getsearch)
-  .route(BASE_URL + 'item/:record_id', viewitem)
-  ;
-</script>	
+History.Adapter.bind(window,'statechange',function(){ 
+ var state = History.getState();
+ var message = JSON.stringify(state);
+if (state.data.action === "showcard"){
+showcard();
+};
+if (state.data.action === "showholds"){
+showholds();
+};
+
+if (state.data.action === "showfeatured"){
+showfeatured();
+};
+
+if (state.data.action === "showcheckouts"){
+showcheckouts();
+};
+
+if (state.data.action === "showpickups"){
+showpickups();
+};
+
+if (state.data.action === "showfeatured"){
+showfeatured();
+};
+if (state.data.action === "showevents"){
+showevents();
+};
+
+if (state.data.action === "showlocations"){
+showlocation();
+};
+if (state.data.action === "facebookfeed"){
+facebookfeed();
+};
+if (state.data.action === "viewitem"){
+viewitem(state.data.record_id);
+};
+if (state.data.action === "showmain"){
+showmain();
+};
+if (state.data.action === "getsearch"){
+getsearch(state.data.query, state.data.mt, state.data.avail, state.data.location);
+};
+
+});
+</script>
 
     <title>TADL Mobile Beta</title>
 </head>
@@ -61,17 +82,32 @@ router
         <a href="menu.html" data-slidepanel="panel"><img class="left logo pointer" src="img/tinylogo.png" width="30" height="30" alt="" /></a>
         <input class="search_box left" type="text" placeholder="Search..." id="term" />
         <button id="search" class="left bigger">GO</button>
-        <button id="account" class="right bigger" onclick="openForm()"><img src="img/account.png" alt="ACCT" width="30" height="30" /></button>
+        <button id="ssettings" class="left bigger" onclick="openSearch_options()"><img src="img/settings-gear.png" alt="" width="25" height="25" /></button>
+        <button id="account" class="right bigger" onclick="openForm()"><img src="img/account.png" alt="" width="25" height="25" /></button>
         <div class="clearfix"></div>
-        <input class="left" type="checkbox" id="available" value="false" /><div class="left five">ONLY AVAILABLE</div>
-        <select style="margin-bottom:15px;margin-top:0;" id="mediatype">
-            <option value="ALL">ALL FORMATS</option>
+        <div id="search_options" style="display: none">
+        <input class="left" type="checkbox" id="available" value="false" style="margin-left: 43px;" />
+        <div class="left five" >ONLY AVAILABLE</div>
+        
+        <select style="margin-bottom:10px;margin-top:0;" id="mediatype">
+            <option value="ALL FORMATS">ALL FORMATS</option>
             <option value="BOOKS">BOOKS</option>
             <option value="MOVIES">MOVIES</option>
             <option value="MUSIC">MUSIC</option>
             <option value="VIDEO GAMES">VIDEO GAMES</option>
         </select>
+        <select style="margin-bottom:10px;margin-top:0;margin-left:5px;" id="location">
+            <option value="22">ALL LOCATIONS</option>
+            <option value="23">WOODMERE</option>
+            <option value="25">KINGSLEY</option>
+            <option value="24">INTERLOCHEN</option>
+            <option value="27">FIFE LAKE</option>
+            <option value="28">EAST BAY</option>
+            <option value="26">PENINSULA</option>
+        </select>
+        </div>
     </section>
+  
     <div id="login_form">
     Username: <input type="text" id="username" /><br />
     Password: <input type="password" id="pword" /><br />
@@ -88,7 +124,9 @@ router
         });
     });
 </script>
+<div id="search-params">
 
+</div>
 <div id="results">
 </div>
 

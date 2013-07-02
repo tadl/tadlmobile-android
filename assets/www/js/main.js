@@ -15,7 +15,7 @@ var mediatype = {};
 var available = {};
 
 $(document).ready(function() {
-    router.perform();
+    showmain();
     $('#term').keydown(function(event) {
         if (event.keyCode == 13) {
             getResults();
@@ -54,20 +54,28 @@ function loadmore() {
 
 function getResults() {
         $("#login_form").slideUp("fast");
+        $("#search_options").slideUp("fast");
+        $('#search-params').empty();
         $('#results').empty().trigger("create");
         $('.load_more').show();
         $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
         pagecount = 0;
         searchquery = $('#term').val();
         mediatype = $('#mediatype').val();
+        loc = $('#location').val();
+        loctext = document.getElementById("location").options[document.getElementById('location').selectedIndex].text;
+        
+        
         if (document.getElementById('available').checked) {
             available = true;
         } else {
             available = false;
         }
         var newstate = 'search/'+searchquery+'/'+mediatype+'/'+available; 
-        History.pushState({action: showcheckouts}, psTitle + "Search", newstate); 
-        $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available, function(data) {
+        var action = {action:"getsearch", query:searchquery, mt:mediatype, avail:available, location:loc}; 
+         History.pushState(action, "Search", 'search');
+        //History.pushState({action: showcheckouts}, psTitle + "Search", newstate); 
+        $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available + "&loc=" + loc, function(data) {
             var results = data.message
             if (results != "no results") {
                 var template = Handlebars.compile($('#results-template').html());
@@ -75,6 +83,7 @@ function getResults() {
                 $('#results').html(info);
                 $('#loadmoretext').empty().append(loadmoreText);
                 $('#loadmoretext').trigger("create");
+                $('#search-params').html('Searching for '+ searchquery +' in ' + mediatype + ' at ' + loctext + '. <a onclick="openSearch_options()">options...</a>');
             } else {
                 $('#results').html("No Results");
                  $('.load_more').hide();
@@ -121,8 +130,12 @@ function showmore(record_id) {
 
 function showfeatured() {
     $("#login_form").slideUp("fast");
+    $("#search_options").slideUp("fast");
+    $('#search-params').empty();
     $('#results').html('<div class="image_carousel"><div id="featured"></div><div class="clearfix"></div></div>');
-    History.pushState({action: showfeatured}, psTitle + "Featured Items", "featured");
+    //History.pushState({action: showfeatured}, psTitle + "Featured Items", "featured");
+    var action = {action:"showfeatured"};
+    History.pushState(action, "Featured Items", "featured");
     $('.load_more').show();
     $('.image_carousel').hide();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
@@ -139,8 +152,11 @@ function showfeatured() {
 
 function viewitem(record_id) {
     $("#login_form").slideUp("fast");
-    $('#results').empty().trigger("create");
-    History.pushState({action: viewitem}, psTitle + "Item " + record_id, "item/" + record_id);
+    $("#search_options").slideUp("fast");
+    $('#search-params').empty();
+    var action = {action:"viewitem", record_id:record_id};
+    //History.pushState(action, 'Featured Item ' + record_id, 'item/' + record_id);
+    History.pushState(action, 'Featured Item ' + record_id, 'item');
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var record_id = record_id;
@@ -244,6 +260,7 @@ function partB() {
 
 function openForm() {
     if ($("#login_form").is(":hidden")) {
+        $("#search_options").slideUp("fast");
         $("#login_form").slideDown("fast");
         login();
     } else {
@@ -251,6 +268,17 @@ function openForm() {
         
     }
 }
+
+function openSearch_options() {
+    if ($("#search_options").is(":hidden")) {
+        $("#login_form").slideUp("fast");
+        $("#search_options").slideDown("fast");
+    } else {
+        $("#search_options").slideUp("fast");
+        
+    }
+}
+
 
 function login() {
     if (localStorage.getItem('username')) {
@@ -281,8 +309,12 @@ function login() {
 
 function showcheckouts() {
     $("#login_form").slideUp("fast");
+    $("#search_options").slideUp("fast");
+    $('#search-params').empty();
     $('#results').html("");
-    History.pushState({action: showcheckouts}, psTitle + "Checked-Out Items", "checkout");  
+    var action = {action:"showcheckouts"};
+    History.pushState(action, "Your Checkedout Items", "checkout");   
+    //History.pushState({action: showcheckouts}, psTitle + "Checked-Out Items", "checkout");  
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = localStorage.getItem('username');
@@ -317,8 +349,12 @@ function cancelhold(hold_id) {
 
 function showholds() {
     $("#login_form").slideUp("fast");
+    $("#search_options").slideUp("fast");
+    $('#search-params').empty();
     $('#results').html("");
-    History.pushState({action: showholds}, psTitle + "Holds", "holds"); 
+    var action = {action:"showholds"};
+    History.pushState(action, "Your Holds", "holds"); 
+    //History.pushState({action: showholds}, psTitle + "Holds", "holds"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = localStorage.getItem('username');
@@ -334,8 +370,12 @@ function showholds() {
 
 function showpickups() {
     $("#login_form").slideUp("fast");
+    $("#search_options").slideUp("fast");
+    $('#search-params').empty();
     $('#results').html("");
-    History.pushState({action: showpickups}, psTitle + "Items Ready for Pickup", "pickup"); 
+    var action = {action:"showpickups"};
+    History.pushState(action, "Ready for Pickup", "pickup"); 
+    //History.pushState({action: showpickups}, psTitle + "Items Ready for Pickup", "pickup"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");   
     var username = localStorage.getItem('username');
@@ -364,12 +404,14 @@ function renew(element, circulation_id, barcode) {
     });
 }
 
-function getsearch(query, mt, avail) {
+function getsearch(query, mt, avail, location) {
     var query = query;
     var avail = avail;
     var mt = mt;
+    var loc = location;
     $("#mediatype").val(decodeURIComponent(mt));
     $("#term").val(decodeURIComponent(query));
+    $("#location").val(decodeURIComponent(loc));
     if (avail == 'true') {
         $("#available").each(function(){ this.checked = true; });
     } else {
@@ -380,8 +422,12 @@ function getsearch(query, mt, avail) {
 
 function showcard() {
     $("#login_form").slideUp("fast");
+    $("#search_options").slideUp("fast");
+    $('#search-params').empty();
     $('#results').html("");
-    History.pushState({action: showcard}, psTitle + "Mobile Library Card", "card"); 
+    var action = {action:"showcard"};
+    History.pushState(action, "Your Card", "card"); 
+    //History.pushState({action: showcard}, psTitle + "Mobile Library Card", "card"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = localStorage.getItem('username');
@@ -396,9 +442,13 @@ function showcard() {
 }
 
 function showevents() { 
-     $("#login_form").slideUp("fast");
+    $("#login_form").slideUp("fast");
+    $("#search_options").slideUp("fast");
+    $('#search-params').empty();
     $('#results').html("");
-    History.pushState({action: showevents}, psTitle + "Upcoming Events", "events"); 
+    var action = {action:"showevents"};
+    History.pushState(action, "Upcoming Event", "events"); 
+    //History.pushState({action: showevents}, psTitle + "Upcoming Events", "events"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(EVENTS_URL, function(data) {
@@ -411,8 +461,12 @@ function showevents() {
 
 function showlocations() { 
     $("#login_form").slideUp("fast");
+    $("#search_options").slideUp("fast");
+    $('#search-params').empty();
     $('#results').html("");
-    History.pushState({action: showlocations}, psTitle + "Library Locations", "locations"); 
+    var action = {action:"showlocation"};
+    History.pushState(action, "Locations", "locations"); 
+    //History.pushState({action: showlocations}, psTitle + "Library Locations", "locations"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(LOCATIONS_BASE + "/all", function(data) {
@@ -425,15 +479,23 @@ function showlocations() {
 
 function showmain() {
     $("#login_form").slideUp("fast");
+    $("#search_options").slideUp("fast");
+    $('#search-params').empty();
     $('#results').html('<div id="mainpage"><div class="mainlogo"><img class="homelogo" src="img/clean-logo-header.png" alt="" /></div><div class="mainlinks"></div><div class="clearfix"></div></div>');
-    History.pushState({action: showmain}, psTitle + "Search and Explore", "");
+    var action = {action:"showmain"};
+    History.pushState(action,  psTitle + "Search and Explore", "");
+    //History.pushState({action: showmain}, psTitle + "Search and Explore", "");
     $('.mainlinks').load('menu.html');
 }
 
 function facebookfeed() { 
     $("#login_form").slideUp("fast");
+    $("#search_options").slideUp("fast");
+    $('#search-params').empty();
     $('#results').html("");
-    History.pushState({action: facebookfeed}, psTitle + "Facebook Feed", "facebook"); 
+    var action = {action:"facebookfeed"};
+    History.pushState(action, "Facebook Feed", "facebook"); 
+    //History.pushState({action: facebookfeed}, psTitle + "Facebook Feed", "facebook"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(FACEBOOK_URL, function(data) {

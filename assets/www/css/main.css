@@ -130,7 +130,7 @@ input[type="checkbox"] {
 .load_more img {margin-left:20px;}
 
 #results {
-    margin-top:35px;
+    margin-top:10px;
 }
 
 #loadmoreanimation img {
@@ -169,6 +169,7 @@ button {
 
 button.bigger {
     font-size:15px;
+    padding: 1px 8px 2px;
 }
 
 .button {
@@ -204,7 +205,7 @@ button.bigger {
     background:#dddddd;
     position:absolute;
     z-index:999;
-    top:77px;
+    top:33px;
     right:0px;
     line-height:2em;
     padding:10px;
