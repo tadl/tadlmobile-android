@@ -154,6 +154,7 @@ function viewitem(record_id) {
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
+    $('#results').empty().trigger("create");
     var action = {action:"viewitem", record_id:record_id};
     //History.pushState(action, 'Featured Item ' + record_id, 'item/' + record_id);
     History.pushState(action, 'Featured Item ' + record_id, 'item');
