@@ -47,7 +47,7 @@
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="17"/>
 
     <application android:icon="@drawable/tadlicon" android:label="@string/app_name"
-        android:hardwareAccelerated="true"
+        android:hardwareAccelerated="false"
          android:persistent="true" android:allowBackup="true">
         <activity android:name="TADLMobile" android:label="@string/app_name"
                 android:theme="@android:style/Theme.Black.NoTitleBar"
