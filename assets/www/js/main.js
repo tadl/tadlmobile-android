@@ -465,7 +465,7 @@ function showlocations() {
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
     $('#results').html("");
-    var action = {action:"showlocation"};
+    var action = {action:"showlocations"};
     History.pushState(action, "Locations", "locations"); 
     //History.pushState({action: showlocations}, psTitle + "Library Locations", "locations"); 
     $('.load_more').show();
