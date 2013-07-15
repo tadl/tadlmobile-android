@@ -9,12 +9,15 @@ var FACEBOOK_URL = 'https://graph.facebook.com/TraverseAreaDistrictLibrary/feed?
 var loadingmoreText = '<span class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</span>';
 var loadmoreText = '<a class="loadmore button" onclick="loadmore();">LOAD MORE RESULTS</a>';
 var psTitle = "TADL Mobile | ";
+var platform = 'android';
+var version_id = '3.3';
 var searchquery = {};
 var pagecount = {};
 var mediatype = {};
 var available = {};
 
 $(document).ready(function() {
+    checkstatus();
     showmain();
     $('#term').keydown(function(event) {
         if (event.keyCode == 13) {
@@ -30,7 +33,29 @@ $(document).ready(function() {
         login();
     }
     $('#search').click(getResults);
+   
+    
+    
 });
+
+ function checkstatus() {
+networkState = navigator.network.connection.type
+
+if (networkState == 'none'){
+	$('#search-params').html("Get online yo!");
+    }
+    else {
+     $.get(ILSCATCHER_INSECURE_BASE + "/main/checkupdates.json?version_id=" + version_id + "&platform=" + platform, function(data) {
+     var message = data.message
+  var update_link = data.update_link 
+  
+ if (message !== "up to date client"){
+    $('#search-params').html('<a href="'+ update_link +'">' + message  + '</a>');
+   }
+   });
+    
+   } 
+    }
 
 function loadmore() {
     pagecount++;
@@ -481,7 +506,6 @@ function showlocations() {
 function showmain() {
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
-    $('#search-params').empty();
     $('.load_more').hide();
     $('#results').html('<div id="mainpage"><div class="mainlogo"><img class="homelogo" src="img/clean-logo-header.png" alt="" /></div><div class="clearfix"></div><div class="mainlinks"></div><div class="clearfix"></div></div>');
     var action = {action:"showmain"};
