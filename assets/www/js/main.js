@@ -92,8 +92,10 @@ function getResults() {
         
         if (document.getElementById('available').checked) {
             available = true;
+            availablemsg = "ONLY AVAILABLE"
         } else {
             available = false;
+            availablemsg = ""
         }
         var newstate = 'search/'+searchquery+'/'+mediatype+'/'+available; 
         var action = {action:"getsearch", query:searchquery, mt:mediatype, avail:available, location:loc}; 
@@ -107,7 +109,7 @@ function getResults() {
                 $('#results').html(info);
                 $('#loadmoretext').empty().append(loadmoreText);
                 $('#loadmoretext').trigger("create");
-                $('#search-params').html('Searching for '+ searchquery +' in ' + mediatype + ' at ' + loctext + '. <a onclick="openSearch_options()">options...</a>');
+                $('#search-params').html('Searching for '+ searchquery +' in ' + mediatype + ' at ' + loctext + ' ' + availablemsg + '. <a onclick="openSearch_options()">options...</a>');
             } else {
                 $('#results').html("No Results");
                  $('.load_more').hide();
@@ -438,9 +440,9 @@ function getsearch(query, mt, avail, location) {
     $("#term").val(decodeURIComponent(query));
     $("#location").val(decodeURIComponent(loc));
     if (avail == 'true') {
-        $("#available").each(function(){ this.checked = true; });
+        $('available').prop('checked', true);
     } else {
-        $("#available").each(function(){ this.checked = false; });
+        $('available').prop('checked', false);
     }
     getResults();
 }
