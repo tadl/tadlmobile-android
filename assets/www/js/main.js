@@ -96,7 +96,7 @@ function getResults() {
         }
         var newstate = 'search/'+searchquery+'/'+mediatype+'/'+available; 
         var action = {action:"getsearch", query:searchquery, mt:mediatype, avail:available, location:loc}; 
-         History.pushState(action, "Search", 'search');
+        History.pushState(action, "Search", 'search');
         //History.pushState({action: showcheckouts}, psTitle + "Search", newstate); 
         $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available + "&loc=" + loc, function(data) {
             var results = data.message
