@@ -39,10 +39,10 @@ $(document).ready(function() {
 });
 
 function checkstatus() {
-    var networkState = navigator.network.connection.type;
-    if (networkState == 'none') {
-        $('#status-messages').html("Get online yo!");
-    } else {
+//    var networkState = navigator.network.connection.type;
+//    if (networkState == 'none') {
+//        $('#status-messages').html("Get online yo!");
+//    } else {
         $.get(ILSCATCHER_INSECURE_BASE + "/main/checkupdates.json?version_id=" + version_id + "&platform=" + platform, function(data) {
             var message = data.message
             var update_link = data.update_link 
@@ -50,7 +50,7 @@ function checkstatus() {
                 $('#status-messages').html('<a href="'+ update_link +'">' + message  + '</a>');
             }
         });
-    } 
+//    } 
 }
 
 function loadmore() {
