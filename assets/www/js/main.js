@@ -18,6 +18,7 @@ var available = {};
 
 $(document).ready(function() {
     showmain();
+    checkstatus();
     $('#term').keydown(function(event) {
         if (event.keyCode == 13) {
             getResults();
@@ -37,24 +38,21 @@ $(document).ready(function() {
     
 });
 
- function checkstatus() {
-networkState = navigator.network.connection.type
+function checkstatus() {
+    var networkState = navigator.network.connection.type;
 
-if (networkState == 'none'){
-	$('#search-params').html("Get online yo!");
-    }
-    else {
-     $.get(ILSCATCHER_INSECURE_BASE + "/main/checkupdates.json?version_id=" + version_id + "&platform=" + platform, function(data) {
-     var message = data.message
-  var update_link = data.update_link 
-  
- if (message !== "up to date client"){
-    $('#search-params').html('<a href="'+ update_link +'">' + message  + '</a>');
-   }
-   });
-    
-   } 
-    }
+    if (networkState == 'none') {
+        $('#status-messages').html("Get online yo!");
+    } else {
+        $.get(ILSCATCHER_INSECURE_BASE + "/main/checkupdates.json?version_id=" + version_id + "&platform=" + platform, function(data) {
+            var message = data.message
+            var update_link = data.update_link 
+            if (message !== "up to date client") {
+                $('#status-messages').html('<a href="'+ update_link +'">' + message  + '</a>');
+            }
+        });
+    } 
+}
 
 function loadmore() {
     pagecount++;
@@ -509,7 +507,6 @@ function showmain() {
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
     $('.load_more').hide();
-    checkstatus();
     $('#results').html('<div id="mainpage"><div class="mainlogo"><img class="homelogo" src="img/clean-logo-header.png" alt="" /></div><div class="clearfix"></div><div class="mainlinks"></div><div class="clearfix"></div></div>');
     var action = {action:"showmain"};
     History.pushState(action,  psTitle + "Search and Explore", "");
