@@ -40,7 +40,6 @@ $(document).ready(function() {
 
 function checkstatus() {
     var networkState = navigator.network.connection.type;
-
     if (networkState == 'none') {
         $('#status-messages').html("Get online yo!");
     } else {
