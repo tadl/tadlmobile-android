@@ -17,7 +17,7 @@
        under the License.
  */
 
-package com.TADL.TADLMobile;
+package org.TADL.TADLMobile;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
