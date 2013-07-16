@@ -33,9 +33,6 @@ $(document).ready(function() {
         login();
     }
     $('#search').click(getResults);
-   
-    
-    
 });
 
 function checkstatus() {
@@ -47,7 +44,7 @@ function checkstatus() {
             var message = data.message
             var update_link = data.update_link 
             if (message !== "up to date client") {
-                $('#status-messages').html('<a href="'+ update_link +'">' + message  + '</a>');
+                $('#status-messages').html('<a class="button" href="'+ update_link +'">update available!</a>');
             }
         });
 //    } 
