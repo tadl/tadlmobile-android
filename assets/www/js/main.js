@@ -11,12 +11,12 @@ var loadmoreText = '<a class="loadmore button" onclick="loadmore();">LOAD MORE R
 var psTitle = "TADL Mobile | ";
 var platform = 'android';
 var version_id = '3.3';
-var searchquery = {};
-var pagecount = {};
-var mediatype = {};
-var available = {};
-var breakme = {};
-var pause = {};
+var searchquery = {}
+var pagecount = {}
+var mediatype = {}
+var available = {}
+var breakme = {}
+var pause = {}
 
 $(document).ready(function() {
     showmain();
@@ -85,17 +85,15 @@ function getResults() {
         mediatype = $('#mediatype').val();
         loc = $('#location').val();
         loctext = document.getElementById("location").options[document.getElementById('location').selectedIndex].text;
-        
-        
         if (document.getElementById('available').checked) {
             available = "true";
-            availablemsg = "ONLY AVAILABLE"
+            availablemsg = "ONLY AVAILABLE";
         } else {
             available = "false";
-            availablemsg = ""
+            availablemsg = "";
         }
         var newstate = 'search/'+searchquery+'/'+mediatype+'/'+available; 
-        var action = {action:"getsearch", query:searchquery, mt:mediatype, avail:available, location:loc}; 
+        var action = {action:"getsearch", query:searchquery, mt:mediatype, avail:available, location:loc}
         History.pushState(action, "Search", 'search');
         //History.pushState({action: showcheckouts}, psTitle + "Search", newstate); 
         $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available + "&loc=" + loc, function(data) {
@@ -159,7 +157,7 @@ function showfeatured() {
     $('#search-params').empty();
     $('#results').html('<div class="image_carousel"><div id="featured"></div><div class="clearfix"></div></div>');
     //History.pushState({action: showfeatured}, psTitle + "Featured Items", "featured");
-    var action = {action:"showfeatured"};
+    var action = {action:"showfeatured"}
     History.pushState(action, "Featured Items", "featured");
     $('.load_more').show();
     $('.image_carousel').hide();
@@ -182,7 +180,7 @@ function viewitem(record_id) {
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
     $('#results').empty().trigger("create");
-    var action = {action:"viewitem", record_id:record_id};
+    var action = {action:"viewitem", record_id:record_id}
     //History.pushState(action, 'Featured Item ' + record_id, 'item/' + record_id);
     History.pushState(action, 'Featured Item ' + record_id, 'item');
     $('.load_more').show();
@@ -342,7 +340,7 @@ function showcheckouts() {
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
     $('#results').html("");
-    var action = {action:"showcheckouts"};
+    var action = {action:"showcheckouts"}
     History.pushState(action, "Your Checkedout Items", "checkout");   
     //History.pushState({action: showcheckouts}, psTitle + "Checked-Out Items", "checkout");  
     $('.load_more').show();
@@ -384,7 +382,7 @@ function showholds() {
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
     $('#results').html("");
-    var action = {action:"showholds"};
+    var action = {action:"showholds"}
     History.pushState(action, "Your Holds", "holds"); 
     //History.pushState({action: showholds}, psTitle + "Holds", "holds"); 
     $('.load_more').show();
@@ -407,7 +405,7 @@ function showpickups() {
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
     $('#results').html("");
-    var action = {action:"showpickups"};
+    var action = {action:"showpickups"}
     History.pushState(action, "Ready for Pickup", "pickup"); 
     //History.pushState({action: showpickups}, psTitle + "Items Ready for Pickup", "pickup"); 
     $('.load_more').show();
@@ -448,7 +446,7 @@ function getsearch(query, mt, avail, location) {
         $('#available').prop('checked', true);
     } else {
         $('#available').prop('checked', false);
-    };
+    }
     $("#mediatype").val(decodeURIComponent(mt));
     $("#term").val(decodeURIComponent(query));
     $("#location").val(decodeURIComponent(loc));
@@ -461,7 +459,7 @@ function showcard() {
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
     $('#results').html("");
-    var action = {action:"showcard"};
+    var action = {action:"showcard"}
     History.pushState(action, "Your Card", "card"); 
     //History.pushState({action: showcard}, psTitle + "Mobile Library Card", "card"); 
     $('.load_more').show();
@@ -488,7 +486,7 @@ function showevents() {
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
     $('#results').html("");
-    var action = {action:"showevents"};
+    var action = {action:"showevents"}
     History.pushState(action, "Upcoming Event", "events"); 
     //History.pushState({action: showevents}, psTitle + "Upcoming Events", "events"); 
     $('.load_more').show();
@@ -508,7 +506,7 @@ function showlocations() {
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
     $('#results').html("");
-    var action = {action:"showlocations"};
+    var action = {action:"showlocations"}
     History.pushState(action, "Locations", "locations"); 
     //History.pushState({action: showlocations}, psTitle + "Library Locations", "locations"); 
     $('.load_more').show();
@@ -529,7 +527,7 @@ function showmain() {
     $('#search-params').empty();
     $('.load_more').hide();
     $('#results').html('<div id="mainpage"><div class="mainlogo"><img class="homelogo" src="img/clean-logo-header.png" alt="" /></div><div class="clearfix"></div><div class="mainlinks"></div><div class="clearfix"></div></div>');
-    var action = {action:"showmain"};
+    var action = {action:"showmain"}
     History.pushState(action,  psTitle + "Search and Explore", "");
     //History.pushState({action: showmain}, psTitle + "Search and Explore", "");
     $('.mainlinks').load('menu.html');
@@ -542,7 +540,7 @@ function facebookfeed() {
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
     $('#results').html("");
-    var action = {action:"facebookfeed"};
+    var action = {action:"facebookfeed"}
     History.pushState(action, "Facebook Feed", "facebook"); 
     //History.pushState({action: facebookfeed}, psTitle + "Facebook Feed", "facebook"); 
     $('.load_more').show();
@@ -565,7 +563,7 @@ function facebookfeed() {
 }
 
 function linkify(inputText, options) {
-    this.options = {linkClass: 'url', targetBlank: true};
+    this.options = {linkClass: 'url', targetBlank: true}
     this.options = $.extend(this.options, options);
     inputText = inputText.replace(/\u200B/g, "");
 
@@ -587,7 +585,7 @@ $.fn.doLinks = function(){
 String.prototype.trunc = 
     function(n){
         return this.substr(0,n-1)+(this.length>n?'&hellip;':'');
-    };
+    }
 
 function img_check(img) {
     var img = img;
