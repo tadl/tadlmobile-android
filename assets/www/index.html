@@ -19,118 +19,94 @@
     <script type="text/javascript" src="js/jquery.history.js"></script>
     <script type="text/javascript" src="js/staterouter.js"></script>    
     <script type="text/javascript" src="cordova-2.7.0.js"></script>
-    <script>
-		document.addEventListener("deviceready", function() {
-		// before this event, window.open likely won't work properly
-		}, false);
-	</script>
-	<script>
-		 document.addEventListener("deviceready", onDeviceReady, false);
-
+<script>
+    document.addEventListener("deviceready", function() {
+        // before this event, window.open likely won't work properly
+    }, false);
+    document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
- 
         document.addEventListener("backbutton", onBackKeyDown, false);
     }
-
     function onBackKeyDown() {
-    var state = History.getState();
-   if (pause === "chill"){
-   return;
-   } 
-   
-    if (state.data.action === "showmain"){
-    navigator.app.exitApp();
+        var state = History.getState();
+        if (pause === "chill") {
+            return;
+        } 
+        if (state.data.action === "showmain") {
+            navigator.app.exitApp();
+        } else {
+            $(function reversehistory() {
+                if (breakme === "yes") {
+                    $('#results').hide();
+                    setTimeout(reversehistory, 500);
+                    pause = "chill";
+                } else {
+                    pause = "cool";
+                    History.back();
+                };
+            });
+        } 
     }
-    else{
-    $(function reversehistory() {
-  if (breakme === "yes"){
-   $('#results').hide();
-   setTimeout(reversehistory, 500);
-   pause = "chill";
-   
-   
-    
-  }
-  else {
-    pause = "cool";
-    History.back();
-  };
-});
-    
-    } 
+    window.onpopstate = function(event) {
+        if (!event.state) return;
+        $('#results').hide();
+        var state = History.getState();
+        var message = JSON.stringify(event.state);
+        window.setTimeout(goBack,50); 
+        function goBack() {
+            if (state.data.action === "showholds") {
+                showholds();
+                $('#results').show();
+            }
+            if (state.data.action === "showfeatured") {
+                showfeatured();
+                $('#results').show();
+            }
+            if (state.data.action === "showcheckouts") {
+                showcheckouts();
+                $('#results').show();
+            }
+            if (state.data.action === "showpickups") {
+                showpickups();
+                $('#results').show();
+            }
+            if (state.data.action === "showfeatured") {
+                showfeatured();
+                $('#results').show();
+            }
+            if (state.data.action === "showevents") {
+                showevents();
+                $('#results').show();
+            }
+            if (state.data.action === "showlocations") {
+                showlocations();
+                $('#results').show();
+            }
+            if (state.data.action === "facebookfeed") {
+                facebookfeed();
+                $('#results').show();
+            }
+            if (state.data.action === "viewitem") {
+                viewitem(state.data.record_id);
+                $('#results').show();
+            }
+            if (state.data.action === "showmain") {
+                showmain();
+                $('#results').show();
+            }
+            if (state.data.action === "getsearch") {
+                getsearch(state.data.query, state.data.mt, state.data.avail, state.data.location);
+                getResults();
+                $('#results').show();
+            }
+            if (state.data.action === "showcard") {
+                showcard();
+                $('#results').show();
+            }
+        }
     }
-	</script>
-
-	<script>
- 
-window.onpopstate = function(event){ 
-if (!event.state) return;
-$('#results').hide();
- var state = History.getState();
- var message = JSON.stringify(event.state);
-    window.setTimeout(goBack,50); 
-
-    function goBack() {
-     
-if (state.data.action === "showholds"){
-showholds();
-$('#results').show();
-};
-
-if (state.data.action === "showfeatured"){
-showfeatured();
-$('#results').show();
-};
-
-if (state.data.action === "showcheckouts"){
-showcheckouts();
-$('#results').show();
-};
-
-if (state.data.action === "showpickups"){
-showpickups();
-$('#results').show();
-};
-
-if (state.data.action === "showfeatured"){
-showfeatured();
-$('#results').show();
-};
-if (state.data.action === "showevents"){
-showevents();
-$('#results').show();
-};
-
-if (state.data.action === "showlocations"){
-showlocations();
-$('#results').show();
-};
-if (state.data.action === "facebookfeed"){
-facebookfeed();
-$('#results').show();
-};
-if (state.data.action === "viewitem"){
-viewitem(state.data.record_id);
-$('#results').show();
-};
-if (state.data.action === "showmain"){
-showmain();
-$('#results').show();
-};
-if (state.data.action === "getsearch"){
-getsearch(state.data.query, state.data.mt, state.data.avail, state.data.location);
-getResults();
-$('#results').show();
-};
-if (state.data.action === "showcard"){
-showcard();
-$('#results').show();
-};
-};
-};
 </script>
-
-    <title>TADL Mobile Beta</title>
+<title>TADL Mobile Beta</title>
 <style type="text/css">
 {
     -webkit-transform: translate3d(0,0,0);
@@ -139,9 +115,7 @@ $('#results').show();
     -o-transform: translate3d(0,0,0);
 }
 </style>
-
 </head>
-
 <body>
 <header class="holo-actionBar">
     <section class="searchform">
