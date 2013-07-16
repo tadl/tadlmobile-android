@@ -15,6 +15,8 @@ var searchquery = {};
 var pagecount = {};
 var mediatype = {};
 var available = {};
+var breakme = {};
+var pause = {};
 
 $(document).ready(function() {
     showmain();
@@ -74,6 +76,7 @@ function loadmore() {
 }
 
 function getResults() {
+        breakme = "yes";
         $("#login_form").slideUp("fast");
         $("#search_options").slideUp("fast");
         $('#search-params').empty();
@@ -112,6 +115,7 @@ function getResults() {
                  $('.load_more').hide();
             }
         });
+        setTimeout(unbreak,3000);
     }
 
 function logged_in() {
@@ -152,6 +156,7 @@ function showmore(record_id) {
 }
 
 function showfeatured() {
+    breakme = "yes";
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -171,9 +176,11 @@ function showfeatured() {
             $('.image_carousel').show();
         });
     });
+    setTimeout(unbreak,3000);
 }
 
 function viewitem(record_id) {
+    breakme = "yes";
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -191,6 +198,7 @@ function viewitem(record_id) {
         $('#results').html(info).promise().done(function() {  $('#loadmoretext').empty();});
         $('#'+ record_id).css('display', 'block');
     });
+    setTimeout(unbreak,3000);
 }
 
 function unhide(eventId) {
@@ -331,7 +339,8 @@ function login() {
     }
 }
 
-function showcheckouts() {
+function showcheckouts() { 
+    breakme = "yes";
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -349,6 +358,7 @@ function showcheckouts() {
         $('#results').html(info);
         $('.load_more').hide();
     });
+    setTimeout(unbreak,3000);
 }
 
 function pre_cancelhold(element, hold_id) {
@@ -372,6 +382,7 @@ function cancelhold(hold_id) {
 }
 
 function showholds() {
+    breakme = "yes";
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -390,9 +401,11 @@ function showholds() {
        $('#results').html(info);
         $('.load_more').hide(); 
     });
+    setTimeout(unbreak,3000); 
 }
 
 function showpickups() {
+    breakme = "yes";
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -411,6 +424,7 @@ function showpickups() {
        $('#results').html(info);
         $('.load_more').hide(); 
     });
+    setTimeout(unbreak,3000); 
 }
 
 function renew(element, circulation_id, barcode) {
@@ -445,6 +459,7 @@ function getsearch(query, mt, avail, location) {
 }
 
 function showcard() {
+    breakme = "yes";
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -463,9 +478,15 @@ function showcard() {
         $("#bcTarget").barcode(card, "code128", {barWidth:2, barHeight:80, fontSize:12}); 
     });
     $('#search-params').empty();
+    setTimeout(unbreak,3000); 
+}
+
+function unbreak() {
+breakme = "no";
 }
 
 function showevents() { 
+    breakme = "yes";
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -481,9 +502,11 @@ function showevents() {
         $('.load_more').hide();
         $('#results').html(info);
     });
+    setTimeout(unbreak,3000); 
 }
 
 function showlocations() { 
+    breakme = "yes";
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -499,6 +522,7 @@ function showlocations() {
         $('.load_more').hide();
         $('#results').html(info);
     });
+    setTimeout(unbreak,3000); 
 }
 
 function showmain() {
@@ -512,9 +536,11 @@ function showmain() {
     History.pushState(action,  psTitle + "Search and Explore", "");
     //History.pushState({action: showmain}, psTitle + "Search and Explore", "");
     $('.mainlinks').load('menu.html');
+    $('#results').show();
 }
 
 function facebookfeed() { 
+    breakme = "yes";
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -538,6 +564,7 @@ function facebookfeed() {
             }
         });
     });
+    setTimeout(unbreak,3000); 
 }
 
 function linkify(inputText, options) {

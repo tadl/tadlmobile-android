@@ -33,13 +33,30 @@
     }
 
     function onBackKeyDown() {
-    
     var state = History.getState();
+   if (pause === "chill"){
+   return;
+   } 
+   
     if (state.data.action === "showmain"){
     navigator.app.exitApp();
     }
     else{
+    $(function reversehistory() {
+  if (breakme === "yes"){
+   $('#results').hide();
+   setTimeout(reversehistory, 500);
+   pause = "chill";
+   
+   
+    
+  }
+  else {
+    pause = "cool";
     History.back();
+  };
+});
+    
     } 
     }
 	</script>
