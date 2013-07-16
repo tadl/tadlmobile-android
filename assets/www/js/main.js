@@ -46,7 +46,7 @@ function checkstatus() {
             var message = data.message
             var update_link = data.update_link 
             if (message !== "up to date client") {
-                $('#status-messages').html('<a class="button" href="'+ update_link +'">update available!</a>');
+                $('#status-messages').html('<div style="text-align:center;"><a class="button" href="'+ update_link +'">update available!</a></div>');
             }
         });
 //    } 
