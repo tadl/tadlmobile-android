@@ -88,10 +88,10 @@ function getResults() {
         
         
         if (document.getElementById('available').checked) {
-            available = true;
+            available = "true";
             availablemsg = "ONLY AVAILABLE"
         } else {
-            available = false;
+            available = "false";
             availablemsg = ""
         }
         var newstate = 'search/'+searchquery+'/'+mediatype+'/'+available; 
@@ -433,15 +433,15 @@ function getsearch(query, mt, avail, location) {
     var avail = avail;
     var mt = mt;
     var loc = location;
+    if (avail === "true") {
+        $('#available').prop('checked', true);
+    } else {
+        $('#available').prop('checked', false);
+    };
     $("#mediatype").val(decodeURIComponent(mt));
     $("#term").val(decodeURIComponent(query));
     $("#location").val(decodeURIComponent(loc));
-    if (avail == 'true') {
-        $('available').prop('checked', true);
-    } else {
-        $('available').prop('checked', false);
-    }
-    getResults();
+
 }
 
 function showcard() {
@@ -460,9 +460,9 @@ function showcard() {
         var card = data.barcode;
         $('.load_more').hide();
         $('#results').empty().append('<div class="shadow result"><div id="barcodepage"><div class="barcode"><div id="bcTarget"></div></div><div class="barcodelogo"><div class="bclogoTarget"><img src="img/clean-logo-header.png" alt="" /></div></div><div class="clearfix"></div></div></div>');
-        $('#results').trigger("create"); 
         $("#bcTarget").barcode(card, "code128", {barWidth:2, barHeight:80, fontSize:12}); 
     });
+    $('#search-params').empty();
 }
 
 function showevents() { 
@@ -502,6 +502,7 @@ function showlocations() {
 }
 
 function showmain() {
+    $('#results').html("");
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();

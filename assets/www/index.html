@@ -25,52 +25,92 @@
 		}, false);
 	</script>
 	<script>
-History.Adapter.bind(window,'statechange',function(){ 
+		 document.addEventListener("deviceready", onDeviceReady, false);
+
+    function onDeviceReady() {
+ 
+        document.addEventListener("backbutton", onBackKeyDown, false);
+    }
+
+    function onBackKeyDown() {
+    
+    var state = History.getState();
+    if (state.data.action === "showmain"){
+    navigator.app.exitApp();
+    }
+    else{
+    History.back();
+    } 
+    }
+	</script>
+
+	<script>
+ 
+window.onpopstate = function(event){ 
+if (!event.state) return;
+$('#results').hide();
  var state = History.getState();
- var message = JSON.stringify(state);
-if (state.data.action === "showcard"){
-showcard();
-};
+ var message = JSON.stringify(event.state);
+    window.setTimeout(goBack,50); 
+
+    function goBack() {
+     
 if (state.data.action === "showholds"){
 showholds();
+$('#results').show();
 };
 
 if (state.data.action === "showfeatured"){
 showfeatured();
+$('#results').show();
 };
 
 if (state.data.action === "showcheckouts"){
 showcheckouts();
+$('#results').show();
 };
 
 if (state.data.action === "showpickups"){
 showpickups();
+$('#results').show();
 };
 
 if (state.data.action === "showfeatured"){
 showfeatured();
+$('#results').show();
 };
 if (state.data.action === "showevents"){
 showevents();
+$('#results').show();
 };
 
 if (state.data.action === "showlocations"){
 showlocations();
+$('#results').show();
 };
 if (state.data.action === "facebookfeed"){
 facebookfeed();
+$('#results').show();
 };
 if (state.data.action === "viewitem"){
 viewitem(state.data.record_id);
+$('#results').show();
 };
 if (state.data.action === "showmain"){
 showmain();
+$('#results').show();
 };
 if (state.data.action === "getsearch"){
 getsearch(state.data.query, state.data.mt, state.data.avail, state.data.location);
+getResults();
+$('#results').show();
 };
-
-});
+if (state.data.action === "showcard"){
+showcard();
+$('#results').show();
+};
+};
+};
 </script>
 
     <title>TADL Mobile Beta</title>
