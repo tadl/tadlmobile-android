@@ -1,13 +1,6 @@
-Building with Ant:
+# Traverse Area District Library
+### Mobile Beta for Android
 
-If you are using ant to build, you will need to run the following
-command, either from within the project directory or by specifying
-the path to the project directory:
+Leveraging **phonegap/cordova** and **HTML5/javascript** to make
+a pretty darn cool app.
 
-android update project --path .
-
-Alternately, set ANDROID_HOME to be the path to the Android SDK. On
-OS X, you could do this by adding the following to your
-~/.bash_profile file:
-
-export ANDROID_HOME=$HOME/Development/android-sdk-macosx
