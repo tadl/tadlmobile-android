@@ -126,8 +126,7 @@ function logout() {
     logging_out = "yes";
     window.localStorage.clear();
     $("#login_form").html('Username: <input type="text" id="username" /><br /> Password: <input type="password" id="pword" /><br /><button id="login" onclick="login()">Login</button><span id="login_msg"></span>'); 
-    $("#login_form").slideUp("fast");
-    showmain();
+    setTimeout(showmain,1000);
 }
 
 function showmore(record_id) {
@@ -528,6 +527,7 @@ function showmain() {
    $("#login_form").html('Username: <input type="text" id="username" /><br /> Password: <input type="password" id="pword" /><br /><button id="login" onclick="login()">Login</button><span id="login_msg"></span>');
    logging_out = "no";
    }
+
     $('#results').html("");
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
@@ -535,11 +535,11 @@ function showmain() {
     $('.load_more').hide();
     $('#results').html('<div id="mainpage"><div class="mainlogo"><img class="homelogo" src="img/clean-logo-header.png" alt="" /></div><div class="clearfix"></div><div class="mainlinks"></div><div class="clearfix"></div></div>');
     var action = {action:"showmain"}
-    History.pushState(action,  psTitle + "Search and Explore", "");
-    //History.pushState({action: showmain}, psTitle + "Search and Explore", "");
+    History.pushState(action,  psTitle + "Search and Explore", "main");
+    //History.pushState({action: showmain}, psTitle + "Search and Explore", "main");
     $('.mainlinks').load('menu.html');
     $('#results').show();
-    login();
+    setTimeout(login,1000);
 }
 
 function facebookfeed() { 
