@@ -12,7 +12,6 @@ var loadmoreText = '<a class="loadmore button" onclick="loadmore();">LOAD MORE R
 var psTitle = "TADL Mobile | ";
 var platform = 'android';
 var version_id = '3';
-var logging_out = "no";
 var searchquery = {}
 var pagecount = {}
 var mediatype = {}
@@ -123,17 +122,8 @@ function logged_in() {
 }
 
 function logout() {
-    logging_out = "yes";
-    $(function safelogout() {
-                if (breakme === "yes") {
-                    $("#login_form").html('Username: <input type="text" id="username" /><br /> Password: <input type="password" id="pword" /><br /><button id="login" onclick="login()">Login</button><span id="login_msg"></span>'); 
-                    setTimeout(logout, 500);
-                } else {
-                   window.localStorage.clear();
-                   setTimeout(showmain,1000);
-            }
-            });
-    
+    $("#login_form").html('Username: <input type="text" id="username" /><br /> Password: <input type="password" id="pword" /><br /><button id="login" onclick="login()">Login</button><span id="login_msg"></span>'); 
+    window.localStorage.clear();
 }
 
 function showmore(record_id) {
@@ -297,7 +287,7 @@ function openForm() {
     if ($("#login_form").is(":hidden")) {
         $("#search_options").slideUp("fast");
         $("#login_form").slideDown("fast");
-        login();
+        login_and_fetch_dash();
     } else {
         $("#login_form").slideUp("fast");
         
@@ -316,30 +306,62 @@ function openSearch_options() {
 
 
 function login() {
-    if (window.localStorage.getItem('username')) {
+    // login() will always be called by the login button,
+    // and will not consult localStorage
+    var username = $('#username').val();
+    var password = $('#pword').val();
+
+    if (typeof(username) !== 'undefined' && username != '' && typeof(password) !== 'undefined' && password != '') { /* only attempt login if we have a username and password */
+        // Here, we blindly store the username/password before knowing if they are valid
+        // login_and_fetch_dash will clear localStorage if there is a problem logging in
+        window.localStorage.setItem('username', username);
+        window.localStorage.setItem('password', password);
+        login_and_fetch_dash(username, password);
+    }
+}
+
+function login_and_fetch_dash(username, password) {
+    // login() passes a username/password
+    var username = username;
+    var password = password;
+
+    // If we weren't called by login() and don't have a username/password,
+    // attempt to retrieve from localStorage
+    if (typeof(username) == 'undefined' || typeof(password) == 'undefined') {
         username = window.localStorage.getItem('username');
         password = window.localStorage.getItem('password');
-    } else {
-        username = $('#username').val();
-        password = $('#pword').val();
     }
-    if (typeof(username) !== 'undefined' && username != '' && typeof(password) !== 'undefined' && password != '') { /* only attempt login if we have a username and password */
+
+    // If we have a non-empty username and password, try to log in
+    if (typeof(username) !== 'undefined' && username != '' && username !== null
+        && typeof(password) !== 'undefined' && password != '' && password !== null) {
+        if ($('#pword').length != 0) { /* If the password / pword element exists */
+            $('#login_form').html('Logging in...');
+        }
+        if ($('#login').length != 0) { /* if the login (logout) button exists */
+            $('#login').prop("onclick", null);
+            $('#login').html('Refreshing...');
+        }
         $.getJSON(ILSCATCHER_BASE + '/main/login.json?u='+ username +'&pw=' + password, function(data) {
             if (data['status'] == 'error') { /* unsuccessful login */
-                $('#username').val('');
-                $('#pword').val('');
+                logout();
                 $('#login_msg').html('Error logging in.');
-                window.localStorage.clear();
             } else { /* login appears successful */
-                var template = Handlebars.compile($('#logedin-template').html());
-                var info = template(data);
-                $('#login_form').html(info);
-                window.localStorage.setItem('username', username);
-                window.localStorage.setItem('password', password);
+                render_dash(data);
                 reset_hold_links(); /* change any 'Please log in first' hold links */
             }
         });
+    } else {
+        // Either username or password was empty, call logout() to reset things
+        logout();
     }
+}
+
+function render_dash(data) {
+    var data = data;
+    var template = Handlebars.compile($('#logedin-template').html());
+    var info = template(data);
+    $('#login_form').html(info);
 }
 
 function showcheckouts() { 
@@ -529,12 +551,6 @@ function showlocations() {
 }
 
 function showmain() {
-   if (logging_out === "yes"){
-    window.localStorage.clear(); 
-   $("#login_form").html('Username: <input type="text" id="username" /><br /> Password: <input type="password" id="pword" /><br /><button id="login" onclick="login()">Login</button><span id="login_msg"></span>');
-   logging_out = "no";
-   }
-
     $('#results').html("");
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
