@@ -7,10 +7,12 @@ var LOCATIONS_BASE = 'https://www.tadl.org/mobile/export/locations'
 var PLACEHOLDER_IMG = 'img/clocktower100.png';
 var FACEBOOK_URL = 'https://graph.facebook.com/TraverseAreaDistrictLibrary/feed?access_token=CAAFh5Quq0YMBAENgjPYY9MY0y3cdiAMvXmLl6Fq3H4LDZBBZBukKlXFwWPq0xMLa6hqDrfxfGqvFpBlIZCjFKg0rKdd37qHLsjwcBve4UeZAQymPksV7ddAeZAJOyaeZC05WqlLzrVpOUQEtjiCZArjB6NMUHjvU90qXZAGEOESKDgZDZD';
 var loadingmoreText = '<span class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</span>';
+var logoutText = '<span class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOGGING OUT...</span>';
 var loadmoreText = '<a class="loadmore button" onclick="loadmore();">LOAD MORE RESULTS</a>';
 var psTitle = "TADL Mobile | ";
 var platform = 'android';
-var version_id = '3.3';
+var version_id = '3';
+var logging_out = "no";
 var searchquery = {}
 var pagecount = {}
 var mediatype = {}
@@ -31,25 +33,23 @@ $(document).ready(function() {
             login();
         }
     });
-    if (localStorage.getItem('username')) {
-        login();
-    }
+    
     $('#search').click(getResults);
 });
 
 function checkstatus() {
-//    var networkState = navigator.network.connection.type;
-//    if (networkState == 'none') {
-//        $('#status-messages').html("Get online yo!");
-//    } else {
+      var networkState = navigator.network.connection.type;
+      if (networkState == 'none') {
+        $('#status-messages').html('<div style="text-align:center; margin-top: 5px; margin-bottom: 10px; font-size: 20px; color: #ff201a ;">Network Connection Required</div>');
+     } else {
         $.get(ILSCATCHER_INSECURE_BASE + "/main/checkupdates.json?version_id=" + version_id + "&platform=" + platform, function(data) {
             var message = data.message
             var update_link = data.update_link 
             if (message !== "up to date client") {
-                $('#status-messages').html('<div style="text-align:center;"><a class="button" href="'+ update_link +'">update available!</a></div>');
+                $('#status-messages').html('<div style="text-align:center; margin-top: 5px; margin-bottom: 10px;"><a class="button" href="'+ update_link +'">'+ data.message +'</a></div>');
             }
         });
-//    } 
+   } 
 }
 
 function loadmore() {
@@ -114,7 +114,7 @@ function getResults() {
     }
 
 function logged_in() {
-    var username = localStorage.getItem('username');
+    var username = window.localStorage.getItem('username');
     if (username) {
         return true;
     } else {
@@ -123,9 +123,11 @@ function logged_in() {
 }
 
 function logout() {
-    localStorage.clear();
-    $('#results').html("");
-    location.reload();
+    logging_out = "yes";
+    window.localStorage.clear();
+    $("#login_form").html('Username: <input type="text" id="username" /><br /> Password: <input type="password" id="pword" /><br /><button id="login" onclick="login()">Login</button><span id="login_msg"></span>'); 
+    $("#login_form").slideUp("fast");
+    showmain();
 }
 
 function showmore(record_id) {
@@ -252,8 +254,8 @@ function reset_hold_links() {
 
 function hold(record_id) {
     var record_id = record_id;
-    var username = localStorage.getItem('username');
-    var password = localStorage.getItem('password');
+    var username = window.localStorage.getItem('username');
+    var password = window.localStorage.getItem('password');
     $.getJSON(ILSCATCHER_BASE + '/main/hold.json?u='+ username +'&pw=' + password + '&record_id=' + record_id, function(data) {
         var message = data[':message'];
         var success = false;
@@ -276,8 +278,8 @@ function hold(record_id) {
 }
 
 function partB() {
-    var username = localStorage.getItem('username');
-    var password = localStorage.getItem('password');
+    var username = window.localStorage.getItem('username');
+    var password = window.localStorage.getItem('password');
     $.getJSON(ILSCATCHER_BASE + '/main/login.json?u='+ username +'&pw=' + password, function(data) {
         var template = Handlebars.compile($('#logedin-template').html());
         var info = template(data);
@@ -308,9 +310,9 @@ function openSearch_options() {
 
 
 function login() {
-    if (localStorage.getItem('username')) {
-        username = localStorage.getItem('username');
-        password = localStorage.getItem('password');
+    if (window.localStorage.getItem('username')) {
+        username = window.localStorage.getItem('username');
+        password = window.localStorage.getItem('password');
     } else {
         username = $('#username').val();
         password = $('#pword').val();
@@ -321,13 +323,13 @@ function login() {
                 $('#username').val('');
                 $('#pword').val('');
                 $('#login_msg').html('Error logging in.');
-                localStorage.clear();
+                window.localStorage.clear();
             } else { /* login appears successful */
                 var template = Handlebars.compile($('#logedin-template').html());
                 var info = template(data);
                 $('#login_form').html(info);
-                localStorage.setItem('username', username);
-                localStorage.setItem('password', password);
+                window.localStorage.setItem('username', username);
+                window.localStorage.setItem('password', password);
                 reset_hold_links(); /* change any 'Please log in first' hold links */
             }
         });
@@ -345,8 +347,8 @@ function showcheckouts() {
     //History.pushState({action: showcheckouts}, psTitle + "Checked-Out Items", "checkout");  
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
-    var username = localStorage.getItem('username');
-    var password = localStorage.getItem('password'); 
+    var username = window.localStorage.getItem('username');
+    var password = window.localStorage.getItem('password'); 
     $.getJSON(ILSCATCHER_BASE + '/main/showcheckouts.json?u='+ username +'&pw=' + password, function(data) {
         var template = Handlebars.compile($('#showcheckedout-template').html());
         var info = template(data);
@@ -369,8 +371,8 @@ function pre_cancelhold(element, hold_id) {
 
 function cancelhold(hold_id) {
     var hold_id = hold_id;
-    var username = localStorage.getItem('username');
-    var password = localStorage.getItem('password');
+    var username = window.localStorage.getItem('username');
+    var password = window.localStorage.getItem('password');
     $.getJSON(ILSCATCHER_BASE + '/main/cancelhold.json?u='+ username +'&pw=' + password + '&hold_id=' + hold_id, function(data) {
         $('#hold_' + hold_id).remove();
     });
@@ -387,8 +389,8 @@ function showholds() {
     //History.pushState({action: showholds}, psTitle + "Holds", "holds"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
-    var username = localStorage.getItem('username');
-    var password = localStorage.getItem('password'); 
+    var username = window.localStorage.getItem('username');
+    var password = window.localStorage.getItem('password'); 
     $.getJSON(ILSCATCHER_BASE + '/main/showholds.json?u='+ username +'&pw=' + password, function(data) {
         var template = Handlebars.compile($('#showholds-template').html());
         var info = template(data);
@@ -410,9 +412,9 @@ function showpickups() {
     //History.pushState({action: showpickups}, psTitle + "Items Ready for Pickup", "pickup"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");   
-    var username = localStorage.getItem('username');
-    var username = localStorage.getItem('username');
-    var password = localStorage.getItem('password'); 
+    var username = window.localStorage.getItem('username');
+    var username = window.localStorage.getItem('username');
+    var password = window.localStorage.getItem('password'); 
     $.getJSON(ILSCATCHER_BASE + '/main/showpickups.json?u='+ username +'&pw=' + password, function(data) {
         var template = Handlebars.compile($('#showholds-template').html());
         var info = template(data);
@@ -426,8 +428,8 @@ function renew(element, circulation_id, barcode) {
     var element = element;
     var circ_id = circulation_id;
     var bc = barcode;
-    var username = localStorage.getItem('username');
-    var password = localStorage.getItem('password');
+    var username = window.localStorage.getItem('username');
+    var password = window.localStorage.getItem('password');
     $(element).css('color','red');
     $(element).html('Renewing...');
     $.getJSON(ILSCATCHER_BASE + '/main/renew.json?u='+ username +'&pw=' + password + '&circ_id=' + circ_id + '&bc=' + bc, function(data) {
@@ -464,8 +466,8 @@ function showcard() {
     //History.pushState({action: showcard}, psTitle + "Mobile Library Card", "card"); 
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
-    var username = localStorage.getItem('username');
-    var password = localStorage.getItem('password'); 
+    var username = window.localStorage.getItem('username');
+    var password = window.localStorage.getItem('password'); 
     $.getJSON(ILSCATCHER_BASE + '/main/showcard.json?u='+ username +'&pw=' + password, function(data) {
         var card = data.barcode;
         $('.load_more').hide();
@@ -521,6 +523,11 @@ function showlocations() {
 }
 
 function showmain() {
+   if (logging_out === "yes"){
+    window.localStorage.clear(); 
+   $("#login_form").html('Username: <input type="text" id="username" /><br /> Password: <input type="password" id="pword" /><br /><button id="login" onclick="login()">Login</button><span id="login_msg"></span>');
+   logging_out = "no";
+   }
     $('#results').html("");
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
@@ -532,6 +539,7 @@ function showmain() {
     //History.pushState({action: showmain}, psTitle + "Search and Explore", "");
     $('.mainlinks').load('menu.html');
     $('#results').show();
+    login();
 }
 
 function facebookfeed() { 

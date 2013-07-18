@@ -166,9 +166,8 @@
         });
     });
 </script>
-
-<div id="search-params"></div>
 <div id="status-messages"></div>
+<div id="search-params"></div>
 <div id="results"></div>
 
 <script id="featured-template" type="text/template">
@@ -358,7 +357,7 @@
         <h3 style="padding:0;margin:0;">{{node.fullname}}</h3>
         {{node.address}}<br/>
         {{node.citystatezip}}<br/>
-        {{node.phone}}<br/>
+        <a href="tel:{{node.phone}}">{{node.phone}}</a><br/>
         <span id="more{{node.shortname}}" class="viewmore">view hours</span>
         <span id="{{node.shortname}}" style="display:none;">
         <table>
