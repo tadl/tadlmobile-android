@@ -110,7 +110,7 @@ function getResults() {
                  $('.load_more').hide();
             }
         });
-        setTimeout(unbreak,3000);
+        setTimeout(unbreak,4000);
     }
 
 function logged_in() {
@@ -124,9 +124,16 @@ function logged_in() {
 
 function logout() {
     logging_out = "yes";
-    window.localStorage.clear();
-    $("#login_form").html('Username: <input type="text" id="username" /><br /> Password: <input type="password" id="pword" /><br /><button id="login" onclick="login()">Login</button><span id="login_msg"></span>'); 
-    setTimeout(showmain,1000);
+    $(function safelogout() {
+                if (breakme === "yes") {
+                    $("#login_form").html('Username: <input type="text" id="username" /><br /> Password: <input type="password" id="pword" /><br /><button id="login" onclick="login()">Login</button><span id="login_msg"></span>'); 
+                    setTimeout(logout, 500);
+                } else {
+                   window.localStorage.clear();
+                   setTimeout(showmain,1000);
+            }
+            });
+    
 }
 
 function showmore(record_id) {
