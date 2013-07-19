@@ -29,28 +29,17 @@
     }
     function onBackKeyDown() {
         var state = History.getState();
-        if (pause === "chill") {
-            return;
-        } 
+        $('#results').hide();
         if (state.data.action === "showmain") {
             navigator.app.exitApp();
-        } else {
-            $(function reversehistory() {
-                if (breakme === "yes") {
-                    $('#results').hide();
-                    setTimeout(reversehistory, 500);
-                    pause = "chill";
-                } else {
-                    pause = "cool";
-                    History.back();
+        } else {   
+                   History.back();
                 };
-            });
-        } 
     }
+    
     window.onpopstate = function(event) {
-        if (!event.state) return;
         $('#results').hide();
-        var state = History.getState();
+        state = History.getState();
         var message = JSON.stringify(event.state);
         window.setTimeout(goBack,50); 
         function goBack() {

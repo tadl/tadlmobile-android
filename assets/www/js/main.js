@@ -12,12 +12,10 @@ var loadmoreText = '<a class="loadmore button" onclick="loadmore();">LOAD MORE R
 var psTitle = "TADL Mobile | ";
 var platform = 'android';
 var version_id = '3';
-var searchquery = {}
 var pagecount = {}
-var mediatype = {}
-var available = {}
-var breakme = {}
-var pause = {}
+var state = {}
+
+
 
 $(document).ready(function() {
     showmain();
@@ -53,10 +51,16 @@ function checkstatus() {
 
 function loadmore() {
     pagecount++;
+    state = History.getState();
+    var searchquery = state.data.query;
+    var mediatype = state.data.mt;
+    var available = state.data.avail;
+    var loc = state.data.location;
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $('#loadmoretext').trigger("create");
-    $.get(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype + "&p=" + pagecount +"&avail=" + available, function(data) {
+    $.get(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype + "&p=" + pagecount + "&avail=" + available + "&loc=" + loc, function(data) {
         var results = data.message
+        if (state.data.action === "getsearch" && state.data.query === searchquery && state.data.mt === mediatype && state.data.avail === available && state.data.location === loc)  {
         if (results != "no results") {
             var template = Handlebars.compile($('#results-template').html());
             var info = template(data);
@@ -68,11 +72,12 @@ function loadmore() {
         } else {
             $('#loadmoretext').html("No Further Results");
         }
+        }
     });
 }
 
 function getResults() {
-        breakme = "yes";
+        
         $("#login_form").slideUp("fast");
         $("#search_options").slideUp("fast");
         $('#search-params').empty();
@@ -80,23 +85,26 @@ function getResults() {
         $('.load_more').show();
         $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
         pagecount = 0;
-        searchquery = $('#term').val();
-        mediatype = $('#mediatype').val();
-        loc = $('#location').val();
+        var searchquery = $('#term').val();
+        var mediatype = $('#mediatype').val();
+        var loc = $('#location').val();
         loctext = document.getElementById("location").options[document.getElementById('location').selectedIndex].text;
         if (document.getElementById('available').checked) {
-            available = "true";
-            availablemsg = "ONLY AVAILABLE";
+            var available = "true";
+            var availablemsg = "ONLY AVAILABLE";
         } else {
-            available = "false";
-            availablemsg = "";
+            var available = "false";
+            var availablemsg = "";
         }
         var newstate = 'search/'+searchquery+'/'+mediatype+'/'+available; 
         var action = {action:"getsearch", query:searchquery, mt:mediatype, avail:available, location:loc}
         History.pushState(action, "Search", 'search');
         //History.pushState({action: showcheckouts}, psTitle + "Search", newstate); 
         $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/searchjson.json?utf8=%E2%9C%93&q=" + searchquery + "&mt=" + mediatype +"&avail=" + available + "&loc=" + loc, function(data) {
-            var results = data.message
+            var results = data.message;
+            state = History.getState();
+      
+        if (state.data.action === "getsearch" && state.data.query === searchquery && state.data.mt === mediatype && state.data.avail === available && state.data.location === loc)  {
             if (results != "no results") {
                 var template = Handlebars.compile($('#results-template').html());
                 var info = template(data);
@@ -108,8 +116,9 @@ function getResults() {
                 $('#results').html("No Results");
                  $('.load_more').hide();
             }
+            }
         });
-        setTimeout(unbreak,4000);
+        
     }
 
 function logged_in() {
@@ -124,6 +133,7 @@ function logged_in() {
 function logout() {
     $("#login_form").html('Username: <input type="text" id="username" /><br /> Password: <input type="password" id="pword" /><br /><button id="login" onclick="login()">Login</button><span id="login_msg"></span>'); 
     window.localStorage.clear();
+     showmain();    
 }
 
 function showmore(record_id) {
@@ -149,14 +159,17 @@ function showmore(record_id) {
 }
 
 function showfeatured() {
-    breakme = "yes";
+    
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
-    $('#results').html('<div class="image_carousel"><div id="featured"></div><div class="clearfix"></div></div>');
     //History.pushState({action: showfeatured}, psTitle + "Featured Items", "featured");
     var action = {action:"showfeatured"}
     History.pushState(action, "Featured Items", "featured");
+    state = History.getState();
+    if (state.data.action === "showfeatured") {
+    $('#results').html('<div class="image_carousel"><div id="featured"></div><div class="clearfix"></div></div>');
+  
     $('.load_more').show();
     $('.image_carousel').hide();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
@@ -169,11 +182,11 @@ function showfeatured() {
             $('.image_carousel').show();
         });
     });
-    setTimeout(unbreak,3000);
+    }
 }
 
 function viewitem(record_id) {
-    breakme = "yes";
+    
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -184,14 +197,18 @@ function viewitem(record_id) {
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var record_id = record_id;
+    state = History.getState();
+    
     $.getJSON(ILSCATCHER_INSECURE_BASE + "/main/itemdetails.json?utf8=%E2%9C%93&record_id=" + record_id, function(data) {
         var results = data.message;
         var template = Handlebars.compile($('#result-details-template').html());
         var info = template(data);
+        if (state.data.action === "viewitem") {
         $('#results').html(info).promise().done(function() {  $('#loadmoretext').empty();});
         $('#'+ record_id).css('display', 'block');
+        }
     });
-    setTimeout(unbreak,3000);
+  
 }
 
 function unhide(eventId) {
@@ -344,7 +361,8 @@ function login_and_fetch_dash(username, password) {
         }
         $.getJSON(ILSCATCHER_BASE + '/main/login.json?u='+ username +'&pw=' + password, function(data) {
             if (data['status'] == 'error') { /* unsuccessful login */
-                logout();
+                $("#login_form").html('Username: <input type="text" id="username" /><br /> Password: <input type="password" id="pword" /><br /><button id="login" onclick="login()">Login</button><span id="login_msg"></span>'); 
+    			window.localStorage.clear();
                 $('#login_msg').html('Error logging in.');
             } else { /* login appears successful */
                 render_dash(data);
@@ -352,8 +370,9 @@ function login_and_fetch_dash(username, password) {
             }
         });
     } else {
-        // Either username or password was empty, call logout() to reset things
-        logout();
+        // Either username or password was empty, reset things
+         $("#login_form").html('Username: <input type="text" id="username" /><br /> Password: <input type="password" id="pword" /><br /><button id="login" onclick="login()">Login</button><span id="login_msg"></span>'); 
+   		 window.localStorage.clear();
     }
 }
 
@@ -365,7 +384,7 @@ function render_dash(data) {
 }
 
 function showcheckouts() { 
-    breakme = "yes";
+    
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -376,14 +395,19 @@ function showcheckouts() {
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = window.localStorage.getItem('username');
-    var password = window.localStorage.getItem('password'); 
+    var password = window.localStorage.getItem('password');
+    state = History.getState();
+    
     $.getJSON(ILSCATCHER_BASE + '/main/showcheckouts.json?u='+ username +'&pw=' + password, function(data) {
         var template = Handlebars.compile($('#showcheckedout-template').html());
         var info = template(data);
+        if (state.data.action === "showcheckouts") { 
         $('#results').html(info);
         $('.load_more').hide();
+         }
     });
-    setTimeout(unbreak,3000);
+   
+    
 }
 
 function pre_cancelhold(element, hold_id) {
@@ -407,7 +431,7 @@ function cancelhold(hold_id) {
 }
 
 function showholds() {
-    breakme = "yes";
+    
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -419,18 +443,21 @@ function showholds() {
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = window.localStorage.getItem('username');
     var password = window.localStorage.getItem('password'); 
+    state = History.getState();
+    
     $.getJSON(ILSCATCHER_BASE + '/main/showholds.json?u='+ username +'&pw=' + password, function(data) {
         var template = Handlebars.compile($('#showholds-template').html());
         var info = template(data);
        $('#results').show();
+       if (state.data.action === "showholds") {
        $('#results').html(info);
         $('.load_more').hide(); 
-    });
-    setTimeout(unbreak,3000); 
+        }
+    });   
 }
 
 function showpickups() {
-    breakme = "yes";
+    
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -443,13 +470,18 @@ function showpickups() {
     var username = window.localStorage.getItem('username');
     var username = window.localStorage.getItem('username');
     var password = window.localStorage.getItem('password'); 
+    state = History.getState();
+    
     $.getJSON(ILSCATCHER_BASE + '/main/showpickups.json?u='+ username +'&pw=' + password, function(data) {
         var template = Handlebars.compile($('#showholds-template').html());
         var info = template(data);
+        if (state.data.action === "showpickups") {
        $('#results').html(info);
         $('.load_more').hide(); 
+        }
     });
-    setTimeout(unbreak,3000); 
+    
+    
 }
 
 function renew(element, circulation_id, barcode) {
@@ -484,7 +516,7 @@ function getsearch(query, mt, avail, location) {
 }
 
 function showcard() {
-    breakme = "yes";
+    
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -496,22 +528,21 @@ function showcard() {
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     var username = window.localStorage.getItem('username');
     var password = window.localStorage.getItem('password'); 
+    state = History.getState();
     $.getJSON(ILSCATCHER_BASE + '/main/showcard.json?u='+ username +'&pw=' + password, function(data) {
+     if (state.data.action === "showcard") {   
         var card = data.barcode;
         $('.load_more').hide();
         $('#results').empty().append('<div class="shadow result"><div id="barcodepage"><div class="barcode"><div id="bcTarget"></div></div><div class="barcodelogo"><div class="bclogoTarget"><img src="img/clean-logo-header.png" alt="" /></div></div><div class="clearfix"></div></div></div>');
         $("#bcTarget").barcode(card, "code128", {barWidth:2, barHeight:80, fontSize:12}); 
-    });
-    $('#search-params').empty();
-    setTimeout(unbreak,3000); 
+     }
+	});
 }
 
-function unbreak() {
-breakme = "no";
-}
+
 
 function showevents() { 
-    breakme = "yes";
+    
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -519,19 +550,23 @@ function showevents() {
     var action = {action:"showevents"}
     History.pushState(action, "Upcoming Event", "events"); 
     //History.pushState({action: showevents}, psTitle + "Upcoming Events", "events"); 
+    state = History.getState();
+    
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(EVENTS_URL, function(data) {
         var template = Handlebars.compile($('#showevents-template').html());
         var info = template(data);
+        if (state.data.action === "showevents") {
         $('.load_more').hide();
         $('#results').html(info);
+        }
     });
-    setTimeout(unbreak,3000); 
+    
 }
 
 function showlocations() { 
-    breakme = "yes";
+    
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
@@ -539,15 +574,20 @@ function showlocations() {
     var action = {action:"showlocations"}
     History.pushState(action, "Locations", "locations"); 
     //History.pushState({action: showlocations}, psTitle + "Library Locations", "locations"); 
+    state = History.getState();
+    
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(LOCATIONS_BASE + "/all", function(data) {
         var template = Handlebars.compile($('#showlocations-template').html());
         var info = template(data);
         $('.load_more').hide();
+        if (state.data.action === "showlocations") {
         $('#results').html(info);
+        }
     });
-    setTimeout(unbreak,3000); 
+    
+    
 }
 
 function showmain() {
@@ -560,25 +600,31 @@ function showmain() {
     var action = {action:"showmain"}
     History.pushState(action,  psTitle + "Search and Explore", "main");
     //History.pushState({action: showmain}, psTitle + "Search and Explore", "main");
+    state = History.getState();
+if (state.data.action === "showmain") {
     $('.mainlinks').load('menu.html');
     $('#results').show();
     setTimeout(login,1000);
+    }
 }
 
 function facebookfeed() { 
-    breakme = "yes";
+    
     $("#login_form").slideUp("fast");
     $("#search_options").slideUp("fast");
     $('#search-params').empty();
     $('#results').html("");
     var action = {action:"facebookfeed"}
     History.pushState(action, "Facebook Feed", "facebook"); 
-    //History.pushState({action: facebookfeed}, psTitle + "Facebook Feed", "facebook"); 
+    //History.pushState({action: facebookfeed}, psTitle + "Facebook Feed", "facebook");
+    state = History.getState();
+	
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(FACEBOOK_URL, function(data) {
         var template = Handlebars.compile($('#facebookfeed-template').html());
         var info = template(data);
+        if (state.data.action === "facebookfeed") { 
         $('.load_more').hide();
         $('#results').html(info);
         $('.linkable').doLinks();
@@ -589,8 +635,10 @@ function facebookfeed() {
                 $(elem).text($.format.date($(elem).text(), 'MM/dd/yyyy'));
             }
         });
+        }
     });
-    setTimeout(unbreak,3000); 
+    
+    
 }
 
 function linkify(inputText, options) {
