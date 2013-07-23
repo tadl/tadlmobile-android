@@ -21,6 +21,7 @@ package org.TADL.TADLMobile;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
+import android.view.View;
 
 public class TADLMobile extends DroidGap
 {
@@ -31,6 +32,10 @@ public class TADLMobile extends DroidGap
         // Set by <content src="index.html" /> in config.xml
         super.loadUrl(Config.getStartUrl());
         //super.loadUrl("file:///android_asset/www/index.html")
+        super.appView.setVerticalScrollBarEnabled(true);
+        super.appView.setHorizontalScrollBarEnabled(false);
+        // set scrollbar style
+        super.appView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
     }
 }
 

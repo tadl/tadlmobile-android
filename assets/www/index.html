@@ -29,28 +29,17 @@
     }
     function onBackKeyDown() {
         var state = History.getState();
-        if (pause === "chill") {
-            return;
-        } 
+        $('#results').hide();
         if (state.data.action === "showmain") {
             navigator.app.exitApp();
-        } else {
-            $(function reversehistory() {
-                if (breakme === "yes") {
-                    $('#results').hide();
-                    setTimeout(reversehistory, 500);
-                    pause = "chill";
-                } else {
-                    pause = "cool";
-                    History.back();
-                };
-            });
-        } 
+        } else {   
+            History.back();
+        }
     }
+    
     window.onpopstate = function(event) {
-        if (!event.state) return;
         $('#results').hide();
-        var state = History.getState();
+        state = History.getState();
         var message = JSON.stringify(event.state);
         window.setTimeout(goBack,50); 
         function goBack() {
@@ -121,7 +110,7 @@
     <section class="searchform">
         <div style="width:100%;">
             <button id="account" class="bigger" style="position:fixed;right:0;top:0;" onclick="openForm()"><img src="img/account.png" alt="" width="25" height="25" /></button>
-            <a href="menu.html" data-slidepanel="panel"><img class="left logo pointer" src="img/tinylogo.png" width="30" height="30" alt="" /></a>
+            <a href="menu.html" class="panel"><img class="left logo pointer" src="img/tinylogo.png" width="30" height="30" alt="" /></a>
             <input class="search_box left" type="text" placeholder="Search..." id="term" />
             <button id="search" class="left biggerer">GO</button>
             <button id="ssettings" class="left bigger" onclick="openSearch_options()"><img src="img/settings-gear.png" alt="" width="25" height="25" /></button>
@@ -160,15 +149,14 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $('[data-slidepanel]').slidepanel({
+        $('.panel').slidepanel({
             orientation: 'left',
             mode: 'overlay'
         });
     });
 </script>
-
-<div id="search-params"></div>
 <div id="status-messages"></div>
+<div id="search-params"></div>
 <div id="results"></div>
 
 <script id="featured-template" type="text/template">
@@ -358,7 +346,7 @@
         <h3 style="padding:0;margin:0;">{{node.fullname}}</h3>
         {{node.address}}<br/>
         {{node.citystatezip}}<br/>
-        {{node.phone}}<br/>
+        <a href="tel:{{node.phone}}">{{node.phone}}</a><br/>
         <span id="more{{node.shortname}}" class="viewmore">view hours</span>
         <span id="{{node.shortname}}" style="display:none;">
         <table>
