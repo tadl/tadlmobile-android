@@ -7,11 +7,9 @@
     <link rel="stylesheet" type="text/css" href="css/holo-light-elements.css" />
     <link rel="stylesheet" type="text/css" href="css/holo-base-widgets.css" />
     <link rel="stylesheet" type="text/css" href="css/holo-light-widgets.css" />
-    <link rel="stylesheet" type="text/css" href="css/jquery.slidepanel.css" />
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <script type="text/javascript" src="js/holo-touch.js"></script>
     <script type="text/javascript" src="js/jquery-1.10.0.min.js"></script>
-    <script type="text/javascript" src="js/jquery.slidepanel.js"></script>
     <script type="text/javascript" src="js/imagesloaded.pkgd.min.js"></script>
     <script type="text/javascript" src="js/handlebars.js"></script>
     <script type="text/javascript" src="js/jquery-barcode.min.js"></script>  
@@ -181,23 +179,13 @@ router
 </header>
 <div id="menu">
 <br/>
-<a onclick="showfeatured(); $('.close').trigger('click');" class="menufeatured button">Featured</a><br/>
-<a onclick="showlocations(); $('.close').trigger('click');" class="menulocations button">Locations</a><br/>
-<a onclick="showevents(); $('.close').trigger('click');" class="menuevents button">Events</a><br/>
-<a onclick="facebookfeed(); $('.close').trigger('click');" class="menufacebook button">Facebook</a><br/>
+<a onclick="showfeatured();" class="menufeatured button">Featured</a><br/>
+<a onclick="showlocations();" class="menulocations button">Locations</a><br/>
+<a onclick="showevents();" class="menuevents button">Events</a><br/>
+<a onclick="facebookfeed();" class="menufacebook button">Facebook</a><br/>
 <a class="button" href="http://www.tadl.org/?nomobi=true">Full Site</a>
 </div>
 <div id="dark_overlay" onClick="$('#dark_overlay').hide(); hidemenu();"></div>
-
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('.panel').slidepanel({
-            orientation: 'left',
-            mode: 'overlay'
-        });
-    });
-</script>
-
 <div id="status-messages"></div>
 <div id="search-params"></div>
 <div id="results"></div>

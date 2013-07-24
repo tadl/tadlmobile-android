@@ -666,13 +666,13 @@ Handlebars.registerHelper('make_https', function(url, options) {
 });
 
 function loadmenu() {
-$('#menu').animate({width: 'show'}, 200);
-$('#dark_overlay').show();
+    $('#menu').animate({width: 'show'}, 200);
+    $('#dark_overlay').show();
 }
 
 function hidemenu() {
-$('#menu').animate({width: 'hide'}, 200);
-$('#dark_overlay').hide();
+    $('#menu').animate({width: 'hide'}, 200);
+    $('#dark_overlay').hide();
 }
 
 function cleanhouse() {
