@@ -73,6 +73,7 @@ function loadmore() {
     });
 }
 
+
 function getResults() {      
         cleanhouse();
         $('.load_more').show();
@@ -152,7 +153,6 @@ function showmore(record_id) {
 }
 
 function showfeatured() {
-    
     cleanhouse();
     $('#search-params').empty();
     //History.pushState({action: showfeatured}, psTitle + "Featured Items", "featured");
@@ -178,7 +178,6 @@ function showfeatured() {
 }
 
 function viewitem(record_id) {
-    
     cleanhouse();
     var action = {action:"viewitem", record_id:record_id}
     //History.pushState(action, 'Featured Item ' + record_id, 'item/' + record_id);
@@ -416,7 +415,6 @@ function cancelhold(hold_id) {
 }
 
 function showholds() {
-    
     cleanhouse();
     var action = {action:"showholds"}
     History.pushState(action, "Your Holds", "holds"); 
@@ -494,8 +492,7 @@ getResults();
 }
 
 function showcard() {
-    
-   cleanhouse();
+    cleanhouse();
     var action = {action:"showcard"}
     History.pushState(action, "Your Card", "card"); 
     //History.pushState({action: showcard}, psTitle + "Mobile Library Card", "card"); 
@@ -517,13 +514,11 @@ function showcard() {
 
 
 function showevents() { 
-    
- cleanhouse();
+    cleanhouse();
     var action = {action:"showevents"}
     History.pushState(action, "Upcoming Event", "events"); 
     //History.pushState({action: showevents}, psTitle + "Upcoming Events", "events"); 
     state = History.getState();
-    
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(EVENTS_URL, function(data) {
@@ -538,8 +533,11 @@ function showevents() {
 }
 
 function showlocations() { 
-    
-  cleanhouse();
+    cleanhouse();
+    $("#login_form").slideUp("fast");
+    $("#search_options").slideUp("fast");
+    $('#search-params').empty();
+    $('#results').html("");
     var action = {action:"showlocations"}
     History.pushState(action, "Locations", "locations"); 
     //History.pushState({action: showlocations}, psTitle + "Library Locations", "locations"); 
@@ -565,19 +563,16 @@ function showmain() {
     var action = {action:"showmain"}
     History.pushState(action,  psTitle + "Search and Explore", "main");
     //History.pushState({action: showmain}, psTitle + "Search and Explore", "main");
-    state = History.getState();
-     $('.mainlinks').html($("#menu").html());
+    $('.mainlinks').html($("#menu").html());
     $('#results').show();
 }
 
 function facebookfeed() { 
-    
-cleanhouse();
+	cleanhouse();
     var action = {action:"facebookfeed"}
     History.pushState(action, "Facebook Feed", "facebook"); 
     //History.pushState({action: facebookfeed}, psTitle + "Facebook Feed", "facebook");
     state = History.getState();
-
     $('.load_more').show();
     $('#loadmoretext').empty().append(loadingmoreText).trigger("create");
     $.getJSON(FACEBOOK_URL, function(data) {

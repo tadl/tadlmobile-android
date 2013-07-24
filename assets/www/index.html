@@ -179,8 +179,6 @@ router
         <span id="login_msg"></span>
     </div>
 </header>
-
-
 <div id="menu">
 <br/>
 <a onclick="showfeatured(); $('.close').trigger('click');" class="menufeatured button">Featured</a><br/>
@@ -191,6 +189,14 @@ router
 </div>
 <div id="dark_overlay" onClick="$('#dark_overlay').hide(); hidemenu();"></div>
 
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.panel').slidepanel({
+            orientation: 'left',
+            mode: 'overlay'
+        });
+    });
+</script>
 
 <div id="status-messages"></div>
 <div id="search-params"></div>
