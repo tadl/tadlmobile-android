@@ -372,4 +372,9 @@ z-index: 64999;
     padding:5px;
     margin:0 0 5px 0;
 }
-
+.account.icon {
+    padding-top:2px;
+    position:fixed;
+    right:0;
+    top:0;
+}
