@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <link rel="stylesheet" type="text/css" href="css/holo-base-elements.css" />
     <link rel="stylesheet" type="text/css" href="css/holo-light-elements.css" />
@@ -177,15 +176,18 @@ router
         <span id="login_msg"></span>
     </div>
 </header>
+
+
 <div id="menu">
-<br/>
-<a onclick="showfeatured();" class="menufeatured button">Featured</a><br/>
-<a onclick="showlocations();" class="menulocations button">Locations</a><br/>
-<a onclick="showevents();" class="menuevents button">Events</a><br/>
-<a onclick="facebookfeed();" class="menufacebook button">Facebook</a><br/>
-<a class="button" href="http://www.tadl.org/?nomobi=true">Full Site</a>
+<div class="menuitem red" onclick="showfeatured();">Featured</div>
+<div class="menuitem orange" onclick="showlocations();">Locations</div>
+<div class="menuitem yellow" onclick="showevents();">Events</div>
+<div class="menuitem green" onclick="facebookfeed();">Facebook</div>
+<div class="menuitem blue" onclick="navigator.app.loadUrl('http://www.tadl.org/?nomobi=true', {openExternal: true});">Full Site</div>
 </div>
 <div id="dark_overlay" onClick="$('#dark_overlay').hide(); hidemenu();"></div>
+
+
 <div id="status-messages"></div>
 <div id="search-params"></div>
 <div id="results"></div>
