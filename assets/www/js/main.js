@@ -555,7 +555,6 @@ function showmain() {
     History.pushState(action,  psTitle + "Search and Explore", "main");
     state = History.getState();
     $('.mainlinks').html('<a onclick="showfeatured();" class="button">Featured</a><br/><a onclick="showlocations();" class="button">Locations</a><br/><a onclick="showevents();" class="button">Events</a><br/><a onclick="facebookfeed();">Facebook</a><br/><a class="button" onclick="navigator.app.loadUrl(\'http://www.tadl.org/?nomobi=true\', {openExternal: true}); return false;">Full Site</a>');
-    $('.mainlinks').html($("#menu").html());
     $('#results').show();
 }
 
