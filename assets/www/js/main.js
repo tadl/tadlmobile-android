@@ -1,9 +1,9 @@
 var ILSCATCHER_HOST = 'tadl-ilscatcher.herokuapp.com'
 var ILSCATCHER_BASE = 'https://' + ILSCATCHER_HOST
 var ILSCATCHER_INSECURE_BASE = 'https://' + ILSCATCHER_HOST /* we will actually use https here also */
-var FEATURED_URL = 'https://www.tadl.org/mobile/export/items/json/featured'
-var EVENTS_URL = 'https://www.tadl.org/mobile/export/events/json/all'
-var LOCATIONS_BASE = 'https://www.tadl.org/mobile/export/locations'
+var FEATURED_URL = 'https://www.tadl.org/mobile/export/items/json/featured?mobi_bypass=1'
+var EVENTS_URL = 'https://www.tadl.org/mobile/export/events/json/all?mobi_bypass=1'
+var LOCATIONS_BASE = 'https://www.tadl.org/mobile/export/locations?mobi_bypass=1'
 var PLACEHOLDER_IMG = 'img/clocktower100.png';
 var FACEBOOK_URL = 'https://graph.facebook.com/TraverseAreaDistrictLibrary/feed?access_token=CAAFh5Quq0YMBAENgjPYY9MY0y3cdiAMvXmLl6Fq3H4LDZBBZBukKlXFwWPq0xMLa6hqDrfxfGqvFpBlIZCjFKg0rKdd37qHLsjwcBve4UeZAQymPksV7ddAeZAJOyaeZC05WqlLzrVpOUQEtjiCZArjB6NMUHjvU90qXZAGEOESKDgZDZD';
 var loadingmoreText = '<span class="loadmore"><img style="margin-right: 10px; margin-left: 10px;" src="img/ajax-loader-2.gif">LOADING...</span>';
@@ -554,7 +554,7 @@ function showmain() {
     var action = {action:"showmain"}
     History.pushState(action,  psTitle + "Search and Explore", "main");
     state = History.getState();
-    $('.mainlinks').html('<a onclick="showfeatured();" class="button">Featured</a><br/><a onclick="showlocations();" class="button">Locations</a><br/><a onclick="showevents();" class="button">Events</a><br/><a onclick="facebookfeed();" class="button">Facebook</a><br/><a class="button" onclick="navigator.app.loadUrl(\'http://www.tadl.org/?nomobi=true\', {openExternal: true}); return false;">Full Site</a>');
+    $('.mainlinks').html('<a onclick="showfeatured();" class="button">Featured</a><br/><a onclick="showlocations();" class="button">Locations</a><br/><a onclick="showevents();" class="button">Events</a><br/><a onclick="facebookfeed();" class="button">Facebook</a><br/><a class="button" onclick="navigator.app.loadUrl(\'http://www.tadl.org/?mobi_bypass=1\', {openExternal: true}); return false;">Full Site</a>');
     $('#results').show();
 }
 
@@ -591,10 +591,10 @@ function linkify(inputText, options) {
     inputText = inputText.replace(/\u200B/g, "");
 
     var replacePattern1 = /(src="|href="|">|\s>)?(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;•]*[-A-Z0-9+&@#\/%=~_|•]/gim;
-    var replacedText = inputText.replace(replacePattern1, function($0,$1){ return $1?$0:'<br/><a class="'+ this.options.linkClass + '" onclick="navigator.app.loadUrl(\'' + $0 + '?nomobi=true\', {openExternal: true});"' + (this.options.targetBlank?'target="_blank"':'') + '>'+ $0.trunc(32) + '</a>';});
+    var replacedText = inputText.replace(replacePattern1, function($0,$1){ return $1?$0:'<br/><a class="'+ this.options.linkClass + '" onclick="navigator.app.loadUrl(\'' + $0 + '?mobi_bypass=1\', {openExternal: true});"' + (this.options.targetBlank?'target="_blank"':'') + '>'+ $0.trunc(32) + '</a>';});
 
     var replacePattern2 = /(src="|href="|">|\s>|https?:\/\/|ftp:\/\/)?www\.[-A-Z0-9+&@#\/%?=~_|!:,.;•]*[-A-Z0-9+&@#\/%=~_|•]/gim;
-    var replacedText = replacedText.replace(replacePattern2, function($0,$1){ return $1?$0:'<br/><a class="'+ this.options.linkClass + '" onclick="navigator.app.loadUrl(\'http://' + $0 + '?nomobi=true\', {openExternal: true});"' + (this.options.targetBlank?'target="_blank"':'') + '>'+ $0.trunc(32) + '</a>';});
+    var replacedText = replacedText.replace(replacePattern2, function($0,$1){ return $1?$0:'<br/><a class="'+ this.options.linkClass + '" onclick="navigator.app.loadUrl(\'http://' + $0 + '?mobi_bypass=1\', {openExternal: true});"' + (this.options.targetBlank?'target="_blank"':'') + '>'+ $0.trunc(32) + '</a>';});
 
     return replacedText;
 }
