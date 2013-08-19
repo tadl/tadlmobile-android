@@ -11,7 +11,7 @@ var logoutText = '<span class="loadmore"><img style="margin-right: 10px; margin-
 var loadmoreText = '<a class="loadmore button" onclick="loadmore();">LOAD MORE RESULTS</a>';
 var psTitle = "TADL Mobile | ";
 var platform = 'android';
-var version_id = '5';
+var version_id = '6';
 var pagecount = {}
 var state = {}
 
